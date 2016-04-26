@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import Widget from './Widget.jsx';
+import DropdownUI from './DropdownUI.jsx';
+import _ from 'lodash';
 
 const ApplicationMenuWidget = (props) => {
   const color = props.color || '';
@@ -9,7 +11,14 @@ const ApplicationMenuWidget = (props) => {
   const mobileMenuClassName = `ui stackable ${menuClassName} menu`;
   const computerMenuClassName = `ui vertical ${menuClassName} menu`;
 
-  const generateMenuLink = (item) => {
+  const generateMenuLink = (item) => (
+    <Link to={item.route} key={item.label} activeClassName="active" className="item">
+      <i className={`${item.icon} icon`}></i>
+      {item.label}
+    </Link>
+  );
+
+  const generateComputerMenuLink = (item) => {
     if (item.items) {
       return (
         <div key={item.label} className="item">
@@ -19,12 +28,7 @@ const ApplicationMenuWidget = (props) => {
         </div>
       );
     }
-    return (
-      <Link to={item.route} key={item.label} activeClassName="active" className="item">
-        <i className={`${item.icon} icon`}></i>
-        {item.label}
-      </Link>
-    );
+    return generateMenuLink(item);
   };
 
   const generateMobileMenuLink = (item) => {
@@ -34,16 +38,30 @@ const ApplicationMenuWidget = (props) => {
         return generateMobileMenuLink(newSubitem);
       });
     }
-    return (
-      <Link to={item.route} key={item.label} activeClassName="active" className="item">
-        <i className={`${item.icon} icon`}></i>
-        {item.label}
-      </Link>
-    );
+    return generateMenuLink(item);
   };
 
-  const items = props.items.map(generateMenuLink);
+  const computerItems = props.items.map(generateComputerMenuLink);
   const mobileItems = props.items.map(generateMobileMenuLink);
+
+  const currentItem = _(props.items)
+    .flatMap((item) => {
+      if (item.items) {
+        return item.items.map((subitem) => ({
+          route: subitem.route,
+          icon: subitem.icon,
+          label: `${item.label}: ${subitem.label}`,
+        }));
+      }
+      return [item];
+    })
+    .filter((item) => item.route === props.currentPath)
+    .map((item) => (
+      <span key={item.route}>
+        <i className={`${item.icon} icon`}></i>
+        {item.label}
+      </span>))
+    .value();
 
   return (
     <Widget
@@ -54,14 +72,18 @@ const ApplicationMenuWidget = (props) => {
       <div className="ui one column grid">
 
         <div style={{ paddingTop: 0, paddingBottom: 0 }} className="mobile only column">
-          <div className={mobileMenuClassName}>
-            {mobileItems}
-          </div>
+          <DropdownUI className="ui teal fluid dropdown button">
+            {currentItem}
+            <i className="dropdown icon"></i>
+            <div className="menu">
+              {mobileItems}
+            </div>
+          </DropdownUI>
         </div>
 
         <div className="tablet only computer only column">
           <div className={computerMenuClassName}>
-            {items}
+            {computerItems}
           </div>
         </div>
 
@@ -73,6 +95,7 @@ const ApplicationMenuWidget = (props) => {
 ApplicationMenuWidget.propTypes = {
   layout: PropTypes.object,
   className: PropTypes.string,
+  currentPath: PropTypes.string.isRequired,
   title: PropTypes.string,
   color: PropTypes.string,
   items: PropTypes.arrayOf(PropTypes.shape({

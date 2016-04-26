@@ -14,10 +14,14 @@ export const AboutPage = (props) => (
   <WidgetGrid>
     <MenuWidget
       title="about"
+      icon="info circle"
       color="red"
       items={[
-        { label: 'the product', route: '/about/product', icon: 'settings ' },
-        { label: 'the team', route: '/about/team', icon: 'heart ' },
+        { label: 'the product', route: '/about/product', icon: 'settings' },
+        { label: 'the team', route: '/about/team', icon: 'heart' },
+      ]}
+      secondaryItems={[
+        { label: 'home', route: '/', icon: 'home' },
       ]} />
     <Outlet>
       {props.children}

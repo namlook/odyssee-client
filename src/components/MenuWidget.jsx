@@ -23,7 +23,7 @@ export class MenuWidget extends React.Component {
       hoverable: true,
       position: 'bottom right',
       delay: {
-        show: 300,
+        show: 200,
         hide: 800,
       },
     });
@@ -31,16 +31,20 @@ export class MenuWidget extends React.Component {
     $(this.refs.dropdown).dropdown();
   }
 
-  render() {
-    const { layout, className, color, items, title } = this.props;
-
-    const itemLinks = (items || []).map((item) => (
+  generateMenuLink(item) {
+    return (
       <Link to={item.route} key={item.route} activeClassName="active" className="item">
         <i className={`${item.icon} icon`}></i>
         {item.label}
       </Link>
-    ));
+    );
+  }
 
+  render() {
+    const { layout, className, color, items, title, icon, secondaryItems } = this.props;
+
+    const itemLinks = (items || []).map((item) => this.generateMenuLink(item));
+    const secondaryItemLinks = (secondaryItems || []).map((item) => this.generateMenuLink(item));
 
     return (
       <Widget
@@ -51,10 +55,11 @@ export class MenuWidget extends React.Component {
 
         <div className="ui one column grid">
           <div className="ui computer only column">
-            <div className={`ui icon ${color} secondary pointing menu`}>
+            <div className={`ui ${color} secondary pointing menu`}>
+
               <a className="header item">
                 {title}
-                <i className="feed icon"></i>
+                <i className={`${icon} icon`}></i>
               </a>
               {itemLinks}
 
@@ -67,9 +72,15 @@ export class MenuWidget extends React.Component {
                   <div className="results"></div>
                 </div>
 
+                <div className="ui dropdown link item" ref="dropdown">
+                  <span className="text"><i className="sidebar icon"></i></span>
+                  <div className="menu">
+                    {secondaryItemLinks}
+                  </div>
+                </div>
               </div>
-            </div>
 
+            </div>
           </div>
 
 
@@ -83,17 +94,20 @@ export class MenuWidget extends React.Component {
                   </div>
                 </div>
                 {itemLinks}
+                {secondaryItemLinks}
               </div>
             </div>
-            <div className="ui icon secondary pointing menu">
+
+            <div className="ui secondary pointing menu">
               <a className="header item">
                 {title}
-                <i className="feed icon"></i>
+                <i className={`${icon} icon`}></i>
               </a>
               <div className="right menu">
-                <a className="browse item" ref="popupActivator">
+                <a className="item" ref="popupActivator">
                   <i className="sidebar icon"></i>
                 </a>
+
               </div>
             </div>
           </div>
@@ -108,8 +122,14 @@ MenuWidget.propTypes = {
   layout: PropTypes.object,
   className: PropTypes.string,
   title: PropTypes.string,
+  icon: PropTypes.string,
   color: PropTypes.string,
   items: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.string.isRequired,
+    route: PropTypes.string.isRequired,
+    icon: PropTypes.string,
+  })),
+  secondaryItems: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string.isRequired,
     route: PropTypes.string.isRequired,
     icon: PropTypes.string,

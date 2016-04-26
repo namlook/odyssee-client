@@ -11,13 +11,13 @@ import NotFoundPage from './components/NotFoundPage';
 
 export default (
   <Route component={App}>
-    <Route path="/" component={IndexPage} />
-    <Route path="about" component={AboutPage}>
+    <Route name="index" path="/" component={IndexPage} />
+    <Route name="about" path="about" component={AboutPage}>
       <IndexRedirect to="product" />
-      <Route path="team" component={AboutTeamPage} />
-      <Route path="product" component={AboutProductPage} />
+      <Route name="team" path="team" component={AboutTeamPage} />
+      <Route name="product" path="product" component={AboutProductPage} />
     </Route>
-    <Route path="contact" component={ContactPage} />
-    <Route path="*" component={NotFoundPage} />
+    <Route name="contact" path="contact" component={ContactPage} />
+    <Route name="notfound" path="*" component={NotFoundPage} />
   </Route>
 );

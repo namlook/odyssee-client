@@ -14,18 +14,21 @@ import Outlet from '../components/Outlet.jsx';
 export const App = (props) => {
   const items = [
     { label: 'Index', route: '/' },
-    { label: 'About', route: '/about', icon: 'info', items: [
+    { label: 'About', route: '/about', icon: 'info cirle', items: [
       { label: 'The product', route: '/about/product', icon: 'settings' },
       { label: 'The team', route: '/about/team', icon: 'heart' },
     ] },
     { label: 'Contact', route: '/contact', icon: 'user' },
   ];
 
+  const currentLocationPath = props.location.pathname;
+
   return (
     <WidgetGrid>
       <ApplicationNavbarWidget appName="The Project" color="teal" />
       <ApplicationMenuWidget
         layout={{ mobile: 16, tablet: 4, computer: 3 }}
+        currentPath={currentLocationPath}
         color="teal"
         items={items}
         />
@@ -37,6 +40,7 @@ export const App = (props) => {
 };
 
 App.propTypes = {
+  location: PropTypes.object,
   children: PropTypes.node,
 };
 
