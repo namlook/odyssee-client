@@ -1,33 +1,37 @@
 import React, { PropTypes } from 'react';
 import _ from 'lodash';
 
-const number2string = {
-  1: 'un',
-  2: 'two',
-  3: 'three',
-  4: 'four',
-  5: 'five',
-  6: 'six',
-  7: 'seven',
-  8: 'eight',
-  9: 'nine',
-  10: 'ten',
-  11: 'eleven',
-  12: 'twelve',
-  13: 'thirteen',
-  14: 'fourteen',
-  15: 'fifteen',
-  16: 'sixteen',
-};
+import { number2semanticClassName } from '../utils/semantic-ui';
+
 
 const layout2semanticClassNames = ({ mobile, tablet, computer }) => {
-  const mobileColumn = mobile === 0 ? 'tablet only' : `${number2string[mobile]} wide mobile`;
-  const tabletColumn = _.isNil(tablet)
-    ? `${number2string[mobile]} wide tablet`
-    : `${number2string[tablet]} wide tablet`;
-  const computerColumn = _.isNil(computer)
-    ? `${number2string[tablet]} wide computer`
-    : `${number2string[computer]} wide computer`;
+  let mobileColumn;
+  if (mobile === 0) {
+    mobileColumn = '';
+  } else {
+    const mobileOnly = (tablet === 0 || computer === 0) ? 'only' : '';
+    mobileColumn = `${number2semanticClassName(mobile)} wide mobile ${mobileOnly}`;
+  }
+
+  let tabletColumn;
+  if (tablet === 0) {
+    tabletColumn = '';
+  } else {
+    const tabletOnly = (mobile === 0 || computer === 0) ? 'only' : '';
+    tabletColumn = _.isNil(tablet)
+      ? `${number2semanticClassName(mobile)} wide tablet ${tabletOnly}`
+      : `${number2semanticClassName(tablet)} wide tablet ${tabletOnly}`;
+  }
+
+  let computerColumn;
+  if (computer === 0) {
+    computerColumn = '';
+  } else {
+    const computerOnly = (mobile === 0 || tablet === 0) ? 'only' : '';
+    computerColumn = _.isNil(computer)
+      ? `${number2semanticClassName(tablet)} wide computer ${computerOnly}`
+      : `${number2semanticClassName(computer)} wide computer ${computerOnly}`;
+  }
 
   return `${mobileColumn} ${tabletColumn} ${computerColumn} column`;
 };
