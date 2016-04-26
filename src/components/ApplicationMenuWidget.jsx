@@ -65,7 +65,7 @@ const ApplicationMenuWidget = (props) => {
 
   return (
     <Widget
-      _name="app-menu"
+      _name="application-menu"
       layout={props.layout}
       className={widgetClassName}
     >

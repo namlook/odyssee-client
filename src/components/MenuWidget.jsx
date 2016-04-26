@@ -54,7 +54,7 @@ export class MenuWidget extends React.Component {
       >
 
         <div className="ui one column grid">
-          <div className="ui computer only column">
+          <div className="ui tablet only computer only column">
             <div className={`ui ${color} secondary pointing menu`}>
 
               <a className="header item">
@@ -84,7 +84,7 @@ export class MenuWidget extends React.Component {
           </div>
 
 
-          <div className="ui mobile only tablet only column">
+          <div className="ui mobile only column">
             <div className="ui popup" ref="popup">
               <div className={`ui vertical ${color} menu`}>
                 <div className="ui search item">

@@ -9,6 +9,7 @@ import * as actions from '../actions/app';
 import WidgetGrid from '../components/WidgetGrid.jsx';
 import ApplicationNavbarWidget from '../components/ApplicationNavbarWidget.jsx';
 import ApplicationMenuWidget from '../components/ApplicationMenuWidget.jsx';
+import MobileApplicationMenuWidget from '../components/MobileApplicationMenuWidget.jsx';
 import Outlet from '../components/Outlet.jsx';
 
 export const App = (props) => {
@@ -27,14 +28,18 @@ export const App = (props) => {
     <WidgetGrid>
       <ApplicationNavbarWidget appName="The Project" color="teal" />
       <ApplicationMenuWidget
-        layout={{ mobile: 16, tablet: 4, computer: 3 }}
+        layout={{ mobile: 0, tablet: 0, computer: 3 }}
         currentPath={currentLocationPath}
         color="teal"
         items={items}
         />
-      <Outlet layout={{ mobile: 16, tablet: 12, computer: 13 }}>
+      <Outlet layout={{ mobile: 16, tablet: 16, computer: 13 }}>
         {props.children}
       </Outlet>
+      <MobileApplicationMenuWidget
+        layout={{ mobile: 16, tablet: 16, computer: 0 }}
+        color="teal"
+        items={items} />
     </WidgetGrid>
   );
 };

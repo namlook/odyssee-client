@@ -4,7 +4,7 @@ import Widget from './Widget.jsx';
 
 const ApplicationNavbarWidget = (props) => (
   <Widget
-    _name="app-navbar"
+    _name="application-navbar"
     layout={props.layout}
     style={{ paddingBottom: 0 }}
     className={props.className}
