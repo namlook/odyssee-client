@@ -14,11 +14,8 @@ import Outlet from '../components/Outlet.jsx';
 
 export const App = (props) => {
   const items = [
-    { label: 'Index', route: '/' },
-    { label: 'About', route: '/about', icon: 'info cirle', items: [
-      { label: 'The product', route: '/about/product', icon: 'settings' },
-      { label: 'The team', route: '/about/team', icon: 'heart' },
-    ] },
+    { label: 'Scores', route: '/scores', icon: 'game' },
+    { label: 'Statistics', route: '/scores/stats', icon: 'chart line' },
     { label: 'Contact', route: '/contact', icon: 'user' },
   ];
 

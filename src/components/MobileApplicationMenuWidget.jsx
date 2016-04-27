@@ -9,7 +9,13 @@ const MobileApplicationMenuWidget = (props) => {
   const items = props.items || [];
 
   const generateMenuLink = (item) => (
-    <Link to={item.route} key={item.label} activeClassName="active" className="item">
+    <Link
+      to={item.route}
+      key={item.label}
+      onlyActiveOnIndex={!item.index}
+      activeClassName="active"
+      className="item"
+    >
       <i className={`${item.icon} icon`}></i>
       {item.label}
     </Link>

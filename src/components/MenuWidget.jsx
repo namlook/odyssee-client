@@ -33,7 +33,13 @@ export class MenuWidget extends React.Component {
 
   generateMenuLink(item) {
     return (
-      <Link to={item.route} key={item.route} activeClassName="active" className="item">
+      <Link
+        to={item.route}
+        key={item.route}
+        onlyActiveOnIndex={!item.index}
+        activeClassName="active"
+        className="item"
+      >
         <i className={`${item.icon} icon`}></i>
         {item.label}
       </Link>
@@ -58,8 +64,8 @@ export class MenuWidget extends React.Component {
             <div className={`ui ${color} secondary pointing menu`}>
 
               <a className="header item">
-                {title}
-                <i className={`${icon} icon`}></i>
+                <span style={{ marginRight: '0.5rem' }}> {title} </span>
+                {icon ? (<i className={`${icon} icon`}></i>) : null}
               </a>
               {itemLinks}
 
@@ -72,12 +78,14 @@ export class MenuWidget extends React.Component {
                   <div className="results"></div>
                 </div>
 
-                <div className="ui dropdown link item" ref="dropdown">
-                  <span className="text"><i className="sidebar icon"></i></span>
-                  <div className="menu">
-                    {secondaryItemLinks}
+                {secondaryItemLinks.length ? (
+                  <div className="ui dropdown link item" ref="dropdown">
+                    <span className="text"><i className="sidebar icon"></i></span>
+                    <div className="menu">
+                      {secondaryItemLinks}
+                    </div>
                   </div>
-                </div>
+                ) : null}
               </div>
 
             </div>

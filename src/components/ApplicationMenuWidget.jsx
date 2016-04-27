@@ -12,7 +12,13 @@ const ApplicationMenuWidget = (props) => {
   const computerMenuClassName = `ui vertical ${menuClassName} menu`;
 
   const generateMenuLink = (item) => (
-    <Link to={item.route} key={item.label} activeClassName="active" className="item">
+    <Link
+      to={item.route}
+      key={item.label}
+      onlyActiveOnIndex={!item.index}
+      activeClassName="active"
+      className="item"
+    >
       <i className={`${item.icon} icon`}></i>
       {item.label}
     </Link>
