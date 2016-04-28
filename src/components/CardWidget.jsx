@@ -3,11 +3,32 @@ import React, { PropTypes } from 'react';
 import Widget from './Widget.jsx';
 import HeaderUI from './HeaderUI.jsx';
 
-const Placeholder = (props) => {
+const CardWidget = (props) => {
   const className = `${props.className || ''}`;
 
-  const paddingStyle = props.title ? { padding: 0 } : {};
   const borderStyle = props.title ? { border: 0 } : {};
+
+  const header = !props.title ? null : (
+    <HeaderUI
+      title={props.title}
+      icon={props.icon}
+      subtitle={props.subtitle}
+      className="block top attached" />
+  );
+
+  const wrapBody = (body) => (
+    !props.title ? body : (
+      <div style={{ padding: 0 }} className="ui attached segment">
+        {body}
+      </div>
+    )
+  );
+
+  const body = (
+    <div style={borderStyle} className="ui segments">
+      {props.children}
+    </div>
+  );
 
   return (
     <Widget
@@ -16,22 +37,13 @@ const Placeholder = (props) => {
       layout={props.layout}
       className={className}
     >
-      <HeaderUI
-        title={props.title}
-        icon={props.icon}
-        subtitle={props.subtitle}
-        className="block top attached" />
-
-      <div style={paddingStyle} className="ui attached segment">
-        <div style={borderStyle} className="ui segments">
-          {props.children}
-        </div>
-      </div>
+      {header}
+      {wrapBody(body)}
     </Widget>
   );
 };
 
-Placeholder.propTypes = {
+CardWidget.propTypes = {
   layout: PropTypes.object,
   _name: PropTypes.string,
   className: PropTypes.string,
@@ -42,4 +54,4 @@ Placeholder.propTypes = {
   children: PropTypes.node,
 };
 
-export default Placeholder;
+export default CardWidget;
