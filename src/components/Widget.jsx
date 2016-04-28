@@ -36,7 +36,7 @@ const layout2semanticClassNames = ({ mobile, tablet, computer }) => {
   return `${mobileColumn} ${tabletColumn} ${computerColumn} column`;
 };
 
-const Placeholder = (props) => {
+const Widget = (props) => {
   const layout = props.layout || { mobile: 16 };
   const _className = props.overwriteClassName
     ? props.className
@@ -49,7 +49,7 @@ const Placeholder = (props) => {
   );
 };
 
-Placeholder.propTypes = {
+Widget.propTypes = {
   // color: React.PropTypes.string,
   className: React.PropTypes.string,
   _name: React.PropTypes.string,
@@ -60,4 +60,4 @@ Placeholder.propTypes = {
   style: PropTypes.object,
 };
 
-export default Placeholder;
+export default Widget;
