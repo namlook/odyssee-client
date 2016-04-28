@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
 
-const Widgets = (props) => {
+const WidgetGrid = (props) => {
   const className = `${props.className || ''} ui grid`;
 
   return (
@@ -11,9 +11,9 @@ const Widgets = (props) => {
   );
 };
 
-Widgets.propTypes = {
+WidgetGrid.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
 };
 
-export default Widgets;
+export default WidgetGrid;
