@@ -5,7 +5,6 @@ import CardWidget from './CardWidget.jsx';
 const TextWidget = (props) => {
   const className = `${props.className || ''}`;
 
-
   return (
     <CardWidget
       _name="text"

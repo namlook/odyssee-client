@@ -8,32 +8,36 @@ import * as actions from '../../../actions/app';
 
 import WidgetGrid from '../../../components/WidgetGrid.jsx';
 import TextWidget from '../../../components/TextWidget.jsx';
+import ScoreStatsWidget from '../../../businessLogic/ScoreStatsWidget.jsx';
 
-export const ScoreCollectionIndex = (props) => (
+export const ScoreCollectionStatisticsPage = (props) => (
   <WidgetGrid>
-    <TextWidget title="Statistics">
-      <h3> {'23, 34, 45...'} </h3>
+    <TextWidget title={props.storeStates.page.stats}>
+      <h3> {JSON.stringify(props.storeStates.resource.collection.outlet.records)} </h3>
     </TextWidget>
+
+    <ScoreStatsWidget
+      title="stats"
+      icon="chart line"
+      subtitle="yeaah"
+      storeStates={props.storeStates}
+    />
+
   </WidgetGrid>
 );
 
-ScoreCollectionIndex.propTypes = {
+ScoreCollectionStatisticsPage.propTypes = {
+  storeStates: PropTypes.object.isRequired,
   children: PropTypes.node,
 };
 
-function mapStateToProps(state) {
-  return {
-    appState: state.app,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(actions, dispatch),
-  };
-}
-
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ScoreCollectionIndex);
+  (state) => ({
+    storeStates: {
+      page: state.resources.scores.collection.statistics,
+      resource: state.resources.scores,
+      app: state,
+    },
+  }),
+  (dispatch) => ({ storeActions: bindActionCreators({}, dispatch) }),
+)(ScoreCollectionStatisticsPage);

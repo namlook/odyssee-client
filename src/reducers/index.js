@@ -1,9 +1,14 @@
+
 import { combineReducers } from 'redux';
-// import fuelSavingsAppState from './fuelSavings';
-import app from './app';
+
+// ICI, DETECTER LES STORES ET LES COMBINER
+
+import application from '../application/reducers';
+import resources from '../resources/reducers';
 
 const rootReducer = combineReducers({
-  app,
+  application,
+  resources,
 });
 
 export default rootReducer;

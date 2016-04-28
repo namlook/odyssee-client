@@ -1,16 +1,16 @@
-/* global window */
-
 // import { ADD_PARTICIPANT } from '../constants/actionTypes';
 
-import objectAssign from 'object-assign';
 import _ from 'lodash';
 
-const initialState = { };
+const initialState = {
+  foo: 'index',
+};
 
 const actions = {
-  // [ADD_PARTICIPANT]: (state, action) => {
-  //   return Object.assign({}, state, { participants, scores });
-  // },
+  ["ADD_PARTICIPANT"]: (state, action) => {
+    console.log('participant.collection.index state>', state);
+    return state;
+  },
 };
 
 export default (state = initialState, action) => {

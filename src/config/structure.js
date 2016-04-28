@@ -1,24 +1,20 @@
 
 export default {
   views: {
-    __parent__: {
+    outlet: {
       widgets: [
         {
-          layout: { mobile: 0, tablet: 16 },
-          type: 'placeholder',
-          title: "app navbar",
-          color: 'red',
+          layout: { mobile: 16 },
+          type: 'application-navbar',
+          title: "Scora",
         },
         {
           layout: { mobile: 0, tablet: 6, computer: 6 },
-          type: 'placeholder',
-          title: "menu",
-          color: 'blue',
+          type: 'application-menu',
         },
         {
           layout: { mobile: 16, tablet: 10, computer: 10 },
           type: 'outlet',
-          color: 'green',
         },
       ],
     },
@@ -30,56 +26,71 @@ export default {
         },
       ],
     },
-    about: {
+    scores: {
       __meta__: {
-        index: 'product',
+        // indexRedirect: 'collection.index',
       },
-      __parent__: {
-        widgets: [
-          {
-            type: 'placeholder',
-            style: 'center aligned',
-            title: "about",
-          },
-          {
-            type: 'outlet',
-          },
-        ],
+      collection: {
+        outlet: {
+          store: 'collection',
+          widgets: [
+            {
+              type: 'menu',
+              title: "Scores",
+            },
+            {
+              type: 'query-filter',
+              storedAt: 'collectionQueryFilter',
+            },
+            {
+              type: 'outlet',
+            },
+          ],
+        },
+        index: {
+          widgets: [{
+            type: 'text',
+            title: 'Hall of Fame',
+            store: 'collection',
+          }],
+        },
+        statistics: {
+          widgets: [
+            {
+              type: 'chart',
+              title: 'here the stats',
+              queryFrom: 'collectionQueryFilter',
+              dataAt: 'collectionStatisticsChart1',
+            },
+            {
+              type: 'chart',
+              title: 'here the stats2',
+              queryFrom: 'collectionQueryFilter',
+              dataAt: 'collectionStatisticsChart2',
+            },
+            {
+              type: 'map',
+              title: 'here the map',
+              dataFrom: 'collectionStatisticsChart1',
+            },
+          ],
+        },
       },
-      team: {
-        widgets: [{
-          type: 'placeholder',
-          title: 'the team',
-        }],
-      },
-      product: {
-        widgets: [
-          {
-            type: 'placeholder',
-            title: 'hello',
-          },
-          {
-            type: 'cards',
-            layout: 2,
-            widgets: [
-              {
-                type: 'card',
-                title: 'the product',
-              },
-              {
-                type: 'card',
-                title: 'yeah',
-              },
-            ],
-          },
-        ],
+      model: {
+        edit: {
+          widgets: [{
+            type: 'text',
+            title: 'here editing text',
+          }],
+        },
       },
     },
     contact: {
       widgets: [
         {
-          type: 'placeholder',
+          type: 'text',
           title: "contact",
+          store: 'app.scores.collectionQuery',
         },
       ],
     },

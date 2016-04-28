@@ -9,28 +9,32 @@ import * as actions from '../../../actions/app';
 import WidgetGrid from '../../../components/WidgetGrid.jsx';
 import TextWidget from '../../../components/TextWidget.jsx';
 
-export const ScoreCollectionIndexPage = (props) => (
+const addParticipant = (name) => {
+  console.log('addParticipant from index');
+  return { type: 'ADD_PARTICIPANT', name };
+};
+
+export const ParticipantCollectionIndexPage = (props) => (
   <WidgetGrid>
     <TextWidget title="foo">
-      <h3>"hello world"</h3>
-    </TextWidget>
-    <TextWidget title="Arf">
-      <h3>"hello me"</h3>
+      <h3>{"ici les participant"}</h3>
+      <button onClick={() => props.storeActions.addParticipant('toto')}>add</button>
     </TextWidget>
   </WidgetGrid>
 );
 
-ScoreCollectionIndexPage.propTypes = {
+ParticipantCollectionIndexPage.propTypes = {
   children: PropTypes.node,
+  storeActions: PropTypes.object,
 };
 
 export default connect(
   (state) => ({
     storeStates: {
-      page: state.resources.scores.collection.index,
-      resource: state.resources.scores,
+      page: state.resources.participants.collection.index,
+      resource: state.resources.participants,
       app: state,
     },
   }),
-  (dispatch) => ({ storeActions: bindActionCreators({}, dispatch) }),
-)(ScoreCollectionIndexPage);
+  (dispatch) => ({ storeActions: bindActionCreators({ addParticipant }, dispatch) }),
+)(ParticipantCollectionIndexPage);

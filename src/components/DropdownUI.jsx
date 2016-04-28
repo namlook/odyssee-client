@@ -11,6 +11,8 @@ window.$ = jQuery;
 window.$.fn.transition = semanticTransition;
 window.$.fn.dropdown = semanticDropDown;
 
+/* eslint-disable react/no-set-state */
+
 export class DropdownUI extends React.Component {
 
   componentDidMount() {
