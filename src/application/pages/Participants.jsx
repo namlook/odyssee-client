@@ -27,7 +27,7 @@ export const ParticipantsPage = (props) => (
       title="All the participants"
       icon="users"
       name="participants-edit-list"
-      linkedStates={{ records: "participants-store" }} // use to diplay the records
+      linkedStates={{ collection: "participants-store" }} // use to diplay the records
       on={{
         rename: (...args) => props.storeActions['participants-store'].updateRecord(...args),
         // moveUp: (...args) => props.storeActions['participants-store'].updateRecord(...args),

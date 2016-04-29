@@ -5,7 +5,7 @@ import ConfirmButtonUI from '../../core/components/ui/ConfirmButtonUI.jsx';
 
 const ParticipantsEditWidget = (props) => {
   const { storeState, linkedStates, on } = props;
-  const records = storeState[linkedStates.records].get('records');
+  const records = storeState[linkedStates.collection].get('records');
 
   const renameParticipant = (_id, name) => on.rename(_id, { name });
   const moveUpParticipant = (_id) => on.moveUp(_id);
@@ -26,7 +26,7 @@ const ParticipantsEditWidget = (props) => {
                   name="participant"
                   type="text"
                   defaultValue={name}
-                  onBlur={(e) => renameParticipant(_id, e)}
+                  onBlur={(e) => renameParticipant(_id, e.target.value)}
                 />
               </div>
             </div>

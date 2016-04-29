@@ -10,7 +10,7 @@ import TextWidget from '../../core/components/widgets/TextWidget.jsx';
 import WeatherCheckWidget from '../../businessLogic/WeatherCheckWidget';
 import AreWeOpenWidget from '../../businessLogic/AreWeOpenWidget';
 import NewRecordWidget from '../../businessLogic/NewRecordWidget';
-// import CollectionListWidget from '../../businessLogic/CollectionListWidget';
+import CollectionListWidget from '../../businessLogic/CollectionListWidget';
 
 export const ApplicationContactPage = (props) => (
   <WidgetGrid>
@@ -39,19 +39,18 @@ export const ApplicationContactPage = (props) => (
       }}
       {...props} />
 
-    {/*
     <CollectionListWidget
       title="here are the participants"
       name="participants-list"
-      linkedStates={{ records: "participants-store" }}
+      linkedStates={{ collection: "participants-store" }}
       {...props} />
 
     <CollectionListWidget
       title="nobody's here"
       name="other-participants-list"
-      linkedStates={{ records: "other-participants-store" }}
+      linkedStates={{ collection: "other-participants-store" }}
       {...props} />
-    */}
+
   </WidgetGrid>
 );
 

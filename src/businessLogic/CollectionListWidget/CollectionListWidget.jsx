@@ -4,7 +4,8 @@ import CardWidget from '../../core/components/CardWidget.jsx';
 
 const CollectionListWidget = (props) => {
   const { storeState, linkedStates } = props;
-  const { records } = storeState[linkedStates.records];
+  const records = storeState[linkedStates.collection].get('records');
+
   return (
     <CardWidget
       _name="collection-list"
@@ -12,8 +13,8 @@ const CollectionListWidget = (props) => {
     >
       <div className="ui segment">
         <ul>
-          {records.map((recordName) => (
-            <li key={recordName}>{recordName}</li>
+          {records.map(({ _id, name }) => (
+            <li key={_id}>{name}</li>
           ))}
         </ul>
       </div>
