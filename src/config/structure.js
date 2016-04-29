@@ -1,6 +1,24 @@
 
 export default {
-  views: {
+  stores: {
+    participants: [
+      {
+        type: 'CollectionStore',
+        name: 'participants-store',
+      },
+    ],
+    scores: [
+      {
+        type: 'ResourceCollectionStore',
+        name: 'score-records',
+      },
+      {
+        type: 'ScoreLocationStore',
+        name: 'score-location-records',
+      },
+    ],
+  },
+  pages: {
     outlet: {
       widgets: [
         {
@@ -40,7 +58,10 @@ export default {
             },
             {
               type: 'query-filter',
-              storedAt: 'collectionQueryFilter',
+              name: 'query-filter',
+              onChange: {
+                'score-location-records': 'reload',
+              },
             },
             {
               type: 'outlet',
@@ -51,7 +72,7 @@ export default {
           widgets: [{
             type: 'text',
             title: 'Hall of Fame',
-            store: 'collection',
+            recordsStore: 'score-records',
           }],
         },
         statistics: {
@@ -59,19 +80,17 @@ export default {
             {
               type: 'chart',
               title: 'here the stats',
-              queryFrom: 'collectionQueryFilter',
-              dataAt: 'collectionStatisticsChart1',
+              recordsStore: 'score-records',
             },
             {
               type: 'chart',
               title: 'here the stats2',
-              queryFrom: 'collectionQueryFilter',
-              dataAt: 'collectionStatisticsChart2',
+              recordsStore: 'score-records',
             },
             {
               type: 'map',
               title: 'here the map',
-              dataFrom: 'collectionStatisticsChart1',
+              recordsStore: 'score-location-records',
             },
           ],
         },
@@ -88,9 +107,21 @@ export default {
     contact: {
       widgets: [
         {
-          type: 'text',
-          title: "contact",
-          store: 'app.scores.collectionQuery',
+          type: 'WeatherCheckWidget',
+          name: 'weather-in-montpellier',
+          city: 'Montpellier',
+        },
+        {
+          type: 'AreWeOpenWidget',
+          title: "Are we open ?",
+          listenTo: ['weather-in-montpellier'], // if it rains, we're closed
+        },
+        {
+          type: 'NewRecordWidget',
+          name: 'add-participant',
+          onSave: {
+            'participant-store': 'addRecord',
+          },
         },
       ],
     },

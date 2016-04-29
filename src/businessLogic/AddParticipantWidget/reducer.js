@@ -3,7 +3,9 @@
 
 import _ from 'lodash';
 
-const initialState = {};
+const initialState = {
+  foo: 'index',
+};
 
 const actions = {
   ["ADD_PARTICIPANT"]: (state, action) => {
@@ -12,7 +14,4 @@ const actions = {
   },
 };
 
-export default (state = initialState, action) => {
-  const actionFn = actions[action.type];
-  return actionFn ? actionFn(state, action) : state;
-};
+export default { initialState, actions };

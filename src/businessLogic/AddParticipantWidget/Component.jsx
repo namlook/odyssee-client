@@ -2,16 +2,19 @@ import React, { PropTypes } from 'react';
 
 import CardWidget from '../../components/CardWidget.jsx';
 
+// XXX
+
 const AddParticipantWidget = (props) => {
-  const { storeStates, ...other } = props;
+  const { storeActions } = props;
 
   return (
     <CardWidget
       _name="text"
-      {...other}
+      {...props}
     >
       <div className="ui segment">
-        <button onClick={() => props.storeActions.addParticipant('toto')}>add</button>
+        <input type="text" id="new-participants" />
+        <button onClick={() => storeActions.addParticipant('toto')}>add</button>
       </div>
     </CardWidget>
   );

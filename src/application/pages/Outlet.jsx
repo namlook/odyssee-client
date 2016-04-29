@@ -47,19 +47,4 @@ App.propTypes = {
   children: PropTypes.node,
 };
 
-function mapStateToProps(state) {
-  return {
-    appState: state.app,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(actions, dispatch),
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default App;
