@@ -4,21 +4,20 @@ import Widget from './Widget.jsx';
 import HeaderUI from './ui/HeaderUI.jsx';
 
 const CardWidget = (props) => {
-  const className = `${props.className || ''}`;
+  const { title, icon, subtitle, ...other } = props;
 
-  const borderStyle = props.title ? { border: 0 } : {};
-
-  const header = !props.title ? null : (
+  const borderStyle = title ? { border: 0 } : {};
+  const header = !title ? null : (
     <HeaderUI
-      title={props.title}
-      icon={props.icon}
-      subtitle={props.subtitle}
+      title={title}
+      icon={icon}
+      subtitle={subtitle}
       className="block top attached" />
   );
 
   const wrapBody = (body) => (
-    !props.title ? body : (
-      <div style={{ padding: 0 }} className="ui attached segment">
+    !title ? body : (
+      <div style={{ padding: 0 }} className="ui attached basic segment">
         {body}
       </div>
     )
@@ -31,12 +30,7 @@ const CardWidget = (props) => {
   );
 
   return (
-    <Widget
-      _name={props._name}
-      style={props.style}
-      layout={props.layout}
-      className={className}
-    >
+    <Widget {...other}>
       {header}
       {wrapBody(body)}
     </Widget>

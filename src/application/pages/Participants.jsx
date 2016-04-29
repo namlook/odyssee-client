@@ -18,7 +18,9 @@ export const ParticipantsPage = (props) => (
     <NewRecordWidget
       title="add participant"
       name="add-participant"
-      onSave={(record) => props.storeActions['participants-store'].addRecord(record)}
+      on={{
+        save: (...args) => props.storeActions['participants-store'].addRecord(...args),
+      }}
       {...props} />
 
     <ParticipantsEditWidget
@@ -27,10 +29,10 @@ export const ParticipantsPage = (props) => (
       name="participants-edit-list"
       linkedStates={{ records: "participants-store" }} // use to diplay the records
       on={{
-        rename: (record) => props.storeActions['participants-store'].updateRecord(record),
-        moveUp: (record) => props.storeActions['participants-store'].updateRecord(record),
-        moveDown: (record) => props.storeActions['participants-store'].updateRecord(record),
-        delete: (record) => props.storeActions['participants-store'].deleteRecord(record),
+        rename: (...args) => props.storeActions['participants-store'].updateRecord(...args),
+        // moveUp: (...args) => props.storeActions['participants-store'].updateRecord(...args),
+        // moveDown: (...args) => props.storeActions['participants-store'].updateRecord(...args),
+        delete: (...args) => props.storeActions['participants-store'].deleteRecord(...args),
       }}
       {...props} />
 

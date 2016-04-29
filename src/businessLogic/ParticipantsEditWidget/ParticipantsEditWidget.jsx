@@ -1,64 +1,66 @@
 import React, { PropTypes } from 'react';
 
-import CardWidget from '../../core/components/Widget.jsx';
+import CardWidget from '../../core/components/CardWidget.jsx';
+import ConfirmButtonUI from '../../core/components/ui/ConfirmButtonUI.jsx';
 
-const AddParticipantWidget = (props) => {
+const ParticipantsEditWidget = (props) => {
   const { storeState, linkedStates, on } = props;
-  const { records } = storeState[linkedStates.records];
+  const records = storeState[linkedStates.records].get('records');
 
-  const renameParticipant = (record) => on.rename(record);
-  const moveUpParticipant = (record) => on.moveUp(record);
-  const moveDownParticipant = (record) => on.moveDown(record);
-  // const deleteParticipant = (record) => on.delete(record);
+  const renameParticipant = (_id, name) => on.rename(_id, { name });
+  const moveUpParticipant = (_id) => on.moveUp(_id);
+  const moveDownParticipant = (_id) => on.moveDown(_id);
+  const deleteParticipant = (_id) => on.delete(_id);
 
-  return !records.length ? null : (
+  return !records.count() ? null : (
     <CardWidget
-      _name="text"
+      _name="participants-edit"
       {...props}
     >
-      <div className="ui segments">
-        {records.map((participant) => (
-          <div key={participant} className="ui segment">
+
+        {records.map(({ _id, name }) => (
+          <div key={_id} className="ui segment">
             <div className="ui form">
               <div className="field">
                 <input
                   name="participant"
                   type="text"
-                  defaultValue={participant}
-                  onBlur={(e) => renameParticipant(e)}
+                  defaultValue={name}
+                  onBlur={(e) => renameParticipant(_id, e)}
                 />
               </div>
             </div>
+
             <div className="ui hidden divider"></div>
+
             <div className="container">
               <div className="ui buttons">
-                <button className="ui button" onClick={() => moveUpParticipant(participant)}>
+                <button className="ui button" onClick={() => moveUpParticipant(_id)}>
                   <i className="ui chevron up icon"></i>
                 </button>
-                <button className="ui button" onClick={() => moveDownParticipant(participant)}>
+                <button className="ui button" onClick={() => moveDownParticipant(_id)}>
                   <i className="ui chevron down icon"></i>
                 </button>
               </div>
-              {/*
-              <ConfirmButton
+
+              <ConfirmButtonUI
                 className="ui red right floated button"
                 displayClassName="basic"
                 displayLabel="supprimer"
                 confirmLabel="confirmer"
-                onConfirm={deleteParticipant} />
-              */}
+                onConfirm={() => deleteParticipant(_id)} />
             </div>
           </div>
         ))}
-      </div>
+
     </CardWidget>
   );
 };
 
-AddParticipantWidget.propTypes = {
+ParticipantsEditWidget.propTypes = {
   on: PropTypes.object.isRequired,
   storeState: PropTypes.object.isRequired,
   linkedStates: PropTypes.object.isRequired,
 };
 
-export default AddParticipantWidget;
+export default ParticipantsEditWidget;

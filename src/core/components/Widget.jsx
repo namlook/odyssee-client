@@ -3,7 +3,6 @@ import _ from 'lodash';
 
 import { number2semanticClassName } from '../utils/semantic-ui';
 
-
 const layout2semanticClassNames = ({ mobile, tablet, computer }) => {
   let mobileColumn;
   if (mobile === 0) {
@@ -42,6 +41,7 @@ const Widget = (props) => {
     ? props.className
     : `${layout2semanticClassNames(layout)} ${props.className || ''}`;
   const className = `${_className} ${props._name}-ods-widget`;
+
   return (
     <div style={props.style} className={className}>
       {props.children}
@@ -50,11 +50,9 @@ const Widget = (props) => {
 };
 
 Widget.propTypes = {
-  // color: React.PropTypes.string,
   className: React.PropTypes.string,
   _name: React.PropTypes.string,
   overwriteClassName: React.PropTypes.bool,
-  // title: React.PropTypes.string,
   layout: PropTypes.object,
   children: PropTypes.node,
   style: PropTypes.object,

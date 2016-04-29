@@ -11,7 +11,6 @@ import WeatherInMontpellier from '../businessLogic/WeatherCheckWidget/reducer';
 import NewRecordWidget from '../businessLogic/NewRecordWidget/reducer';
 import CollectionStore from '../businessLogic/CollectionStore/reducer';
 
-
 const rootReducer = combineReducers({
   // application,
   // resources,

@@ -32,8 +32,8 @@ export const createReducer =
   };
 
 
-const _addStoreNameToAction = (_storeName, action) => (variables) => ({
-  ...action(variables),
+const _addStoreNameToAction = (_storeName, action) => (...variables) => ({
+  ...action(...variables),
   _storeName,
 });
 

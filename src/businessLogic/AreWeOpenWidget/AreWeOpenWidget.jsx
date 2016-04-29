@@ -22,10 +22,8 @@ const AreWeOpenWidget = (props) => {
 
 AreWeOpenWidget.propTypes = {
   name: PropTypes.string.isRequired,
-  listenTo: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.arrayOf(PropTypes.string),
-  ]),
+  storeState: PropTypes.object.isRequired,
+  linkedStates: PropTypes.object.isRequired,
 };
 
 export default AreWeOpenWidget;
