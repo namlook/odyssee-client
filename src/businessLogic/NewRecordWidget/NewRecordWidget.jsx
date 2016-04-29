@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react';
 
-import CardWidget from '../../components/CardWidget.jsx';
+import CardWidget from '../../core/components/CardWidget.jsx';
 
 const NewRecordWidget = (props) => {
   const { storeState, storeActions, name } = props;
   const ownState = storeState[name];
-  const ownActions = storeActions.NewRecordWidget;
+  const ownActions = storeActions[name];
 
   const onSave = () => {
     props.onSave(ownState.value);

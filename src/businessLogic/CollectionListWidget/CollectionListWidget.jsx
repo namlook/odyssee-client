@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
 
-import CardWidget from '../../components/CardWidget.jsx';
+import CardWidget from '../../core/components/CardWidget.jsx';
 
 const CollectionListWidget = (props) => {
-  const { storeState, storeActions, recordsStore } = props;
-  const { records } = storeState[recordsStore];
+  const { storeState, linkedStates } = props;
+  const { records } = storeState[linkedStates.records];
   return (
     <CardWidget
       _name="collection-list"
@@ -24,8 +24,7 @@ const CollectionListWidget = (props) => {
 CollectionListWidget.propTypes = {
   name: PropTypes.string.isRequired,
   storeState: PropTypes.object.isRequired,
-  storeActions: PropTypes.object.isRequired,
-  recordsStore: PropTypes.string.isRequired,
+  linkedStates: PropTypes.object.isRequired,
 };
 
 export default CollectionListWidget;

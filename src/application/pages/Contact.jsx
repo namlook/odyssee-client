@@ -1,13 +1,11 @@
-// import React, { PropTypes } from 'react';
-import { Link, IndexLink, hashHistory } from 'react-router';
+import React, { PropTypes } from 'react';
 
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { connectPage } from '../../core';
+import actions from '../../actions';
 
-import WidgetGrid from '../../components/WidgetGrid.jsx';
-import MenuWidget from '../../components/MenuWidget.jsx';
-import TextWidget from '../../components/TextWidget.jsx';
+import WidgetGrid from '../../core/components/WidgetGrid.jsx';
+import MenuWidget from '../../core/components/widgets/MenuWidget.jsx';
+import TextWidget from '../../core/components/widgets/TextWidget.jsx';
 
 import WeatherCheckWidget from '../../businessLogic/WeatherCheckWidget';
 import AreWeOpenWidget from '../../businessLogic/AreWeOpenWidget';
@@ -16,7 +14,6 @@ import CollectionListWidget from '../../businessLogic/CollectionListWidget';
 
 export const ApplicationContactPage = (props) => (
   <WidgetGrid>
-    {console.log('contact props', props)}
     <MenuWidget title="contact" />
     <TextWidget title="how to contact us" icon="map">
       <h4>{"you'll find the map here"}</h4>
@@ -30,27 +27,26 @@ export const ApplicationContactPage = (props) => (
     <AreWeOpenWidget
       title="are we open ?"
       name="contact-are-we-open"
-      listenTo="weather-in-montpellier"
+      linkedStates={{ weatherCheck: "weather-in-montpellier" }}
       {...props} />
 
 
     <NewRecordWidget
       title="add participant"
       name="add-participant"
-      onSave={(record) =>
-        props.storeActions['participants-store'].addRecord(record)}
+      onSave={(record) => props.storeActions['participants-store'].addRecord(record)}
       {...props} />
 
     <CollectionListWidget
       title="here are the participants"
       name="participants-list"
-      recordsStore="participants-store"
+      linkedStates={{ records: "participants-store" }}
       {...props} />
 
     <CollectionListWidget
       title="nobody's here"
       name="other-participants-list"
-      recordsStore="other-participants-store"
+      linkedStates={{ records: "other-participants-store" }}
       {...props} />
 
   </WidgetGrid>
@@ -60,34 +56,7 @@ ApplicationContactPage.propTypes = {
   storeActions: PropTypes.object.isRequired,
 };
 
-
-/** TODO ADD THIS TO THE CORE **/
-
-const registerActions = (dispatch, actions) => (
-  Object.keys(actions)
-    .map((actionName) => ({ name: actionName, fn: actions[actionName] }))
-    .reduce((acc, action) => ({
-      ...acc,
-      [action.name]: bindActionCreators(action.fn(action.name), dispatch),
-    }), {})
-);
-
-const connectPage = (actions) => (
-  connect(
-    (state) => ({
-      storeState: state,
-    }),
-    (dispatch) => ({
-      storeActions: registerActions(dispatch, actions),
-    }),
-  )
-);
-
-/** ************************* **/
-
-import _actions from '../../actions';
-
-export default connectPage(_actions)(ApplicationContactPage);
+export default connectPage(actions)(ApplicationContactPage);
 
 // export default connect(
 //   (state) => {

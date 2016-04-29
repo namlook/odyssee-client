@@ -1,7 +1,5 @@
 import React, { PropTypes } from 'react';
 
-import Widget from './Widget.jsx';
-
 import jQuery from 'jquery';
 import semanticTransition from 'semantic-ui-transition';
 import semanticPopup from 'semantic-ui-popup';

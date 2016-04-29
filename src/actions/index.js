@@ -6,30 +6,12 @@ import * as newRecordWidgetActions from '../businessLogic/NewRecordWidget/action
 import * as collectionStoreActions from '../businessLogic/CollectionStore/actions';
 
 
-/** TODO put this in CORE **/
-
-const actionCreator = (_storeName, action) => (variables) => ({
-  ...action(variables),
-  _storeName,
-});
-
-const createStoreActions = (actions) => (storeName) => (
-  Object.keys(actions)
-    .map((actionName) => ({
-      name: actionName,
-      fn: actionCreator(storeName, actions[actionName]),
-    }))
-    .reduce((acc, action) => ({ ...acc, [action.name]: action.fn }), {})
-);
-
-const createActions = (actions) => () => actions;
-
-/** ************************ **/
+import { createActions } from '../core';
 
 
 export default {
-  WeatherCheckWidget: createActions(weatherCheckWidgetActions),
-  NewRecordWidget: createActions(newRecordWidgetActions),
-  'participants-store': createStoreActions(collectionStoreActions),
-  'other-participants-store': createStoreActions(collectionStoreActions),
+  'weather-in-montpellier': createActions(weatherCheckWidgetActions),
+  'add-participant': createActions(newRecordWidgetActions),
+  'participants-store': createActions(collectionStoreActions),
+  'other-participants-store': createActions(collectionStoreActions),
 };

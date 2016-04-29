@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
-import Widget from './Widget.jsx';
-import IconUI from './IconUI.jsx';
+import Widget from '../Widget.jsx';
+import IconUI from '../ui/IconUI.jsx';
 
 
 const HeaderWidget = (props) => {

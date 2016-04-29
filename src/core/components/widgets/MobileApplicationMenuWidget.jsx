@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
-import Widget from './Widget.jsx';
-import { number2semanticClassName } from '../utils/semantic-ui';
+import Widget from '../Widget.jsx';
+import { number2semanticClassName } from '../../utils/semantic-ui';
 
 const MobileApplicationMenuWidget = (props) => {
   const color = props.color || '';

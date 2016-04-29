@@ -1,16 +1,12 @@
-// import React, { PropTypes } from 'react';
-import { Link, IndexLink, hashHistory } from 'react-router';
 
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as actions from '../../actions/app';
+import React, { PropTypes } from 'react';
 
-import WidgetGrid from '../../components/WidgetGrid.jsx';
-import ApplicationNavbarWidget from '../../components/ApplicationNavbarWidget.jsx';
-import ApplicationMenuWidget from '../../components/ApplicationMenuWidget.jsx';
-import MobileApplicationMenuWidget from '../../components/MobileApplicationMenuWidget.jsx';
-import Outlet from '../../components/Outlet.jsx';
+import ApplicationNavbarWidget from '../../core/components/widgets/ApplicationNavbarWidget.jsx';
+import ApplicationMenuWidget from '../../core/components/widgets/ApplicationMenuWidget.jsx';
+import MobileApplicationMenuWidget
+  from '../../core/components/widgets/MobileApplicationMenuWidget.jsx';
+import WidgetGrid from '../../core/components/WidgetGrid.jsx';
+import Outlet from '../../core/components/Outlet.jsx';
 
 export const App = (props) => {
   const items = [

@@ -1,12 +1,12 @@
 import React, { PropTypes } from 'react';
 
-import CardWidget from '../../components/CardWidget.jsx';
+import CardWidget from '../../core/components/CardWidget.jsx';
 
 const WeatherCheckWidget = (props) => {
   const { storeState, storeActions, name } = props;
-  console.log('!!!', props);
   const ownState = storeState[name];
-  const { currentWeather } = storeActions.WeatherCheckWidget;
+  const ownActions = storeActions[name];
+  
   return (
     <CardWidget
       _name="weather-check"
@@ -14,10 +14,10 @@ const WeatherCheckWidget = (props) => {
     >
       <div className="ui segment">
         <h3>{ownState.currentWeather}</h3>
-        <button onClick={() => currentWeather('sunny')}>
+        <button onClick={() => ownActions.currentWeather('sunny')}>
           sunny
         </button>
-        <button onClick={() => currentWeather('rainy')}>
+        <button onClick={() => ownActions.currentWeather('rainy')}>
           rainy
         </button>
       </div>

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
 import Widget from './Widget.jsx';
-import HeaderUI from './HeaderUI.jsx';
+import HeaderUI from './ui/HeaderUI.jsx';
 
 const CardWidget = (props) => {
   const className = `${props.className || ''}`;

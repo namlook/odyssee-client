@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-import Widget from './Widget.jsx';
+import Widget from '../Widget.jsx';
 
 const ApplicationNavbarWidget = (props) => (
   <Widget

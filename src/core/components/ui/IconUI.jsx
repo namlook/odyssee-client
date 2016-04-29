@@ -1,7 +1,5 @@
 import React, { PropTypes } from 'react';
 
-import Widget from './Widget.jsx';
-
 const IconUI = (props) => {
   if (!props.name) return null;
   const iconClassName = `${props.name} ${props.size} icon`;

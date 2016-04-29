@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
 
-import CardWidget from '../../components/CardWidget.jsx';
+import CardWidget from '../../core/components/CardWidget.jsx';
 
 const AreWeOpenWidget = (props) => {
-  const { storeState, name, listenTo } = props;
-  const { currentWeather } = storeState[listenTo];
+  const { storeState, linkedStates } = props;
+  const { currentWeather } = storeState[linkedStates.weatherCheck];
 
   const status = currentWeather === 'rainy' ? "no we are not :(" : "yes we are ! :)";
 

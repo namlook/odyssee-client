@@ -44,6 +44,34 @@ export default {
         },
       ],
     },
+    participants: {
+      widgets: [
+        {
+          type: 'record-new',
+          linkedStates: {
+            records: 'participants-store',
+          },
+          on: {
+            save: { trigger: 'addRecord', on: 'participants-store' },
+          },
+        },
+        {
+          type: 'participants-edit-list',
+          // link: [
+          //   { stateOf: 'participants-store', as: 'records' },
+          // ],
+          linkedStates: {
+            records: 'participants-store',
+          },
+          on: {
+            delete: { trigger: 'deleteRecord', on: 'participants-store' },
+            moveUp: { trigger: 'updateRecord', on: 'participants-store' },
+            moveDown: { trigger: 'updateRecord', on: 'participants-store' },
+            rename: { trigger: 'updateRecord', on: 'participants-store' },
+          },
+        },
+      ],
+    },
     scores: {
       __meta__: {
         // indexRedirect: 'collection.index',
@@ -114,13 +142,15 @@ export default {
         {
           type: 'AreWeOpenWidget',
           title: "Are we open ?",
-          listenTo: ['weather-in-montpellier'], // if it rains, we're closed
+          linkeStates: {
+            currentWeather: 'weather-in-montpellier',
+          },
         },
         {
           type: 'NewRecordWidget',
           name: 'add-participant',
-          onSave: {
-            'participant-store': 'addRecord',
+          on: {
+            save: { trigger: 'addRecord', on: 'participant-store' },
           },
         },
       ],

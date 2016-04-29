@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
-import Widget from './Widget.jsx';
+import Widget from '../Widget.jsx';
 
 import jQuery from 'jquery';
 import semanticTransition from 'semantic-ui-transition';
