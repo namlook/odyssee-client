@@ -8,7 +8,7 @@ const ApplicationMenuWidget = (props) => {
   const color = props.color || '';
   const widgetClassName = `${props.className || ''} ${color}`;
   const menuClassName = `large fluid inverted ${color}`;
-  const mobileMenuClassName = `ui stackable ${menuClassName} menu`;
+  // const mobileMenuClassName = `ui stackable ${menuClassName} menu`;
   const computerMenuClassName = `ui vertical ${menuClassName} menu`;
 
   const generateMenuLink = (item) => (

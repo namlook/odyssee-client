@@ -1,3 +1,2 @@
 
-import CollectionListWidget from './CollectionListWidget.jsx';
-export default CollectionListWidget;
+export Component from './CollectionListWidget.jsx';

@@ -1,2 +1,5 @@
 
-export default from './ParticipantsEditWidget.jsx';
+// import Component from './ParticipantsEditWidget.jsx';
+// export default { Component };
+
+export Component from './ParticipantsEditWidget.jsx';

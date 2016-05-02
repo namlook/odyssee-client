@@ -2,7 +2,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-
 export const connectPage = (actions) => {
   const _registerActions = (dispatch, _actions) => (
     Object.keys(_actions)
@@ -24,6 +23,27 @@ export const connectPage = (actions) => {
 };
 
 
+/** export default connect(
+//   (state) => {
+//     console.log('!!state', this);
+//     return { storeState: state };
+//   },
+//   (dispatch) => ({
+//     storeActions: {
+//       WeatherCheckWidget: bindActionCreators(_actions.WeatherCheckWidget, dispatch),
+//       NewRecordWidget: bindActionCreators(_actions.NewRecordWidget, dispatch),
+//       'participants-store': bindActionCreators(
+//         _actions.collectionStore('participants-store'),
+//         dispatch,
+//       ),
+//       'other-participants-store': bindActionCreators(
+//         _actions.collectionStore('other-participants-store'),
+//         dispatch,
+//       ),
+//     },
+//   }),
+// )(ApplicationContactPage);
+**/
 export const createReducer =
   (name, dependencies) =>
     ({ initialState, actions, postProcess }) => (state = initialState, action) => {

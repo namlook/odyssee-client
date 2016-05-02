@@ -1,30 +1,31 @@
 
 export default {
-  stores: {
-    participants: [
-      {
-        type: 'CollectionStore',
-        name: 'participants-store',
-      },
-      {
-        type: 'CollectionPositionStore',
-        name: 'participant-positions-store',
-        link: {
-          collection: { to: 'records', from: 'participants-store' },
-        },
-      },
-    ],
-    scores: [
-      {
-        type: 'ResourceCollectionStore',
-        name: 'score-records',
-      },
-      {
-        type: 'ScoreLocationStore',
-        name: 'score-location-records',
-      },
-    ],
-  },
+  // stores: {
+    // participants: [
+  stores: [
+    {
+      type: 'ordered-collection',
+      name: 'participants-store',
+    },
+    // {
+    //   type: 'collection',
+    //   name: 'participant-positions-store',
+    //   link: {
+    //     collection: { to: 'records', from: 'participants-store' },
+    //   },
+    // },
+  ],
+    // scores: [
+    //   {
+    //     type: 'ResourceCollectionStore',
+    //     name: 'score-records',
+    //   },
+    //   {
+    //     type: 'ScoreLocationStore',
+    //     name: 'score-location-records',
+    //   },
+    // ],
+  // },
   pages: {
     outlet: {
       widgets: [
@@ -46,122 +47,175 @@ export default {
     index: {
       widgets: [
         {
-          type: 'placeholder',
-          title: "index",
+          type: 'text',
+          title: 'index',
+          content: 'coucou',
         },
       ],
     },
     participants: {
       widgets: [
         {
-          type: 'record-new',
-          linkedStates: {
-            collection: 'participants-store',
+          type: 'menu',
+          title: 'participants',
+        },
+        {
+          type: 'new-record',
+          title: 'add participants',
+          name: 'add-participant',
+          link: {
+            collection: { to: 'records', from: 'participants-store' },
           },
           on: {
-            save: { trigger: 'addRecord', on: 'participants-store' },
+            save: { dispatch: 'addRecord', on: 'participants-store' },
           },
         },
         {
-          type: 'participants-edit-list',
-          // link: [
-          //   { stateOf: 'participants-store', as: 'records' },
-          // ],
-          linkedStates: {
-            collection: 'participants-store',
-            positions: 'participant-positions-store',
+          type: 'header',
+          title: 'booh',
+          subtitle: 'ahaha',
+        },
+        {
+          type: 'participants-edit',
+          name: 'participants-edit-list',
+          title: 'all the participants',
+          icon: 'users',
+          link: {
+            collection: { to: 'records', from: 'participants-store' },
           },
           on: {
-            rename: { trigger: 'updateRecord', on: 'participants-store' },
-            delete: { trigger: 'deleteRecord', on: 'participants-store' },
-            moveUp: { trigger: 'moveUp', on: 'participant-positions-store' },
-            moveDown: { trigger: 'moveDown', on: 'participant-positions-store' },
+            rename: { dispatch: 'updateRecord', on: 'participants-store' },
+            delete: { dispatch: 'deleteRecord', on: 'participants-store' },
+            moveUp: { dispatch: 'moveUp', on: 'participants-store' },
+            moveDown: { dispatch: 'moveDown', on: 'participants-store' },
           },
         },
       ],
     },
-    scores: {
-      __meta__: {
-        // indexRedirect: 'collection.index',
-      },
-      collection: {
-        outlet: {
-          store: 'collection',
-          widgets: [
-            {
-              type: 'menu',
-              title: "Scores",
-            },
-            {
-              type: 'query-filter',
-              name: 'query-filter',
-              onChange: {
-                'score-location-records': 'reload',
-              },
-            },
-            {
-              type: 'outlet',
-            },
-          ],
-        },
-        index: {
-          widgets: [{
-            type: 'text',
-            title: 'Hall of Fame',
-            recordsStore: 'score-records',
-          }],
-        },
-        statistics: {
-          widgets: [
-            {
-              type: 'chart',
-              title: 'here the stats',
-              recordsStore: 'score-records',
-            },
-            {
-              type: 'chart',
-              title: 'here the stats2',
-              recordsStore: 'score-records',
-            },
-            {
-              type: 'map',
-              title: 'here the map',
-              recordsStore: 'score-location-records',
-            },
-          ],
-        },
-      },
-      model: {
-        edit: {
-          widgets: [{
-            type: 'text',
-            title: 'here editing text',
-          }],
-        },
-      },
-    },
     contact: {
       widgets: [
         {
-          type: 'WeatherCheckWidget',
-          name: 'weather-in-montpellier',
-          city: 'Montpellier',
+          type: 'menu',
+          title: 'Contact',
         },
         {
-          type: 'AreWeOpenWidget',
-          title: "Are we open ?",
+          type: 'text',
+          title: 'how to contact us ?',
+          content: "you'll find the map here",
+        },
+        {
+          type: 'weather-check',
+          name: 'weather-in-montpellier',
+          title: 'current weather',
+        },
+        {
+          type: 'are-we-open',
+          title: 'are we open ?',
+          name: 'contact-are-we-open',
           link: {
             currentWeather: { to: 'currentWeather', from: 'weather-in-montpellier' },
           },
         },
         {
-          type: 'NewRecordWidget',
+          type: 'new-record',
+          title: 'add participants',
           name: 'add-participant',
+          link: {
+            collection: { to: 'records', from: 'participants-store' },
+          },
           on: {
-            save: { trigger: 'addRecord', on: 'participant-store' },
+            save: { dispatch: 'addRecord', on: 'participants-store' },
+          },
+        },
+        {
+          type: 'collection-list',
+          name: 'participants-list',
+          title: 'here are the participants',
+          link: {
+            collection: { to: 'records', from: 'participants-store' },
           },
         },
       ],
     },
+    // scores: {
+    //   collection: {
+    //     outlet: {
+    //       store: 'collection',
+    //       widgets: [
+    //         {
+    //           type: 'menu',
+    //           title: "Scores",
+    //         },
+    //         {
+    //           type: 'query-filter',
+    //           name: 'query-filter',
+    //           onChange: {
+    //             'score-location-records': 'reload',
+    //           },
+    //         },
+    //         {
+    //           type: 'outlet',
+    //         },
+    //       ],
+    //     },
+    //     index: {
+    //       widgets: [{
+    //         type: 'text',
+    //         title: 'Hall of Fame',
+    //         recordsStore: 'score-records',
+    //       }],
+    //     },
+    //     statistics: {
+    //       widgets: [
+    //         {
+    //           type: 'chart',
+    //           title: 'here the stats',
+    //           recordsStore: 'score-records',
+    //         },
+    //         {
+    //           type: 'chart',
+    //           title: 'here the stats2',
+    //           recordsStore: 'score-records',
+    //         },
+    //         {
+    //           type: 'map',
+    //           title: 'here the map',
+    //           recordsStore: 'score-location-records',
+    //         },
+    //       ],
+    //     },
+    //   },
+    //   model: {
+    //     edit: {
+    //       widgets: [{
+    //         type: 'text',
+    //         title: 'here editing text',
+    //       }],
+    //     },
+    //   },
+    // },
+    // contact: {
+    //   widgets: [
+    //     {
+    //       type: 'WeatherCheckWidget',
+    //       name: 'weather-in-montpellier',
+    //       city: 'Montpellier',
+    //     },
+    //     {
+    //       type: 'AreWeOpenWidget',
+    //       title: "Are we open ?",
+    //       link: {
+    //         currentWeather: { to: 'currentWeather', from: 'weather-in-montpellier' },
+    //       },
+    //     },
+    //     {
+    //       type: 'NewRecordWidget',
+    //       name: 'add-participant',
+    //       on: {
+    //         save: { trigger: 'addRecord', on: 'participant-store' },
+    //       },
+    //     },
+    //   ],
+    // },
   },
 };

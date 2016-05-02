@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 
 import jQuery from 'jquery';
 import semanticTransition from 'semantic-ui-transition';
-import semanticPopup from 'semantic-ui-popup';
 import semanticDropDown from 'semantic-ui-dropdown';
 
 window.$ = jQuery;

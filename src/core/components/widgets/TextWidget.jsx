@@ -3,16 +3,12 @@ import React, { PropTypes } from 'react';
 import CardWidget from '../CardWidget.jsx';
 
 const TextWidget = (props) => {
-  const className = `${props.className || ''}`;
+  const { content, ...other } = props;
 
   return (
-    <CardWidget
-      _name="text"
-      className={className}
-      {...props}
-    >
+    <CardWidget _name="text" {...other}>
       <div className="ui segment">
-        {props.children}
+        {content}
       </div>
     </CardWidget>
   );
@@ -20,7 +16,7 @@ const TextWidget = (props) => {
 
 TextWidget.propTypes = {
   className: PropTypes.string,
-  children: PropTypes.node,
+  content: PropTypes.string,
 };
 
 export default TextWidget;

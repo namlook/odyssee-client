@@ -1,3 +1,2 @@
 
-import AreWeOpenWidget from './AreWeOpenWidget.jsx';
-export default AreWeOpenWidget;
+export Component from './AreWeOpenWidget.jsx';

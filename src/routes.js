@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, IndexRoute, IndexRedirect } from 'react-router';
+import { Route /* IndexRoute, IndexRedirect */ } from 'react-router';
 
 import ApplicationOutlet from './application/pages/Outlet.jsx';
 import ContactPage from './application/pages/Contact.jsx';
