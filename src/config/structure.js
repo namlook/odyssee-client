@@ -6,6 +6,13 @@ export default {
         type: 'CollectionStore',
         name: 'participants-store',
       },
+      {
+        type: 'CollectionPositionStore',
+        name: 'participant-positions-store',
+        link: {
+          collection: { to: 'records', from: 'participants-store' },
+        },
+      },
     ],
     scores: [
       {
@@ -49,7 +56,7 @@ export default {
         {
           type: 'record-new',
           linkedStates: {
-            records: 'participants-store',
+            collection: 'participants-store',
           },
           on: {
             save: { trigger: 'addRecord', on: 'participants-store' },
@@ -61,13 +68,14 @@ export default {
           //   { stateOf: 'participants-store', as: 'records' },
           // ],
           linkedStates: {
-            records: 'participants-store',
+            collection: 'participants-store',
+            positions: 'participant-positions-store',
           },
           on: {
-            delete: { trigger: 'deleteRecord', on: 'participants-store' },
-            moveUp: { trigger: 'updateRecord', on: 'participants-store' },
-            moveDown: { trigger: 'updateRecord', on: 'participants-store' },
             rename: { trigger: 'updateRecord', on: 'participants-store' },
+            delete: { trigger: 'deleteRecord', on: 'participants-store' },
+            moveUp: { trigger: 'moveUp', on: 'participant-positions-store' },
+            moveDown: { trigger: 'moveDown', on: 'participant-positions-store' },
           },
         },
       ],
@@ -142,8 +150,8 @@ export default {
         {
           type: 'AreWeOpenWidget',
           title: "Are we open ?",
-          linkeStates: {
-            currentWeather: 'weather-in-montpellier',
+          link: {
+            currentWeather: { to: 'currentWeather', from: 'weather-in-montpellier' },
           },
         },
         {

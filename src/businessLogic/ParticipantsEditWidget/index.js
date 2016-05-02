@@ -1,3 +1,2 @@
 
-import ParticipantsEditWidget from './ParticipantsEditWidget.jsx';
-export default ParticipantsEditWidget;
+export default from './ParticipantsEditWidget.jsx';

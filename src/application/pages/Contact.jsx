@@ -27,13 +27,18 @@ export const ApplicationContactPage = (props) => (
     <AreWeOpenWidget
       title="are we open ?"
       name="contact-are-we-open"
-      linkedStates={{ weatherCheck: "weather-in-montpellier" }}
+      link={{
+        currentWeather: { to: 'currentWeather', from: 'weather-in-montpellier' },
+      }}
       {...props} />
 
 
     <NewRecordWidget
       title="add participant"
       name="add-participant"
+      link={{
+        collection: { to: 'records', from: 'participants-store' },
+      }}
       on={{
         save: (...args) => props.storeActions['participants-store'].addRecord(...args),
       }}
@@ -42,13 +47,13 @@ export const ApplicationContactPage = (props) => (
     <CollectionListWidget
       title="here are the participants"
       name="participants-list"
-      linkedStates={{ collection: "participants-store" }}
+      link={{ collection: { to: 'records', from: 'participants-store' } }}
       {...props} />
 
     <CollectionListWidget
       title="nobody's here"
       name="other-participants-list"
-      linkedStates={{ collection: "other-participants-store" }}
+      link={{ collection: { to: 'records', from: 'other-participants-store' } }}
       {...props} />
 
   </WidgetGrid>

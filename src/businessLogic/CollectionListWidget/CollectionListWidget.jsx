@@ -3,8 +3,8 @@ import React, { PropTypes } from 'react';
 import CardWidget from '../../core/components/CardWidget.jsx';
 
 const CollectionListWidget = (props) => {
-  const { storeState, linkedStates } = props;
-  const records = storeState[linkedStates.collection].get('records');
+  const { storeState, link } = props;
+  const records = storeState[link.collection.from].get(link.collection.to);
 
   return (
     <CardWidget
@@ -25,7 +25,7 @@ const CollectionListWidget = (props) => {
 CollectionListWidget.propTypes = {
   name: PropTypes.string.isRequired,
   storeState: PropTypes.object.isRequired,
-  linkedStates: PropTypes.object.isRequired,
+  link: PropTypes.object.isRequired,
 };
 
 export default CollectionListWidget;

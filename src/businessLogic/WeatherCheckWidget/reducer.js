@@ -1,14 +1,14 @@
 
 import { WHEATHER_CHANGE } from './constants';
 
-import _ from 'lodash';
+import { Map as iMap } from 'immutable';
 
-const initialState = {
+const initialState = iMap({
   currentWeather: 'sunny',
-};
+});
 
 const actions = {
-  [WHEATHER_CHANGE]: (state, { status }) => ({ ...state, currentWeather: status }),
+  [WHEATHER_CHANGE]: (state, { status }) => state.set('currentWeather', status),
 };
 
 export default { initialState, actions };

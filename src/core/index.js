@@ -25,11 +25,15 @@ export const connectPage = (actions) => {
 
 
 export const createReducer =
-  (name) => ({ initialState, actions }) => (state = initialState, action) => {
-    if (action._storeName !== name) return state;
-    const actionFn = actions[action.type];
-    return actionFn ? actionFn(state, action) : state;
-  };
+  (name, dependencies) =>
+    ({ initialState, actions, postProcess }) => (state = initialState, action) => {
+      if (action._storeName !== name && (dependencies || []).indexOf(action._storeName) === -1) {
+        return state;
+      }
+      const actionFn = actions[action.type];
+      const newState = actionFn ? actionFn(state, action) : state;
+      return postProcess ? postProcess(newState) : newState;
+    };
 
 
 const _addStoreNameToAction = (_storeName, action) => (...variables) => ({

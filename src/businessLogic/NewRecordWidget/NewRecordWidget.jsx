@@ -3,13 +3,14 @@ import React, { PropTypes } from 'react';
 import CardWidget from '../../core/components/CardWidget.jsx';
 
 const NewRecordWidget = (props) => {
-  const { storeState, storeActions, name, on } = props;
+  const { storeState, storeActions, name, on, link } = props;
   const ownState = storeState[name];
   const ownActions = storeActions[name];
+  const records = storeState[link.collection.from].get(link.collection.to);
 
   const onSave = () => {
     const _id = ownState.value.split(' ').join('');
-    on.save(_id, { name: ownState.value });
+    on.save(_id, { name: ownState.value, position: records.count() });
     ownActions.clearForm();
   };
 
@@ -43,6 +44,7 @@ const NewRecordWidget = (props) => {
 NewRecordWidget.propTypes = {
   name: PropTypes.string.isRequired,
   on: PropTypes.object.isRequired,
+  link: PropTypes.object.isRequired,
   storeState: PropTypes.object.isRequired,
   storeActions: PropTypes.object.isRequired,
 };

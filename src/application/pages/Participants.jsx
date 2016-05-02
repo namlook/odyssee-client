@@ -21,18 +21,25 @@ export const ParticipantsPage = (props) => (
       on={{
         save: (...args) => props.storeActions['participants-store'].addRecord(...args),
       }}
+      link={{
+        collection: { to: 'records', from: 'participants-store' },
+      }}
       {...props} />
 
     <ParticipantsEditWidget
       title="All the participants"
       icon="users"
       name="participants-edit-list"
-      linkedStates={{ collection: "participants-store" }} // use to diplay the records
+      link={{
+        collection: { to: 'records', from: 'participants-store' },
+      }} // use to diplay the records
       on={{
         rename: (...args) => props.storeActions['participants-store'].updateRecord(...args),
-        // moveUp: (...args) => props.storeActions['participants-store'].updateRecord(...args),
-        // moveDown: (...args) => props.storeActions['participants-store'].updateRecord(...args),
         delete: (...args) => props.storeActions['participants-store'].deleteRecord(...args),
+        moveUp: (...args) =>
+          props.storeActions['participants-store'].moveUp(...args),
+        moveDown: (...args) =>
+          props.storeActions['participants-store'].moveDown(...args),
       }}
       {...props} />
 

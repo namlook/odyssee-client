@@ -3,8 +3,8 @@ import React, { PropTypes } from 'react';
 import CardWidget from '../../core/components/CardWidget.jsx';
 
 const AreWeOpenWidget = (props) => {
-  const { storeState, linkedStates } = props;
-  const { currentWeather } = storeState[linkedStates.weatherCheck];
+  const { storeState, link } = props;
+  const currentWeather = storeState[link.currentWeather.from].get(link.currentWeather.to);
 
   const status = currentWeather === 'rainy' ? "no we are not :(" : "yes we are ! :)";
 
@@ -23,7 +23,7 @@ const AreWeOpenWidget = (props) => {
 AreWeOpenWidget.propTypes = {
   name: PropTypes.string.isRequired,
   storeState: PropTypes.object.isRequired,
-  linkedStates: PropTypes.object.isRequired,
+  link: PropTypes.object.isRequired,
 };
 
 export default AreWeOpenWidget;
