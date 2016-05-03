@@ -69,6 +69,21 @@ export default {
     {
       type: 'ordered-collection',
       name: 'participants-store',
+      recordSchema: {
+        _id: null,
+        name: null,
+        position: null,
+      },
+    },
+    {
+      type: 'collection',
+      name: 'scores-store',
+      recordSchema: {
+        _id: null,
+        participantId: null,
+        lap: null,
+        score: null,
+      },
     },
     // {
     //   type: 'collection',
@@ -198,9 +213,12 @@ export default {
       index: {
         widgets: [
           {
-            type: 'text',
-            title: 'prochainement',
-            content: '<h1>coucou</h1>',
+            type: 'collection-list',
+            name: 'scores-list',
+            title: 'Les scores',
+            link: {
+              collection: { to: 'records', from: 'scores-store' },
+            },
           },
         ],
       },

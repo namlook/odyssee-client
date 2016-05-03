@@ -1,5 +1,6 @@
 
 import * as OrderedCollectionStore from './businessLogic/OrderedCollectionStore';
+import * as CollectionStore from './businessLogic/CollectionStore';
 
 import * as NewRecordWidget from './businessLogic/NewRecordWidget';
 import * as ParticipantsEditWidget from './businessLogic/ParticipantsEditWidget';
@@ -20,6 +21,7 @@ import NotFoundWidget from './core/components/contrib/NotFoundWidget.jsx';
 export default {
   stores: {
     OrderedCollectionStore,
+    CollectionStore,
   },
   widgets: {
     NewRecordWidget,

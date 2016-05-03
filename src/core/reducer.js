@@ -1,16 +1,19 @@
 
 import { extractWidgets, extractStores, pascalCase } from './utils/core';
 
-const createReducer =
-  (name, dependencies) =>
-    ({ initialState, actions, postProcess }) => (state = initialState, action) => {
-      if (action._storeName !== name && (dependencies || []).indexOf(action._storeName) === -1) {
-        return state;
-      }
-      const actionFn = actions[action.type];
-      const newState = actionFn ? actionFn(state, action) : state;
-      return postProcess ? postProcess(newState) : newState;
-    };
+const createReducer = (name, config) => (reducerFn) => {
+  const reducer = typeof reducerFn === 'function' ? reducerFn(config) : reducerFn;
+  const { initialState, actions, postProcess } = reducer;
+
+  return (state = initialState, action) => {
+    if (action._storeName !== name) {
+      return state;
+    }
+    const actionFn = actions[action.type];
+    const newState = actionFn ? actionFn(state, action) : state;
+    return postProcess ? postProcess(newState) : newState;
+  };
+};
 
 const extractWidgetReducers = (structure, register) => (
   extractWidgets(structure, register)
@@ -32,13 +35,12 @@ const extractStoreReducers = (structure, register) => (
   extractStores(structure, register)
     .map((store) => {
       const storeName = `${pascalCase(store.type)}Store`;
-      const storeConfig = register.stores[storeName];
-      if (!storeConfig) {
+      if (!register.stores[storeName]) {
         throw new Error(`unregistered store ${storeName}`);
       }
       const reducer = register.stores[storeName].reducer;
       return reducer
-        ? { name: store.name, reducerCreator: createReducer(store.name)(reducer) }
+        ? { name: store.name, reducerCreator: createReducer(store.name, store)(reducer) }
         : null;
     })
     .reduce((acc, item) => (item ? { ...acc, [item.name]: item.reducerCreator } : acc), {})
