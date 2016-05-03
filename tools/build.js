@@ -3,7 +3,7 @@
 /* eslint-disable no-console */
 import webpack from 'webpack';
 import config from '../webpack.config.prod';
-import colors from 'colors';
+import colors from 'colors'; // eslint-disable-line no-unused-vars
 
 // this assures React is built in prod mode and that the Babel dev config doesn't apply.
 process.env.NODE_ENV = 'production';
