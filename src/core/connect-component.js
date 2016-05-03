@@ -1,6 +1,7 @@
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import _ from 'lodash';
 
 /** export default connect(
 //   (state) => {
@@ -23,20 +24,27 @@ import { bindActionCreators } from 'redux';
 //   }),
 // )(ApplicationContactPage);
 **/
-export default (actions) => {
-  const _registerActions = (dispatch, _actions) => (
-    Object.keys(_actions)
-      .map((actionName) => ({ name: actionName, fn: _actions[actionName] }))
-      .reduce((acc, action) => ({
-        ...acc,
-        [action.name]: bindActionCreators(action.fn(action.name), dispatch),
-      }), {})
-  );
+const _registerActions = (dispatch, _actions) => (
+  Object.keys(_actions).reduce((acc, actionName) => ({
+    ...acc,
+    [actionName]: bindActionCreators(_actions[actionName](actionName), dispatch),
+  }), {})
+);
+
+export default (_actions, storesName) => {
+  /* expose only the actions used in linked store
+   */
+  const actions = _.pick(_actions, storesName);
 
   return connect(
-    (state) => ({
-      storeState: state,
-    }),
+    (state) => {
+      /* expose only the actions used in linked store
+       */
+      const subState = _.pick(state, storesName);
+      return {
+        storeState: subState,
+      };
+    },
     (dispatch) => ({
       storeActions: _registerActions(dispatch, actions),
     }),
