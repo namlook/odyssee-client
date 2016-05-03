@@ -2,26 +2,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-export const connectPage = (actions) => {
-  const _registerActions = (dispatch, _actions) => (
-    Object.keys(_actions)
-      .map((actionName) => ({ name: actionName, fn: _actions[actionName] }))
-      .reduce((acc, action) => ({
-        ...acc,
-        [action.name]: bindActionCreators(action.fn(action.name), dispatch),
-      }), {})
-  );
-
-  return connect(
-    (state) => ({
-      storeState: state,
-    }),
-    (dispatch) => ({
-      storeActions: _registerActions(dispatch, actions),
-    }),
-  );
-};
-
 
 /** export default connect(
 //   (state) => {
@@ -44,6 +24,27 @@ export const connectPage = (actions) => {
 //   }),
 // )(ApplicationContactPage);
 **/
+export const connectComponent = (actions) => {
+  const _registerActions = (dispatch, _actions) => (
+    Object.keys(_actions)
+      .map((actionName) => ({ name: actionName, fn: _actions[actionName] }))
+      .reduce((acc, action) => ({
+        ...acc,
+        [action.name]: bindActionCreators(action.fn(action.name), dispatch),
+      }), {})
+  );
+
+  return connect(
+    (state) => ({
+      storeState: state,
+    }),
+    (dispatch) => ({
+      storeActions: _registerActions(dispatch, actions),
+    }),
+  );
+};
+
+
 export const createReducer =
   (name, dependencies) =>
     ({ initialState, actions, postProcess }) => (state = initialState, action) => {

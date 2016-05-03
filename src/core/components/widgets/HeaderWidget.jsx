@@ -11,11 +11,13 @@ const HeaderWidget = (props) => {
 
   return (
     <Widget _name="header" className={widgetClassName} layout={props.layout}>
-      <div className={`ui dividing header ${props.color}`}>
-        <IconUI name={props.icon} />
-        <div className="content">
-          {props.title}
-          {subTitle}
+      <div className="ui basic segment" style={{ paddingTop: 0, paddingBottom: 0 }}>
+        <div className={`ui dividing header ${props.color}`}>
+          <IconUI name={props.icon} />
+          <div className="content">
+            {props.title}
+            {subTitle}
+          </div>
         </div>
       </div>
     </Widget>

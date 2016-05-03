@@ -10,7 +10,7 @@ const ApplicationNavbarWidget = (props) => (
     className={props.className}
   >
     <div style={{ borderRadius: 0 }} className={`ui large inverted ${props.color || ''} top  menu`}>
-      <a className="header item"> <i className="user icon"></i> {props.appName} </a>
+      <a className="header item"> <i className="user icon"></i> {props.title} </a>
       <a className="item">foo</a>
       <div className="right menu">
         <a className="item">logout</a>
@@ -22,7 +22,7 @@ const ApplicationNavbarWidget = (props) => (
 ApplicationNavbarWidget.propTypes = {
   layout: PropTypes.object,
   className: PropTypes.string,
-  appName: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   color: PropTypes.string,
 };
 

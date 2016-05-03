@@ -5,6 +5,8 @@ import DropdownUI from '../ui/DropdownUI.jsx';
 import _ from 'lodash';
 
 const ApplicationMenuWidget = (props) => {
+  const currentLocationPath = props.location.pathname;
+
   const color = props.color || '';
   const widgetClassName = `${props.className || ''} ${color}`;
   const menuClassName = `large fluid inverted ${color}`;
@@ -61,7 +63,7 @@ const ApplicationMenuWidget = (props) => {
       }
       return [item];
     })
-    .filter((item) => item.route === props.currentPath)
+    .filter((item) => item.route === currentLocationPath)
     .map((item) => (
       <span key={item.route}>
         <i className={`${item.icon} icon`}></i>
@@ -101,7 +103,7 @@ const ApplicationMenuWidget = (props) => {
 ApplicationMenuWidget.propTypes = {
   layout: PropTypes.object,
   className: PropTypes.string,
-  currentPath: PropTypes.string.isRequired,
+  location: PropTypes.object.isRequired,
   title: PropTypes.string,
   color: PropTypes.string,
   items: PropTypes.arrayOf(PropTypes.shape({

@@ -8,9 +8,11 @@ const NewRecordWidget = (props) => {
   const ownActions = storeActions[name];
   const records = storeState[link.collection.from].get(link.collection.to);
 
-  const onSave = () => {
+  const onSave = storeActions[on.save.on][on.save.dispatch];
+
+  const triggerSave = () => {
     const _id = ownState.value.split(' ').join('');
-    on.save(_id, { name: ownState.value, position: records.count() });
+    onSave(_id, { name: ownState.value, position: records.count() });
     ownActions.clearForm();
   };
 
@@ -28,7 +30,7 @@ const NewRecordWidget = (props) => {
               onChange={(e) => ownActions.changeValue(e.target.value)} />
           </div>
           <div className="field">
-            <button className="ui primary button" onClick={onSave}>
+            <button className="ui primary button" onClick={triggerSave}>
               save
             </button>
             <button className="ui basic red button" onClick={() => ownActions.clearForm()}>

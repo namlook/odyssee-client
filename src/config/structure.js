@@ -1,4 +1,6 @@
 
+const color = 'red';
+
 export default {
   // stores: {
     // participants: [
@@ -32,15 +34,34 @@ export default {
         {
           layout: { mobile: 16 },
           type: 'application-navbar',
-          title: "Scora",
+          title: 'Scora',
+          color,
         },
         {
-          layout: { mobile: 0, tablet: 6, computer: 6 },
+          layout: { mobile: 0, tablet: 0, computer: 3 },
           type: 'application-menu',
+          color,
+          items: [
+            { label: 'Participants', route: '/participants', icon: 'users' },
+            { label: 'Scores', route: '/scores', icon: 'game' },
+            { label: 'Statistics', route: '/scores/stats', icon: 'chart line' },
+            { label: 'Contact', route: '/contact', icon: 'user' },
+          ],
         },
         {
-          layout: { mobile: 16, tablet: 10, computer: 10 },
+          layout: { mobile: 16, tablet: 16, computer: 13 },
           type: 'outlet',
+        },
+        {
+          type: 'mobile-application-menu',
+          layout: { mobile: 16, table: 16, computer: 0 },
+          color,
+          items: [
+            { label: 'Participants', route: '/participants', icon: 'users' },
+            { label: 'Scores', route: '/scores', icon: 'game' },
+            { label: 'Statistics', route: '/scores/stats', icon: 'chart line' },
+            { label: 'Contact', route: '/contact', icon: 'user' },
+          ],
         },
       ],
     },
@@ -73,6 +94,8 @@ export default {
         {
           type: 'header',
           title: 'booh',
+          icon: 'smile',
+          color: 'teal',
           subtitle: 'ahaha',
         },
         {

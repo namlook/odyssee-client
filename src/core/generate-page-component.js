@@ -1,9 +1,9 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 
-import { connectPage } from './index';
+import { connectComponent } from './index';
+import actions from '../actions';
 
 import register from '../register';
-import actions from '../actions';
 import structure from '../config/structure';
 
 import WidgetGrid from './components/WidgetGrid.jsx';
@@ -17,15 +17,6 @@ export const getPageConfig = (struct, path) => {
   return _.find(pages, { path });
 };
 
-// rename: (...args) => props.storeActions['participants-store'].updateRecord(...args),
-const generateOnProps = (pageProps, onProps) => (
-  Object.keys(onProps).map((onPropName) => (
-    { name: onPropName, dispatch: onProps[onPropName].dispatch, on: onProps[onPropName].on }
-  )).reduce((acc, item) => (
-    { ...acc, [item.name]: (...args) => pageProps.storeActions[item.on][item.dispatch](...args) }
-  ), {})
-);
-
 const generateWidgetComponent = (widgetConfig, pageProps, keyIndex) => {
   const { type, ...widgetProps } = widgetConfig;
   const widgetName = `${pascalCase(type)}Widget`;
@@ -35,25 +26,38 @@ const generateWidgetComponent = (widgetConfig, pageProps, keyIndex) => {
   }
 
   const componentProps = Object.keys(widgetProps)
-    .map((propName) => {
-      if (propName === 'on') {
-        return {
-          name: 'on',
-          value: generateOnProps(pageProps, widgetProps.on),
-        };
-      }
-      return { name: propName, value: widgetProps[propName] };
-    })
+    .map((propName) => ({ name: propName, value: widgetProps[propName] }))
     .reduce((acc, item) => ({ ...acc, [item.name]: item.value }), {});
 
-  const { Component } = widget;
-  return (
-    <Component
-      key={`${type}${keyIndex}`}
-      storeState={pageProps.storeState}
-      storeActions={pageProps.storeActions}
-      {...componentProps} />
-    );
+  let { Component } = widget;
+
+  const componentPropTypeNames = Object.keys(Component.propTypes);
+  const requiredProps = componentPropTypeNames
+    .map((propName) => ({
+      name: propName,
+      pageProp: pageProps[propName],
+    }))
+    .reduce((acc, item) => {
+      if (item.pageProp != null) {
+        return { ...acc, [item.name]: item.pageProp };
+      }
+      return acc;
+    }, {});
+
+  const shouldBeConnected = _.intersection(
+    componentPropTypeNames,
+    ['storeActions', 'storeState']
+  ).length;
+
+  if (shouldBeConnected) {
+    Component = connectComponent(actions)(Component);
+  }
+
+  return React.createElement(
+    Component,
+    { ...requiredProps, ...componentProps, key: `${type}${keyIndex}` },
+    pageProps.children
+  );
 };
 
 
@@ -68,8 +72,5 @@ export default (path) => {
   );
 
   PageComponent.displayName = `${pascalCase(name)}Page`;
-  PageComponent.propTypes = {
-    storeActions: PropTypes.object.isRequired,
-  };
-  return connectPage(actions)(PageComponent);
+  return PageComponent;
 };
