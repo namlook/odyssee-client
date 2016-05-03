@@ -1,9 +1,9 @@
 
-import structure from './config/structure';
+import structure from './structure';
 import register from './register';
 
-import { router, extractActions } from './core';
+import { buildRoutes, extractActions } from './core';
 
 const actions = extractActions(structure, register);
 
-export default router(structure, register, actions);
+export default buildRoutes(structure, register, actions);

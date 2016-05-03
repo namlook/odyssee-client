@@ -6,10 +6,9 @@ import CardWidget from '../CardWidget.jsx';
 
 const TextWidget = (props) => {
   const { content, ...other } = props;
-
   return (
     <CardWidget _name="text" {...other}>
-      <div className="ui segment">
+      <div className={`ui segment`}>
         <div dangerouslySetInnerHTML={{ __html: content }} />
       </div>
     </CardWidget>

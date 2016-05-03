@@ -27,7 +27,7 @@ export default (structure, register, actions, path) => {
       .map((propName) => ({ name: propName, value: widgetProps[propName] }))
       .reduce((acc, item) => ({ ...acc, [item.name]: item.value }), {});
 
-    const componentPropTypeNames = Object.keys(Component.propTypes);
+    const componentPropTypeNames = Object.keys(Component.propTypes || {});
     const requiredProps = componentPropTypeNames
       .map((propName) => ({
         name: propName,

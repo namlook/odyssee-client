@@ -7,9 +7,12 @@ import React from 'react';
 import buildPageComponent from './generate-page-component';
 
 import { extractPages } from './utils/core';
+import _ from 'lodash';
 
-const _buildRoutes = (routeInfos, pageComponents) => (
-  Object.keys(routeInfos).map((routeName) => {
+const _buildRoutes = (routeInfos, pageComponents) => {
+  const orderedRoutes = _.reverse(_.sortBy(Object.keys(routeInfos), 'path'));
+
+  return orderedRoutes.map((routeName) => {
     const routeConfig = routeInfos[routeName];
 
     if (routeConfig.outlet) {
@@ -36,8 +39,8 @@ const _buildRoutes = (routeInfos, pageComponents) => (
         path={routeConfig.path}
         component={pageComponent} />
     );
-  })
-);
+  });
+};
 
 
 const buildPageComponents = (structure, register, actions) => (

@@ -15,6 +15,8 @@ import ApplicationNavbarWidget from './core/components/widgets/ApplicationNavbar
 import MenuWidget from './core/components/widgets/MenuWidget.jsx';
 import HeaderWidget from './core/components/widgets/HeaderWidget.jsx';
 
+import NotFoundWidget from './core/components/contrib/NotFoundWidget.jsx';
+
 export default {
   stores: {
     OrderedCollectionStore,
@@ -33,5 +35,7 @@ export default {
     ApplicationMenuWidget: { Component: ApplicationMenuWidget },
     ApplicationNavbarWidget: { Component: ApplicationNavbarWidget },
     MenuWidget: { Component: MenuWidget },
+
+    NotFoundWidget: { Component: NotFoundWidget },
   },
 };

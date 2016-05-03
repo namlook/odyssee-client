@@ -271,6 +271,14 @@ export default {
         },
       ],
     },
+    404: {
+      path: '*',
+      widgets: [
+        {
+          type: 'not-found',
+        },
+      ],
+    },
     // scores: {
     //   collection: {
     //     outlet: {
