@@ -7,52 +7,15 @@
 // import * as orderedCollectionStoreActions from '../businessLogic/OrderedCollectionStore/actions';
 
 
-import { createActions } from '../core';
-import { extractWidgets, extractStores, pascalCase } from '../core/utils/core';
-
 import register from '../register';
+import structure from '../config/structure';
+import { extractActions } from '../core';
 
-
-/** TODO add this to the CORE **/
-const extractWidgetActions = (struct) => (
-  extractWidgets(struct)
-    .map((widget) => {
-      const widgetName = `${pascalCase(widget.type)}Widget`;
-      const widgetConfig = register.widgets[widgetName];
-      if (!widgetConfig) {
-        throw new Error(`unregistered widget ${widgetName}`);
-      }
-      const actions = register.widgets[widgetName].actions;
-      return actions ? { name: widget.name, actionCreator: createActions(actions) } : null;
-    })
-    .reduce((acc, item) => (item ? { ...acc, [item.name]: item.actionCreator } : acc), {})
-);
-
-
-const extractStoreActions = (struct) => (
-  extractStores(struct).map((store) => {
-    const storeName = `${pascalCase(store.type)}Store`;
-    const storeConfig = register.stores[storeName];
-    if (!storeConfig) {
-      throw new Error(`unregistered store ${storeName}`);
-    }
-    const actions = register.stores[storeName].actions;
-    return actions ? { name: store.name, actionCreator: createActions(actions) } : null;
-  })
-  .reduce((acc, item) => (item ? { ...acc, [item.name]: item.actionCreator } : acc), {})
-);
-
-const extractActions = (struct) => ({
-  ...extractWidgetActions(struct),
-  ...extractStoreActions(struct),
-});
 
 // const widgetActions = extractWidgetActions(structure);
 // const storeActions = extractStoreActions(structure);
 
-
-import structure from '../config/structure';
-export default extractActions(structure);
+export default extractActions(structure, register);
 
 // export default {
 //   'weather-in-montpellier': createActions(weatherCheckWidgetActions),

@@ -1,16 +1,9 @@
 
-import { buildRoutes } from './core';
 import structure from './config/structure';
+import register from './register';
 
-import { extractPages } from './core/utils/core';
-import generatePageComponent from './core/generate-page-component';
+import { router, extractActions } from './core';
 
-const buildPageComponents = (struct) => (
-  extractPages(struct).reduce((acc, page) => ({
-    ...acc, [page.id]: generatePageComponent(page.id),
-  }), {})
-);
+const actions = extractActions(structure, register);
 
-const pageComponents = buildPageComponents(structure);
-
-export default buildRoutes(structure, pageComponents);
+export default router(structure, register, actions);

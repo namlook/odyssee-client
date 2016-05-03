@@ -2,6 +2,8 @@ import React, { PropTypes } from 'react';
 
 import CardWidget from '../CardWidget.jsx';
 
+/* eslint-disable react/no-danger */
+
 const TextWidget = (props) => {
   const { content, ...other } = props;
 
