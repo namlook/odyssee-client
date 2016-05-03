@@ -11,7 +11,6 @@ import { createActions } from '../core';
 import { extractWidgets, extractStores, pascalCase } from '../core/utils/core';
 
 import register from '../register';
-import structure from '../config/structure';
 
 
 /** TODO add this to the CORE **/
@@ -43,10 +42,17 @@ const extractStoreActions = (struct) => (
   .reduce((acc, item) => (item ? { ...acc, [item.name]: item.actionCreator } : acc), {})
 );
 
-const widgetActions = extractWidgetActions(structure);
-const storeActions = extractStoreActions(structure);
+const extractActions = (struct) => ({
+  ...extractWidgetActions(struct),
+  ...extractStoreActions(struct),
+});
 
-export default { ...widgetActions, ...storeActions };
+// const widgetActions = extractWidgetActions(structure);
+// const storeActions = extractStoreActions(structure);
+
+
+import structure from '../config/structure';
+export default extractActions(structure);
 
 // export default {
 //   'weather-in-montpellier': createActions(weatherCheckWidgetActions),

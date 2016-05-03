@@ -1,5 +1,66 @@
 
-const color = 'red';
+const color = 'violet';
+
+// export const application = {
+//   outlet: {},
+//   participants: {
+//     path: 'participants',
+//   },
+//   contact: {
+//     path: 'contact',
+//   },
+// };
+//
+// export const scores = {
+//   outlet: {},
+//   hallOfFames: {
+//     path: 'hall-of-fames',
+//   },
+//   statistics: {
+//     path: 'statistics',
+//   },
+// };
+//
+// export const router = {
+//   application: { ...application, path: '/', index: { redirect: 'scores.index' } },
+//   scores: { ...scores, path: '/scores' },
+// };
+//
+
+// export const structure = {
+//   routes: {
+//     outlet: {
+//       page: 'application.outlet',
+//       path: '/',
+//     },
+//     index: {
+//       page: 'application.index',
+//       path: '/',
+//     },
+//     participants: {
+//       page: 'application.participants',
+//       path: 'participants',
+//     },
+//     scores: {
+//       outlet: {
+//         page: 'application.scores.outlet',
+//         path: 'scores',
+//       },
+//       index: {
+//         page: 'scores.index',
+//       },
+//       hallOfFames: {
+//         page: 'scores.hallOfFames',
+//         path: 'hall-of-fames',
+//       },
+//       statistics: {
+//         page: 'scores.statistics',
+//         path: 'statistics',
+//       },
+//     },
+//   },
+// };
+
 
 export default {
   // stores: {
@@ -30,6 +91,7 @@ export default {
   // },
   pages: {
     outlet: {
+      path: '/',
       widgets: [
         {
           layout: { mobile: 16 },
@@ -43,7 +105,11 @@ export default {
           color,
           items: [
             { label: 'Participants', route: '/participants', icon: 'users' },
-            { label: 'Scores', route: '/scores', icon: 'game' },
+            { label: 'Scores', route: '', items: [
+              { label: 'Scores', route: '/scores', icon: 'game' },
+              { label: 'Hall Of Fames', route: '/scores/hall-of-fames', icon: 'game' },
+              { label: 'Statistics', route: '/scores/statistics', icon: 'line chart' },
+            ] },
             { label: 'Statistics', route: '/scores/stats', icon: 'chart line' },
             { label: 'Contact', route: '/contact', icon: 'user' },
           ],
@@ -75,6 +141,7 @@ export default {
       ],
     },
     participants: {
+      path: 'participants',
       widgets: [
         {
           type: 'menu',
@@ -115,7 +182,51 @@ export default {
         },
       ],
     },
+    scores: {
+      outlet: {
+        path: 'scores',
+        widgets: [
+          {
+            type: 'menu',
+            title: 'Scores',
+          },
+          {
+            type: 'outlet',
+          },
+        ],
+      },
+      index: {
+        widgets: [
+          {
+            type: 'text',
+            title: 'prochainement',
+            content: '<h1>coucou</h1>',
+          },
+        ],
+      },
+      hallOfFames: {
+        path: 'hall-of-fames',
+        widgets: [
+          {
+            type: 'text',
+            title: 'prochainement',
+            content: 'le hall of fame !!!',
+          },
+        ],
+      },
+      statistics: {
+        path: 'statistics',
+        widgets: [
+          {
+            type: 'text',
+            title: 'prochainement',
+            content: 'de zolis graphe ici <3',
+          },
+        ],
+      },
+    },
     contact: {
+      path: 'contact',
       widgets: [
         {
           type: 'menu',

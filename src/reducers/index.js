@@ -50,14 +50,16 @@ const extractStoreReducers = (struct) => (
     .reduce((acc, item) => (item ? { ...acc, [item.name]: item.reducerCreator } : acc), {})
 );
 
+const extractReducers = (struct) => ({
+  ...extractWidgetReducers(struct),
+  ...extractStoreReducers(struct),
+});
+
 /** ************* **/
 
 import structure from '../config/structure';
 
-export default combineReducers({
-  ...extractWidgetReducers(structure),
-  ...extractStoreReducers(structure),
-});
+export default combineReducers(extractReducers(structure));
 
 // const rootReducer = combineReducers({
 //   // application,

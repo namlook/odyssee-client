@@ -12,9 +12,9 @@ import WidgetGrid from './components/WidgetGrid.jsx';
 import { extractPages, pascalCase } from './utils/core';
 import _ from 'lodash';
 
-export const getPageConfig = (struct, path) => {
+export const getPageConfig = (struct, id) => {
   const pages = extractPages(struct);
-  return _.find(pages, { path });
+  return _.find(pages, { id });
 };
 
 const generateWidgetComponent = (widgetConfig, pageProps, keyIndex) => {

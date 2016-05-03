@@ -8,7 +8,7 @@ const TextWidget = (props) => {
   return (
     <CardWidget _name="text" {...other}>
       <div className="ui segment">
-        {content}
+        <div dangerouslySetInnerHTML={{ __html: content }} />
       </div>
     </CardWidget>
   );
