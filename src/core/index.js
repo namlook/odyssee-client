@@ -1,6 +1,6 @@
 
 
-import buildPageComponent from './generate-page-component';
+import pageComponentFactory from './page-component-factory';
 import extractReducers from './reducer';
 import extractActions from './action';
 import buildRoutes from './route';
@@ -10,6 +10,6 @@ export {
   buildRoutes,
   extractActions,
   extractReducers,
-  buildPageComponent,
+  pageComponentFactory,
   connectComponent,
 };

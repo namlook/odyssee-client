@@ -13,7 +13,7 @@ export const getPageConfig = (struct, id) => {
   return _.find(pages, { id });
 };
 
-export default (structure, register, actions, path) => {
+export default (structure, register, actions) => (path) => {
   const generateWidgetComponent = (widgetConfig, pageProps, keyIndex) => {
     const { type, ...widgetProps } = widgetConfig;
     const widgetName = `${pascalCase(type)}Widget`;

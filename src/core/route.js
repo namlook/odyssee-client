@@ -4,7 +4,7 @@ import { unflatten } from 'flat';
 import { Route, IndexRoute } from 'react-router';
 import React from 'react';
 
-import buildPageComponent from './generate-page-component';
+import pageComponentFactory from './page-component-factory';
 
 import { extractPages } from './utils/core';
 import _ from 'lodash';
@@ -43,11 +43,12 @@ const _buildRoutes = (routeInfos, pageComponents) => {
 };
 
 
-const buildPageComponents = (structure, register, actions) => (
-  extractPages(structure).reduce((acc, page) => ({
-    ...acc, [page.id]: buildPageComponent(structure, register, actions, page.id),
-  }), {})
-);
+const buildPageComponents = (structure, register, actions) => {
+  const pageComponent = pageComponentFactory(structure, register, actions);
+  return extractPages(structure).reduce((acc, page) => ({
+    ...acc, [page.id]: pageComponent(page.id),
+  }), {});
+};
 
 export default (structure, register, actions) => {
   const pageComponents = buildPageComponents(structure, register, actions);
