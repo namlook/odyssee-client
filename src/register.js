@@ -3,13 +3,15 @@ import * as OrderedCollectionStore from './businessLogic/OrderedCollectionStore'
 import * as CollectionStore from './businessLogic/CollectionStore';
 import * as RecordStore from './businessLogic/RecordStore';
 
-import * as NewRecordWidget from './businessLogic/NewRecordWidget';
-import * as ScoreFormWidget from './businessLogic/ScoreFormWidget';
+import * as RecordFormWidget from './businessLogic/RecordFormWidget';
 import * as FormSubmitWidget from './businessLogic/FormSubmitWidget';
+import * as CollectionListWidget from './businessLogic/CollectionListWidget';
+
+
+import * as NewRecordWidget from './businessLogic/NewRecordWidget';
 import * as ParticipantsEditWidget from './businessLogic/ParticipantsEditWidget';
 import * as WeatherCheckWidget from './businessLogic/WeatherCheckWidget';
 import * as AreWeOpenWidget from './businessLogic/AreWeOpenWidget';
-import * as CollectionListWidget from './businessLogic/CollectionListWidget';
 
 import Outlet from './core/components/Outlet.jsx';
 import TextWidget from './core/components/widgets/TextWidget.jsx';
@@ -29,7 +31,7 @@ export default {
   },
   widgets: {
     NewRecordWidget,
-    ScoreFormWidget,
+    RecordFormWidget,
     FormSubmitWidget,
     ParticipantsEditWidget,
     WeatherCheckWidget,

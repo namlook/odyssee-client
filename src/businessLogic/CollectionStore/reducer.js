@@ -1,7 +1,7 @@
 
 import { ADD_RECORD, UPDATE_RECORD, DELETE_RECORD } from './constants';
 import { Map as iMap, List as iList, Record as iRecord } from 'immutable';
-const generateUniqID = () => `${Math.random() * Math.pow(10, 16)}-${Date.now()}`;
+const generateUniqID = () => `${Math.random() * Math.pow(10, 20)}-${Date.now()}`;
 
 export default (config) => {
   const initialState = iMap({

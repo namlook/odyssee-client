@@ -23,7 +23,7 @@ FormField.propTypes = {
   name: PropTypes.string.isRequired,
   className: PropTypes.string,
   type: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.node.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 

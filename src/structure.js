@@ -76,12 +76,20 @@ export default {
       },
     },
     {
+      type: 'record',
+      name: 'participant-form-store',
+      schema: {
+        name: 'string',
+        position: 'number',
+      },
+    },
+    {
       type: 'collection',
       name: 'scores-store',
       recordSchema: {
         _id: '',
         participant: '',
-        lap: '',
+        at: '',
         score: '',
       },
     },
@@ -89,9 +97,9 @@ export default {
       type: 'record',
       name: 'score-form-store',
       schema: {
-        participant: '',
-        lap: '',
-        score: '',
+        participant: 'string',
+        at: 'number',
+        score: 'string',
       },
     },
     // {
@@ -172,17 +180,20 @@ export default {
           title: 'participants',
         },
         {
-          type: 'new-record',
+          type: 'record-form',
           title: 'add participants',
-          name: 'add-participant',
-          recordSchema: {
-            name: '',
-            position: '',
-          },
+          name: 'participant-form',
+          fields: [
+            { name: 'name', type: 'text' },
+            { name: 'position', type: 'number' },
+          ],
+          displaySubmitButtons: true,
           link: {
-            collection: { to: 'records', from: 'participants-store' },
+            record: 'participant-form-store',
           },
           on: {
+            change: { dispatch: 'updateProperty', on: 'participant-form-store' },
+            clear: { dispatch: 'clear', on: 'participant-form-store' },
             save: { dispatch: 'addRecord', on: 'participants-store' },
           },
         },
@@ -226,11 +237,11 @@ export default {
       index: {
         widgets: [
           {
-            type: 'score-form',
+            type: 'record-form',
             fields: [
               { name: 'participant', type: 'text' },
               { name: 'score', type: 'number' },
-              { name: 'lap', label: 'tour', type: 'number' },
+              { name: 'at', label: 'tour', type: 'number' },
             ],
             displaySubmitButtons: true,
             link: {
@@ -246,7 +257,10 @@ export default {
             type: 'collection-list',
             name: 'scores-list',
             title: 'Les scores',
-            properties: ['participant', 'score', 'lap'],
+            color: 'teal',
+            icon: 'users',
+            subtitle: 'Que le meilleur gagne',
+            properties: ['participant', 'score', 'at'],
             link: {
               collection: { to: 'records', from: 'scores-store' },
             },
@@ -300,13 +314,20 @@ export default {
           },
         },
         {
-          type: 'new-record',
+          type: 'record-form',
           title: 'add participants',
-          name: 'add-participant',
+          name: 'participant-form',
+          fields: [
+            { name: 'name', type: 'text' },
+            { name: 'position', type: 'number' },
+          ],
+          displaySubmitButtons: true,
           link: {
-            collection: { to: 'records', from: 'participants-store' },
+            record: 'participant-form-store',
           },
           on: {
+            change: { dispatch: 'updateProperty', on: 'participant-form-store' },
+            clear: { dispatch: 'clear', on: 'participant-form-store' },
             save: { dispatch: 'addRecord', on: 'participants-store' },
           },
         },
@@ -314,6 +335,7 @@ export default {
           type: 'collection-list',
           name: 'participants-list',
           title: 'here are the participants',
+          properties: ['name'],
           link: {
             collection: { to: 'records', from: 'participants-store' },
           },
