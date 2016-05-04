@@ -4,7 +4,7 @@ import Widget from './Widget.jsx';
 import HeaderUI from './ui/HeaderUI.jsx';
 
 const CardWidget = (props) => {
-  const { title, icon, subtitle, ...other } = props;
+  const { title, icon, subtitle, color, ...other } = props;
 
   const borderStyle = title ? { border: 0 } : {};
   const header = !title ? null : (
@@ -12,6 +12,7 @@ const CardWidget = (props) => {
       title={title}
       icon={icon}
       subtitle={subtitle}
+      color={color}
       className="block top attached" />
   );
 
