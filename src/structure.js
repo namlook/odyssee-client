@@ -70,19 +70,28 @@ export default {
       type: 'ordered-collection',
       name: 'participants-store',
       recordSchema: {
-        _id: null,
-        name: null,
-        position: null,
+        _id: '',
+        name: '',
+        position: '',
       },
     },
     {
       type: 'collection',
       name: 'scores-store',
       recordSchema: {
-        _id: null,
-        participantId: null,
-        lap: null,
-        score: null,
+        _id: '',
+        participant: '',
+        lap: '',
+        score: '',
+      },
+    },
+    {
+      type: 'record',
+      name: 'score-form-store',
+      schema: {
+        participant: '',
+        lap: '',
+        score: '',
       },
     },
     // {
@@ -166,6 +175,10 @@ export default {
           type: 'new-record',
           title: 'add participants',
           name: 'add-participant',
+          recordSchema: {
+            name: '',
+            position: '',
+          },
           link: {
             collection: { to: 'records', from: 'participants-store' },
           },
@@ -213,9 +226,27 @@ export default {
       index: {
         widgets: [
           {
+            type: 'score-form',
+            fields: [
+              { name: 'participant', type: 'text' },
+              { name: 'score', type: 'number' },
+              { name: 'lap', label: 'tour', type: 'number' },
+            ],
+            displaySubmitButtons: true,
+            link: {
+              record: 'score-form-store',
+            },
+            on: {
+              change: { dispatch: 'updateProperty', on: 'score-form-store' },
+              clear: { dispatch: 'clear', on: 'score-form-store' },
+              save: { dispatch: 'addRecord', on: 'scores-store' },
+            },
+          },
+          {
             type: 'collection-list',
             name: 'scores-list',
             title: 'Les scores',
+            properties: ['participant', 'score', 'lap'],
             link: {
               collection: { to: 'records', from: 'scores-store' },
             },

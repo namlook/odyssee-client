@@ -1,5 +1,4 @@
 
-
 import pageComponentFactory from './page-component-factory';
 import extractReducers from './reducer';
 import extractActions from './action';

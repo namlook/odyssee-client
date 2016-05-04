@@ -1,8 +1,11 @@
 
 import * as OrderedCollectionStore from './businessLogic/OrderedCollectionStore';
 import * as CollectionStore from './businessLogic/CollectionStore';
+import * as RecordStore from './businessLogic/RecordStore';
 
 import * as NewRecordWidget from './businessLogic/NewRecordWidget';
+import * as ScoreFormWidget from './businessLogic/ScoreFormWidget';
+import * as FormSubmitWidget from './businessLogic/FormSubmitWidget';
 import * as ParticipantsEditWidget from './businessLogic/ParticipantsEditWidget';
 import * as WeatherCheckWidget from './businessLogic/WeatherCheckWidget';
 import * as AreWeOpenWidget from './businessLogic/AreWeOpenWidget';
@@ -22,9 +25,12 @@ export default {
   stores: {
     OrderedCollectionStore,
     CollectionStore,
+    RecordStore,
   },
   widgets: {
     NewRecordWidget,
+    ScoreFormWidget,
+    FormSubmitWidget,
     ParticipantsEditWidget,
     WeatherCheckWidget,
     AreWeOpenWidget,

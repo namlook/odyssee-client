@@ -25,7 +25,7 @@ const extractWidgetReducers = (structure, register) => (
       }
       const reducer = register.widgets[widgetName].reducer;
       return reducer
-        ? { name: widget.name, reducerCreator: createReducer(widget.name)(reducer) }
+        ? { name: widget.name, reducerCreator: createReducer(widget.name, widget)(reducer) }
         : null;
     })
     .reduce((acc, item) => (item ? { ...acc, [item.name]: item.reducerCreator } : acc), {})

@@ -3,8 +3,12 @@ import React, { PropTypes } from 'react';
 import CardWidget from '../../core/components/CardWidget.jsx';
 
 const CollectionListWidget = (props) => {
-  const { storeState, link } = props;
+  const { storeState, link, properties } = props;
   const records = storeState[link.collection.from].get(link.collection.to);
+
+  const displayRecord = (record) => (
+    properties.map((property) => <p key={property}>{record[property]}</p>)
+  );
 
   return (
     <CardWidget
@@ -13,8 +17,8 @@ const CollectionListWidget = (props) => {
     >
       <div className="ui segment">
         <ul>
-          {records.map(({ _id, name }) => (
-            <li key={_id}>{name}</li>
+          {records.map((record) => (
+            <li key={record._id}> {displayRecord(record)} </li>
           ))}
         </ul>
       </div>
@@ -24,6 +28,7 @@ const CollectionListWidget = (props) => {
 
 CollectionListWidget.propTypes = {
   name: PropTypes.string.isRequired,
+  properties: PropTypes.array.isRequired,
   storeState: PropTypes.object.isRequired,
   link: PropTypes.object.isRequired,
 };

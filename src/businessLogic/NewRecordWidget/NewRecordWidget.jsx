@@ -11,8 +11,7 @@ const NewRecordWidget = (props) => {
   const onSave = storeActions[on.save.on][on.save.dispatch];
 
   const triggerSave = () => {
-    const _id = ownState.value.split(' ').join('');
-    onSave(_id, { name: ownState.value, position: records.count() });
+    onSave({ name: ownState.value, position: records.count() });
     ownActions.clearForm();
   };
 
