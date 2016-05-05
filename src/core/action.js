@@ -24,6 +24,7 @@ const extractWidgetActions = (structure, register) => (
         throw new Error(`unregistered widget ${widgetName}`);
       }
       const actions = register.widgets[widgetName].actions;
+      console.log('**', actions);
       return actions ? { name: widget.name, actionCreator: createActions(actions) } : null;
     })
     .reduce((acc, item) => (item ? { ...acc, [item.name]: item.actionCreator } : acc), {})

@@ -237,18 +237,19 @@ export default {
       },
       index: {
         widgets: [
-          {
-            type: 'score-collection-navbar',
-            link: {
-              collectionStore: { to: 'records', from: 'scores-store' },
-              recordStore: { from: 'score-form-store' },
-            },
-            on: {
-              change: { dispatch: 'update', on: 'score-form-store' },
-            },
-          },
+          // {
+          //   type: 'score-collection-navbar',
+          //   link: {
+          //     collectionStore: { to: 'records', from: 'scores-store' },
+          //     recordStore: { from: 'score-form-store' },
+          //   },
+          //   on: {
+          //     change: { dispatch: 'update', on: 'score-form-store' },
+          //   },
+          // },
           {
             type: 'score-form',
+            name: 'score-form',
             fields: [
               { name: 'participant', type: 'text' },
               { name: 'score', type: 'number' },
@@ -256,13 +257,16 @@ export default {
             ],
             displaySubmitButtons: true,
             link: {
-              record: 'score-form-store',
+              // record: 'score-form-store',
+              collection: 'scores-store',
+              collectionStore: { from: 'scores-store' },
+              // recordStore: { from: 'score-form-store' },
             },
-            on: {
-              change: { dispatch: 'updateProperty', on: 'score-form-store' },
-              clear: { dispatch: 'clear', on: 'score-form-store' },
-              save: { dispatch: 'addRecord', on: 'scores-store' },
-            },
+            // on: {
+            //   change: { dispatch: 'update', on: 'score-form-store' },
+            //   clear: { dispatch: 'clear', on: 'score-form-store' },
+            //   save: { dispatch: 'addRecord', on: 'scores-store' },
+            // },
           },
           {
             type: 'collection-list',

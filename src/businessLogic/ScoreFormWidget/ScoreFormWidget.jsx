@@ -1,13 +1,52 @@
 import React, { PropTypes } from 'react';
 
 import Widget from '../../core/components/Widget.jsx';
-// import ScoreCollectionNavbarWidget from '../ScoreCollectionNavbarWidget';
+
+import FormField from '../../core/components/contrib/FormField.jsx';
+import { routePropTypes } from '../../core/utils/prop-types';
+import { browserHistory } from 'react-router';
+
 
 const ScoreFormWidget = (props) => {
-  const { storeState, storeActions, on, link } = props;
-  const record = storeState[link.record];
+  const { storeState, storeActions, name, link, params, ...other } = props;
 
-  const onChange = storeActions[on.change.on][on.change.dispatch];
+  const recordStoreName = link.record || name;
+  // stores
+  const record = storeState[recordStoreName];
+  const collection = storeState[link.collection].get('records');
+
+  // Actions
+  const onChange = storeActions[recordStoreName].update;
+  const onSave = storeActions[link.collection].addRecord;
+  const onClear = storeActions[recordStoreName].clear;
+
+  // variables
+  const sortedCollection = collection.sort((p, n) => p.at > n.at);
+  const currentRecord = collection.find((r) => r._id === params.id) || {};
+  const currentIndex = sortedCollection.indexOf(currentRecord);
+
+  // Inner actions
+  const toPreviousRecord = () => {
+    const previousIndex = currentIndex - 1 >= 0 ? currentIndex - 1 : currentIndex;
+    const previousRecord = sortedCollection.get(previousIndex);
+    browserHistory.push(`/scores/${previousRecord._id}`);
+    onChange(previousRecord);
+  };
+
+  const toNextRecord = () => {
+    if (currentIndex + 1 < collection.count()) {
+      const nextIndex = currentIndex + 1;
+      const nextRecord = sortedCollection.get(nextIndex);
+      browserHistory.push(`/scores/${nextRecord._id}`);
+      onChange(nextRecord);
+    } else {
+      browserHistory.push(`/scores/new`);
+      onClear();
+    }
+  };
+
+  const updateParticipant = (propertyName, participantName) =>
+    onChange(record.set('participant', participantName));
 
   const changeScore = (operation, value) => () => {
     const score = record.score || 0;
@@ -23,19 +62,33 @@ const ScoreFormWidget = (props) => {
     } else if (operation === '=') {
       newScore = value;
     }
-    onChange('score', newScore);
+    onChange(record.set('score', newScore));
   };
-
-  const displayScore = record.score < 0 ? record.score * -1 : record.score || 0;
-
-  const onSave = storeActions[on.save.on][on.save.dispatch];
-  const onClear = storeActions[on.clear.on][on.clear.dispatch];
 
   const triggerSave = () => {
     onSave(record);
+    browserHistory.push(`/scores/new`);
     onClear();
   };
 
+  // partials
+  const header = currentRecord.participant ? currentRecord.participant : (
+    <div className="ui form">
+      <FormField name="participant" value={record.participant} onChange={updateParticipant} />
+    </div>
+  );
+
+  const displayScore = record.score < 0 ? record.score * -1 : record.score || 0;
+  const saveButton = !record._id ? (
+    <button className="ui item button" onClick={triggerSave}>save</button>
+  ) : (
+    <button className="ui item button" onClick={toNextRecord}>
+      <i className="ui arrow right icon"></i>
+    </button>
+  );
+
+
+  // styles
   const buttonStyle = { fontSize: '2rem' };
   const minusButtonStyle = {
     fontSize: '9rem',
@@ -48,8 +101,17 @@ const ScoreFormWidget = (props) => {
   return (
     <Widget
       _name="new-record"
-      {...props}
+      {...other}
     >
+      <div className="ui three item menu">
+        <button className="ui item button" onClick={toPreviousRecord}>
+          <i className="ui arrow left icon"></i>
+        </button>
+        <div className="item">
+          {header}
+        </div>
+        {saveButton}
+      </div>
       <div className="ui form basic segment">
         <div className="field">
           <div className="ui center aligned container">
@@ -65,7 +127,7 @@ const ScoreFormWidget = (props) => {
               </div>
               {displayScore}
             </h1>
-            <button className="ui basic button" onClick={changeScore('=', 0)}>{'reset'}</button>
+            <button className="ui basic button" onClick={() => onClear()}>{'reset'}</button>
             <div>
               <div className="ui buttons">
                 <button
@@ -132,15 +194,14 @@ const ScoreFormWidget = (props) => {
           </div>
         </div>
       </div>
-      <div className="ui right aligned basic segment">
-        <button className="ui basic teal button" onClick={triggerSave}>save</button>
-      </div>
     </Widget>
   );
 };
 
 ScoreFormWidget.propTypes = {
-  on: PropTypes.object.isRequired,
+  ...routePropTypes,
+  name: PropTypes.string.isRequired,
+  // on: PropTypes.object.isRequired,
   link: PropTypes.object.isRequired,
   storeState: PropTypes.object.isRequired,
   storeActions: PropTypes.object.isRequired,

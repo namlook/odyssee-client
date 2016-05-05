@@ -9,7 +9,7 @@ import * as CollectionListWidget from './businessLogic/CollectionListWidget';
 
 
 import * as ScoreFormWidget from './businessLogic/ScoreFormWidget';
-import * as ScoreCollectionNavbarWidget from './businessLogic/ScoreCollectionNavbarWidget';
+// import * as ScoreCollectionNavbarWidget from './businessLogic/ScoreCollectionNavbarWidget';
 import * as NewRecordWidget from './businessLogic/NewRecordWidget';
 import * as ParticipantsEditWidget from './businessLogic/ParticipantsEditWidget';
 import * as WeatherCheckWidget from './businessLogic/WeatherCheckWidget';
@@ -35,7 +35,7 @@ export default {
     RecordFormWidget,
 
     ScoreFormWidget,
-    ScoreCollectionNavbarWidget,
+    // ScoreCollectionNavbarWidget,
     NewRecordWidget,
     FormSubmitWidget,
     ParticipantsEditWidget,
