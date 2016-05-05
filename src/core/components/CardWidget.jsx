@@ -3,6 +3,8 @@ import React, { PropTypes } from 'react';
 import Widget from './Widget.jsx';
 import HeaderUI from './ui/HeaderUI.jsx';
 
+import { routePropTypes } from '../../core/utils/prop-types';
+
 const CardWidget = (props) => {
   const { title, icon, subtitle, color, ...other } = props;
 
@@ -39,12 +41,15 @@ const CardWidget = (props) => {
 };
 
 CardWidget.propTypes = {
+  ...routePropTypes,
+
   layout: PropTypes.object,
   _name: PropTypes.string,
   className: PropTypes.string,
   title: PropTypes.string,
   subtitle: PropTypes.string,
   icon: PropTypes.string,
+  color: PropTypes.string,
   style: PropTypes.object,
   children: PropTypes.node,
 };

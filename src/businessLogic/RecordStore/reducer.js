@@ -1,5 +1,5 @@
 
-import { CLEAR, UPDATE_PROPERTY } from './constants';
+import { CLEAR, UPDATE, UPDATE_PROPERTY } from './constants';
 import { Record as iRecord } from 'immutable';
 
 const castValue = (schema, property, value) => {
@@ -17,6 +17,7 @@ export default (config) => {
 
   const actions = {
     [CLEAR]: () => initialState,
+    [UPDATE]: (state, { record }) => new ScoreRecord(record),
     [UPDATE_PROPERTY]: (state, { property, value }) => {
       const castedValue = castValue(config.schema, property, value);
       return state.set(property, castedValue);

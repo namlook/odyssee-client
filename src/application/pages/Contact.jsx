@@ -65,5 +65,5 @@
 //
 // export default connectPage(actions)(ApplicationContactPage);
 //
-import generatePageComponent from '../../core/generate-page-component';
-export default generatePageComponent('application.contact');
+// import generatePageComponent from '../../core/generate-page-component';
+// export default generatePageComponent('application.contact');

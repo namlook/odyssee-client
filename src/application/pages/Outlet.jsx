@@ -43,6 +43,6 @@
 //
 // export default App;
 
-import generatePageComponent from '../../core/generate-page-component';
+// import generatePageComponent from '../../core/generate-page-component';
 // import { generatePageComponent } from '../../core';
-export default generatePageComponent('application.outlet');
+// export default generatePageComponent('application.outlet');

@@ -28,7 +28,7 @@ FormField.propTypes = {
 };
 
 
-const NewScoreWidget = (props) => {
+const RecordFormWidget = (props) => {
   const { storeState, storeActions, on, link, fields, displaySubmitButtons } = props;
   const record = storeState[link.record];
 
@@ -79,7 +79,7 @@ const NewScoreWidget = (props) => {
   );
 };
 
-NewScoreWidget.propTypes = {
+RecordFormWidget.propTypes = {
   on: PropTypes.object.isRequired,
   link: PropTypes.object.isRequired,
   storeState: PropTypes.object.isRequired,
@@ -88,4 +88,4 @@ NewScoreWidget.propTypes = {
   displaySubmitButtons: PropTypes.bool,
 };
 
-export default NewScoreWidget;
+export default RecordFormWidget;

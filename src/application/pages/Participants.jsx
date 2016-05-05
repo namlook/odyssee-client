@@ -65,6 +65,6 @@
 // export default ParticipantsPage;
 // export default connectPage(actions)(ParticipantsPage);
 
-import generatePageComponent from '../../core/generate-page-component';
+// import generatePageComponent from '../../core/generate-page-component';
 // import { generatePageComponent } from '../../core';
-export default generatePageComponent('application.participants');
+// export default generatePageComponent('application.participants');

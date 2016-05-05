@@ -1,17 +1,15 @@
 import React, { PropTypes } from 'react';
 
+import { routePropTypes } from '../../core/utils/prop-types';
 
-const WidgetGrid = (props) => {
-  const className = `${props.className || ''} ui grid`;
-
-  return (
-    <div className={className}>
-      {props.children}
-    </div>
-  );
-};
+const WidgetGrid = ({ className, children, ...other }) => (
+  <div className={`ui ${className || ''} grid`} {...other}>
+    {children}
+  </div>
+);
 
 WidgetGrid.propTypes = {
+  ...routePropTypes,
   className: PropTypes.string,
   children: PropTypes.node,
 };

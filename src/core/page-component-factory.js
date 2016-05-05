@@ -73,7 +73,7 @@ export default (structure, register, actions) => (path) => {
   const { config, name } = getPageConfig(structure, path);
   const PageComponent = (props) => (
     !(config.widgets && config.widgets.length) ? null : (
-      <WidgetGrid>
+      <WidgetGrid {...props}>
         {config.widgets.map((widget, keyIdx) => generateWidgetComponent(widget, props, keyIdx))}
       </WidgetGrid>
     )

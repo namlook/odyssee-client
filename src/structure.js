@@ -97,6 +97,7 @@ export default {
       type: 'record',
       name: 'score-form-store',
       schema: {
+        _id: 'string',
         participant: 'string',
         at: 'number',
         score: 'string',
@@ -223,7 +224,7 @@ export default {
     },
     scores: {
       outlet: {
-        path: 'scores',
+        path: 'scores(/:id)',
         widgets: [
           {
             type: 'menu',
@@ -237,7 +238,17 @@ export default {
       index: {
         widgets: [
           {
-            type: 'record-form',
+            type: 'score-collection-navbar',
+            link: {
+              collectionStore: { to: 'records', from: 'scores-store' },
+              recordStore: { from: 'score-form-store' },
+            },
+            on: {
+              change: { dispatch: 'update', on: 'score-form-store' },
+            },
+          },
+          {
+            type: 'score-form',
             fields: [
               { name: 'participant', type: 'text' },
               { name: 'score', type: 'number' },

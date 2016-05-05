@@ -1,16 +1,16 @@
 import React, { PropTypes } from 'react';
 
 import Widget from './Widget.jsx';
+import { routePropTypes } from '../../core/utils/prop-types';
 
-const Outlet = (props) => (
-  <Widget _name="outlet" className={props.className || ''} layout={props.layout}>
-    {props.children}
+const Outlet = ({ children, ...other }) => (
+  <Widget _name="outlet" {...other}>
+    {children}
   </Widget>
 );
 
 Outlet.propTypes = {
-  className: PropTypes.string,
-  layout: PropTypes.object,
+  ...routePropTypes,
   children: PropTypes.node,
 };
 

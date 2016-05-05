@@ -15,9 +15,16 @@ export default (config) => {
   const actions = {
     [ADD_RECORD]: (state, { record }) => state.update(
       'records', (records) => {
-        const _id = record._id || generateUniqID();
-        if (records.find((rec) => rec._id === _id)) return records;
-        return records.push(createRecord(_id, record));
+        // add
+        if (!record._id) {
+          const _id = generateUniqID();
+          if (records.find((rec) => rec._id === _id)) return records;
+          const recordWithId = record.set('_id', _id);
+          return records.push(createRecord(_id, recordWithId));
+        }
+        // edit
+        const newRecords = records.filter((entry) => entry.get('_id') !== record._id);
+        return newRecords.push(createRecord(record._id, record));
       }
     ),
 

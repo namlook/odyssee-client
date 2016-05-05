@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import _ from 'lodash';
 
+import { routePropTypes } from '../../core/utils/prop-types';
+
 import { number2semanticClassName } from '../utils/semantic-ui';
 
 const layout2semanticClassNames = ({ mobile, tablet, computer }) => {
@@ -36,20 +38,22 @@ const layout2semanticClassNames = ({ mobile, tablet, computer }) => {
 };
 
 const Widget = (props) => {
-  const layout = props.layout || { mobile: 16 };
-  const _className = props.overwriteClassName
-    ? props.className
-    : `${layout2semanticClassNames(layout)} ${props.className || ''}`;
-  const className = `${_className} ${props._name}-ods-widget`;
+  const { layout, overwriteClassName, className, _name, style, children, ...other } = props;
+  const _layout = layout || { mobile: 16 };
+  const _className = overwriteClassName
+    ? className
+    : `${layout2semanticClassNames(_layout)} ${className || ''}`;
+  const componentClassName = `${_className} ${_name}-ods-widget`;
 
   return (
-    <div style={props.style} className={className}>
-      {props.children}
+    <div style={style} className={componentClassName} {...other}>
+      {children}
     </div>
   );
 };
 
 Widget.propTypes = {
+  ...routePropTypes,
   className: React.PropTypes.string,
   _name: React.PropTypes.string,
   overwriteClassName: React.PropTypes.bool,
