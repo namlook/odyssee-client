@@ -8,8 +8,10 @@ const _extractPages = (struct, id = 'application') => (
   _(struct)
     .keys(struct)
     .flatMap((pageName) => {
+      if (pageName[0] === '_') return []; // skip pages which begins with '_'
+
       const newId = `${id}.${pageName}`;
-      if (!struct[pageName].widgets) {
+      if (!struct[pageName].widgets && !struct[pageName].redirect) {
         return _extractPages(struct[pageName], newId);
       }
       return { id: newId, name: pageName, config: struct[pageName] };
@@ -22,7 +24,7 @@ export const extractPages = (struct) => _extractPages(struct.pages);
 
 export const extractWidgets = (struct) => (
   _(extractPages(struct))
-    .flatMap((pageConfig) => pageConfig.config.widgets)
+    .flatMap((pageConfig) => pageConfig.config.widgets || [])
     .value()
 );
 

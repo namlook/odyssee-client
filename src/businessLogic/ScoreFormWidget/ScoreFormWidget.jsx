@@ -12,7 +12,7 @@ const ScoreFormWidget = (props) => {
 
   const recordStoreName = link.record || name;
   // stores
-  const record = storeState[recordStoreName];
+  const _record = storeState[recordStoreName];
   const collection = storeState[link.collection].get('records');
 
   // Actions
@@ -21,6 +21,7 @@ const ScoreFormWidget = (props) => {
   const onClear = storeActions[recordStoreName].clear;
 
   // variables
+  const record = _record.set('score', _record.score || 0);
   const sortedCollection = collection.sort((p, n) => p.at > n.at);
   const currentRecord = collection.find((r) => r._id === params.id) || {};
   const currentIndex = sortedCollection.indexOf(currentRecord);
@@ -66,9 +67,10 @@ const ScoreFormWidget = (props) => {
   };
 
   const triggerSave = () => {
-    onSave(record);
-    browserHistory.push(`/scores/new`);
-    onClear();
+    if (record.participant) {
+      onSave(record);
+      onClear();
+    }
   };
 
   // partials

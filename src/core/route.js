@@ -1,7 +1,7 @@
 
 
 import { unflatten } from 'flat';
-import { Route, IndexRoute } from 'react-router';
+import { Route, IndexRoute, IndexRedirect } from 'react-router';
 import React from 'react';
 
 import pageComponentFactory from './page-component-factory';
@@ -30,6 +30,10 @@ const _buildRoutes = (routeInfos, pageComponents) => {
       );
     }
 
+    if (routeName === 'index' && routeConfig.redirect) {
+      return <IndexRedirect key={routeConfig.id} to={routeConfig.redirect} />;
+    }
+
     const pageComponent = pageComponents[routeConfig.id];
     const TheRoute = routeName === 'index' ? IndexRoute : Route;
     return (
@@ -55,7 +59,7 @@ export default (structure, register, actions) => {
 
   const routesInfos = unflatten(
     extractPages(structure).reduce((acc, { id, config }) => (
-      { ...acc, [id]: { id, path: config.path } }
+      { ...acc, [id]: { id, path: config.path, redirect: config.redirect } }
     ), {})
   );
   return _buildRoutes(routesInfos, pageComponents);

@@ -139,8 +139,8 @@ export default {
           items: [
             { label: 'Participants', route: '/participants', icon: 'users' },
             { label: 'Scores', route: '', items: [
-              { label: 'Scores', route: '/scores', icon: 'game' },
-              { label: 'Hall Of Fames', route: '/scores/hall-of-fames', icon: 'game' },
+              { label: 'Saisie', route: '/scores', icon: 'game' },
+              { label: 'Hall Of Fames', route: '/scores/hall-of-fames', icon: 'trophy' },
               { label: 'Statistics', route: '/scores/statistics', icon: 'line chart' },
             ] },
             { label: 'Statistics', route: '/scores/stats', icon: 'chart line' },
@@ -173,7 +173,7 @@ export default {
         },
       ],
     },
-    participants: {
+    _participants: {
       path: 'participants',
       widgets: [
         {
@@ -224,7 +224,7 @@ export default {
     },
     scores: {
       outlet: {
-        path: 'scores(/:id)',
+        path: 'scores',
         widgets: [
           {
             type: 'menu',
@@ -236,6 +236,10 @@ export default {
         ],
       },
       index: {
+        redirect: '/scores/new',
+      },
+      edit: {
+        path: ':id',
         widgets: [
           // {
           //   type: 'score-collection-navbar',
@@ -303,7 +307,7 @@ export default {
         ],
       },
     },
-    contact: {
+    _contact: {
       path: 'contact',
       widgets: [
         {
