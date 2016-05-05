@@ -79,6 +79,7 @@ export default {
       type: 'record',
       name: 'participant-form-store',
       schema: {
+        _id: 'string',
         name: 'string',
         position: 'number',
       },
@@ -173,20 +174,15 @@ export default {
         },
       ],
     },
-    _participants: {
+    participants: {
       path: 'participants',
       widgets: [
-        {
-          type: 'menu',
-          title: 'participants',
-        },
         {
           type: 'record-form',
           title: 'add participants',
           name: 'participant-form',
           fields: [
-            { name: 'name', type: 'text' },
-            { name: 'position', type: 'number' },
+            { name: 'name', type: 'text', label: 'name' },
           ],
           displaySubmitButtons: true,
           link: {
@@ -197,13 +193,6 @@ export default {
             clear: { dispatch: 'clear', on: 'participant-form-store' },
             save: { dispatch: 'addRecord', on: 'participants-store' },
           },
-        },
-        {
-          type: 'header',
-          title: 'booh',
-          icon: 'smile',
-          color: 'teal',
-          subtitle: 'ahaha',
         },
         {
           type: 'participants-edit',
@@ -226,10 +215,6 @@ export default {
       outlet: {
         path: 'scores',
         widgets: [
-          {
-            type: 'menu',
-            title: 'Scores',
-          },
           {
             type: 'outlet',
           },
@@ -262,8 +247,10 @@ export default {
             displaySubmitButtons: true,
             link: {
               // record: 'score-form-store',
-              collection: 'scores-store',
-              collectionStore: { from: 'scores-store' },
+              scoresCollection: 'scores-store',
+              participantsCollection: 'participants-store',
+              _: { from: 'scores-store' },
+              _2: { from: 'participants-store' },
               // recordStore: { from: 'score-form-store' },
             },
             // on: {
@@ -276,6 +263,7 @@ export default {
             type: 'collection-list',
             name: 'scores-list',
             title: 'Les scores',
+            unstackable: true,
             color: 'teal',
             icon: 'users',
             subtitle: 'Que le meilleur gagne',

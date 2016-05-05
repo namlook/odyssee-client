@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 import CardWidget from '../../core/components/CardWidget.jsx';
 
 const CollectionListWidget = (props) => {
-  const { storeState, link, properties } = props;
+  const { storeState, link, properties, unstackable } = props;
   const records = storeState[link.collection.from].get(link.collection.to);
 
   const displayRecord = (record) => (
@@ -11,7 +11,10 @@ const CollectionListWidget = (props) => {
   );
 
   const table = records.count() ? (
-    <table style={{ border: 0 }} className={`ui striped table`}>
+    <table
+      style={{ border: 0 }}
+      className={`ui ${unstackable && 'unstackable' || ''} striped table`}
+    >
       <thead>
         <tr> {properties.map((name) => <th key={name}> {name} </th>)} </tr>
       </thead>
@@ -35,6 +38,7 @@ const CollectionListWidget = (props) => {
 CollectionListWidget.propTypes = {
   name: PropTypes.string.isRequired,
   color: PropTypes.string,
+  unstackable: PropTypes.bool,
   properties: PropTypes.array.isRequired,
   storeState: PropTypes.object.isRequired,
   link: PropTypes.object.isRequired,

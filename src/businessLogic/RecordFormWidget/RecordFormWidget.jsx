@@ -9,21 +9,20 @@ const RecordFormWidget = (props) => {
 
   const onChange = storeActions[on.change.on][on.change.dispatch];
 
+  const onSave = storeActions[on.save.on][on.save.dispatch];
+  const onClear = storeActions[on.clear.on][on.clear.dispatch];
+
+  const triggerSave = (e) => {
+    e.preventDefault();
+    onSave(record);
+    onClear();
+  };
+
   let submitButtons;
   if (displaySubmitButtons) {
-    const onSave = storeActions[on.save.on][on.save.dispatch];
-    const onClear = storeActions[on.clear.on][on.clear.dispatch];
-
-    const triggerSave = () => {
-      onSave(record);
-      onClear();
-    };
-
     submitButtons = (
       <div>
-        <button className="ui primary button" onClick={triggerSave}>
-          save
-        </button>
+        <input value="save" type="submit" className="ui primary button" onClick={triggerSave} />
         <button className="ui basic red button" onClick={() => onClear()}>
           clear
         </button>
@@ -36,7 +35,7 @@ const RecordFormWidget = (props) => {
       _name="new-record"
       {...props}
     >
-      <div className="ui form segment">
+      <form className="ui form segment" onSubmit={triggerSave}>
         <div className="three fields">
           {fields.map((field) => (
             <FormField
@@ -49,7 +48,7 @@ const RecordFormWidget = (props) => {
           ))}
         </div>
         {submitButtons}
-      </div>
+      </form>
     </CardWidget>
   );
 };

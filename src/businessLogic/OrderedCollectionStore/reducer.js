@@ -1,5 +1,6 @@
 
 import { MOVE_UP, MOVE_DOWN } from './constants';
+import { ADD_RECORD } from '../CollectionStore/constants';
 import collectionStoreReducer from '../CollectionStore/reducer';
 
 export default (config) => {
@@ -24,6 +25,10 @@ export default (config) => {
 
   const actions = {
     ...collectionStore.actions,
+    [ADD_RECORD]: (state, { record }) => {
+      const positionedRecord = record.set('position', state.get('records').count());
+      return collectionStore.actions[ADD_RECORD](state, { record: positionedRecord });
+    },
     [MOVE_UP]: (state, { _id }) => state.update(
       'records', (records) => moveRecord(records, _id, 1)
     ),
