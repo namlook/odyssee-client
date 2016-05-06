@@ -54,7 +54,10 @@ export default (structure, register, actions) => (path) => {
       const actionStores = Object.keys(widgetProps.on || {})
         .map((actionName) => widgetProps.on[actionName].on);
       const linkedStores = Object.keys(widgetProps.link || {})
-        .map((linkName) => widgetProps.link[linkName].from);
+        .map((linkName) => {
+          const conf = widgetProps.link[linkName];
+          return typeof conf === 'object' ? conf.from : conf;
+        });
       const storesToConnect = [widgetConfig.name].concat(actionStores, linkedStores);
 
       /** Then connect the component

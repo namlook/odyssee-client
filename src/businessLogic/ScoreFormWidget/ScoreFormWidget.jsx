@@ -11,7 +11,7 @@ class ScoreFormWidget extends React.Component {
 
   componentDidMount() {
     const { storeState, link } = this.props;
-    const participants = storeState[link.participantsCollection].get('records');
+    const participants = storeState[link.participantsCollection].get('content');
     if (!participants.count()) {
       browserHistory.push('/participants');
     }
@@ -19,21 +19,21 @@ class ScoreFormWidget extends React.Component {
 
   render() {
     const { storeState, storeActions, name, link, params, ...other } = this.props;
-    const recordStoreName = link.scoreRecord || name;
+    const formStoreName = link.form || name;
 
     // stores
-    const _record = storeState[recordStoreName];
-    const scores = storeState[link.scoresCollection].get('records');
-    const participants = storeState[link.participantsCollection].get('records');
+    const _record = storeState[formStoreName];
+    const scores = storeState[link.scoresCollection].get('content');
+    const participants = storeState[link.participantsCollection].get('content');
 
     if (!participants.count()) {
       return null;
     }
 
     // Actions
-    const onChange = storeActions[recordStoreName].update;
+    const onChange = storeActions[formStoreName].update;
     const onSave = storeActions[link.scoresCollection].addRecord;
-    const onClear = storeActions[recordStoreName].clear;
+    const onClear = storeActions[formStoreName].clear;
 
     // variables
     const record = _record
@@ -73,10 +73,8 @@ class ScoreFormWidget extends React.Component {
         newScore = score + value;
         newScore = newScore < 0 ? 0 : newScore;
       } else if (operation === '*') {
-        newScore = score * value;
-      } else if (operation === '/') {
-        newScore = score !== 0 ? score / value : score;
-        newScore = newScore < 1 ? score : newScore;
+        newScore = score !== 0 ? score * value : score;
+        newScore = newScore < 1 ? score : Math.floor(newScore);
       } else if (operation === '=') {
         newScore = value;
       }
@@ -187,7 +185,7 @@ class ScoreFormWidget extends React.Component {
                   <button
                     className="ui basic button"
                     style={buttonStyle}
-                    onClick={changeScore('-', -5)}
+                    onClick={changeScore('+', -5)}
                   >
                     <i className="ui chevron left icon"></i>
                   </button>
@@ -208,12 +206,12 @@ class ScoreFormWidget extends React.Component {
                   <button
                     className="ui basic button"
                     style={buttonStyle}
-                    onClick={changeScore('/', 10)}
+                    onClick={changeScore('*', 0.1)}
                   >
                     <i className="ui chevron left icon"></i>
                   </button>
                   <button style={buttonStyle} className="ui basic disabled button">
-                    {'x10'}
+                    {'00'}
                   </button>
                   <button
                     className="ui basic button"

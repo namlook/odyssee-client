@@ -180,34 +180,33 @@ export default {
         {
           type: 'record-form',
           title: 'add participants',
-          name: 'participant-form',
           fields: [
             { name: 'name', type: 'text', label: 'name' },
           ],
           displaySubmitButtons: true,
           link: {
-            record: 'participant-form-store',
+            form: 'participant-form-store',
+            saveTo: 'participants-store',
           },
-          on: {
-            change: { dispatch: 'updateProperty', on: 'participant-form-store' },
-            clear: { dispatch: 'clear', on: 'participant-form-store' },
-            save: { dispatch: 'addRecord', on: 'participants-store' },
-          },
+          // on: {
+          //   change: { dispatch: 'updateProperty', on: 'participant-form-store' },
+          //   clear: { dispatch: 'clear', on: 'participant-form-store' },
+          //   save: { dispatch: 'addRecord', on: 'participants-store' },
+          // },
         },
         {
           type: 'participants-edit',
-          name: 'participants-edit-list',
           title: 'all the participants',
           icon: 'users',
           link: {
-            collection: { to: 'records', from: 'participants-store' },
+            participants: 'participants-store',
           },
-          on: {
-            rename: { dispatch: 'updateRecord', on: 'participants-store' },
-            delete: { dispatch: 'deleteRecord', on: 'participants-store' },
-            moveUp: { dispatch: 'moveUp', on: 'participants-store' },
-            moveDown: { dispatch: 'moveDown', on: 'participants-store' },
-          },
+          // on: {
+          //   rename: { dispatch: 'updateRecord', on: 'participants-store' },
+          //   delete: { dispatch: 'deleteRecord', on: 'participants-store' },
+          //   moveUp: { dispatch: 'moveUp', on: 'participants-store' },
+          //   moveDown: { dispatch: 'moveDown', on: 'participants-store' },
+          // },
         },
       ],
     },
@@ -229,7 +228,7 @@ export default {
           // {
           //   type: 'score-collection-navbar',
           //   link: {
-          //     collectionStore: { to: 'records', from: 'scores-store' },
+          //     collectionStore: { to: 'content', from: 'scores-store' },
           //     recordStore: { from: 'score-form-store' },
           //   },
           //   on: {
@@ -246,12 +245,8 @@ export default {
             ],
             displaySubmitButtons: true,
             link: {
-              // record: 'score-form-store',
               scoresCollection: 'scores-store',
               participantsCollection: 'participants-store',
-              _: { from: 'scores-store' },
-              _2: { from: 'participants-store' },
-              // recordStore: { from: 'score-form-store' },
             },
             // on: {
             //   change: { dispatch: 'update', on: 'score-form-store' },
@@ -261,7 +256,6 @@ export default {
           },
           {
             type: 'collection-list',
-            name: 'scores-list',
             title: 'Les scores',
             unstackable: true,
             color: 'teal',
@@ -269,7 +263,7 @@ export default {
             subtitle: 'Que le meilleur gagne',
             properties: ['participant', 'score', 'at'],
             link: {
-              collection: { to: 'records', from: 'scores-store' },
+              collection: 'scores-store',
             },
           },
         ],
@@ -315,7 +309,6 @@ export default {
         {
           type: 'are-we-open',
           title: 'are we open ?',
-          name: 'contact-are-we-open',
           link: {
             currentWeather: { to: 'currentWeather', from: 'weather-in-montpellier' },
           },
@@ -344,7 +337,7 @@ export default {
           title: 'here are the participants',
           properties: ['name'],
           link: {
-            collection: { to: 'records', from: 'participants-store' },
+            collection: { to: 'content', from: 'participants-store' },
           },
         },
       ],

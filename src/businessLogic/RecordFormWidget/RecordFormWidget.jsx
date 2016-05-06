@@ -4,14 +4,22 @@ import CardWidget from '../../core/components/CardWidget.jsx';
 import FormField from '../../core/components/contrib/FormField.jsx';
 
 const RecordFormWidget = (props) => {
-  const { storeState, storeActions, on, link, fields, displaySubmitButtons } = props;
-  const record = storeState[link.record];
+  const { storeState, storeActions, on, name, link, fields, displaySubmitButtons } = props;
+  const record = storeState[link.form || name];
 
-  const onChange = storeActions[on.change.on][on.change.dispatch];
+  let onChange;
+  let onSave;
+  let onClear;
 
-  const onSave = storeActions[on.save.on][on.save.dispatch];
-  const onClear = storeActions[on.clear.on][on.clear.dispatch];
-
+  if (on) {
+    onChange = storeActions[on.change.on][on.change.dispatch];
+    onSave = storeActions[on.save.on][on.save.dispatch];
+    onClear = storeActions[on.clear.on][on.clear.dispatch];
+  } else {
+    onChange = storeActions[link.form].updateProperty;
+    onClear = storeActions[link.form].clear;
+    onSave = storeActions[link.saveTo].addRecord;
+  }
   const triggerSave = (e) => {
     e.preventDefault();
     onSave(record);
@@ -54,7 +62,8 @@ const RecordFormWidget = (props) => {
 };
 
 RecordFormWidget.propTypes = {
-  on: PropTypes.object.isRequired,
+  name: PropTypes.string,
+  on: PropTypes.object,
   link: PropTypes.object.isRequired,
   storeState: PropTypes.object.isRequired,
   storeActions: PropTypes.object.isRequired,

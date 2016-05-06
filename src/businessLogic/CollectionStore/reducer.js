@@ -5,7 +5,7 @@ const generateUniqID = () => `${Math.random() * Math.pow(10, 20)}-${Date.now()}`
 
 export default (config) => {
   const initialState = iMap({
-    records: iList(),
+    content: iList(),
   });
 
   const CollectionRecord = iRecord(config.recordSchema);
@@ -14,29 +14,29 @@ export default (config) => {
 
   const actions = {
     [ADD_RECORD]: (state, { record }) => state.update(
-      'records', (records) => {
+      'content', (content) => {
         // add
         if (!record._id) {
           const _id = generateUniqID();
-          if (records.find((rec) => rec._id === _id)) return records;
+          if (content.find((rec) => rec._id === _id)) return content;
           const recordWithId = record.set('_id', _id);
-          return records.push(createRecord(_id, recordWithId));
+          return content.push(createRecord(_id, recordWithId));
         }
         // edit
-        const newRecords = records.filter((entry) => entry.get('_id') !== record._id);
+        const newRecords = content.filter((entry) => entry.get('_id') !== record._id);
         return newRecords.push(createRecord(record._id, record));
       }
     ),
 
     [UPDATE_RECORD]: (state, { _id, attributes }) => state.update(
-      'records', (records) => {
-        const newRecords = records.filter((entry) => entry.get('_id') !== _id);
+      'content', (content) => {
+        const newRecords = content.filter((entry) => entry.get('_id') !== _id);
         return newRecords.push(createRecord(_id, attributes));
       }
     ),
 
     [DELETE_RECORD]: (state, { _id }) => state.update(
-      'records', (records) => records.filter((entry) => entry.get('_id') !== _id)
+      'content', (content) => content.filter((entry) => entry.get('_id') !== _id)
     ),
   };
 

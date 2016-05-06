@@ -4,16 +4,28 @@ import CardWidget from '../../core/components/CardWidget.jsx';
 import ConfirmButtonUI from '../../core/components/ui/ConfirmButtonUI.jsx';
 
 const ParticipantsEditWidget = (props) => {
-  const { storeState, storeActions, link, on } = props;
-  const records = storeState[link.collection.from].get(link.collection.to);
+  const { storeState, storeActions, link, name, on } = props;
+  const participantsStoreName = link.participants || name;
+  const records = storeState[participantsStoreName].get('content');
   const sortedRecords = records.sort((rec1, rec2) => rec1.position > rec2.position);
 
-  const onRename = storeActions[on.rename.on][on.rename.dispatch];
-  const onDelete = storeActions[on.delete.on][on.delete.dispatch];
-  const onMoveUp = storeActions[on.moveUp.on][on.moveUp.dispatch];
-  const onMoveDown = storeActions[on.moveDown.on][on.moveDown.dispatch];
+  let onRename;
+  let onDelete;
+  let onMoveUp;
+  let onMoveDown;
+  if (on) {
+    onRename = storeActions[on.rename.on][on.rename.dispatch];
+    onDelete = storeActions[on.delete.on][on.delete.dispatch];
+    onMoveUp = storeActions[on.moveUp.on][on.moveUp.dispatch];
+    onMoveDown = storeActions[on.moveDown.on][on.moveDown.dispatch];
+  } else {
+    onRename = storeActions[participantsStoreName].updateRecord;
+    onDelete = storeActions[participantsStoreName].deleteRecord;
+    onMoveUp = storeActions[participantsStoreName].moveUp;
+    onMoveDown = storeActions[participantsStoreName].moveDown;
+  }
 
-  const renameParticipant = (_id, name) => onRename(_id, { name });
+  const renameParticipant = (_id, participantName) => onRename(_id, { name: participantName });
   const moveUpParticipant = (_id) => onMoveUp(_id);
   const moveDownParticipant = (_id) => onMoveDown(_id);
   const deleteParticipant = (_id) => onDelete(_id);
@@ -67,7 +79,8 @@ const ParticipantsEditWidget = (props) => {
 };
 
 ParticipantsEditWidget.propTypes = {
-  on: PropTypes.object.isRequired,
+  name: PropTypes.string,
+  on: PropTypes.object,
   storeState: PropTypes.object.isRequired,
   storeActions: PropTypes.object.isRequired,
   link: PropTypes.object.isRequired,
