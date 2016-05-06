@@ -7,6 +7,17 @@ import { routePropTypes } from '../../core/utils/prop-types';
 import { browserHistory } from 'react-router';
 
 
+const computeNextParticipant = (participants, currentRecord) => {
+  const currentParticipantIndex = participants.indexOf(
+    participants.find((o) => o.name === currentRecord.participant)
+  );
+  const nextParticipantIndex = currentParticipantIndex + 1 < participants.count()
+    ? currentParticipantIndex + 1
+    : 0;
+
+  return participants.get(nextParticipantIndex);
+};
+
 class ScoreFormWidget extends React.Component {
 
   componentDidMount() {
@@ -68,7 +79,8 @@ class ScoreFormWidget extends React.Component {
         onChange(nextRecord);
       } else {
         browserHistory.push(`/scores/new`);
-        onChange({ participant: 'bouh' });
+        const nextParticipant = computeNextParticipant(participants, record);
+        onChange({ participant: nextParticipant.name });
       }
     };
 
@@ -93,14 +105,7 @@ class ScoreFormWidget extends React.Component {
     const triggerSave = () => {
       if (record.participant) {
         onSave(record);
-        const currentParticipantIndex = participants.indexOf(
-          participants.find((o) => o.name === record.participant)
-        );
-        const nextParticipantIndex = currentParticipantIndex + 1 < participants.count()
-          ? currentParticipantIndex + 1
-          : 0;
-
-        const nextParticipant = participants.get(nextParticipantIndex);
+        const nextParticipant = computeNextParticipant(participants, record);
         onChange({ participant: nextParticipant.name });
       }
     };
@@ -120,10 +125,12 @@ class ScoreFormWidget extends React.Component {
 
     const displayScore = record.score < 0 ? record.score * -1 : record.score || 0;
     const saveButton = !record._id ? (
-      <button className="ui item button" onClick={triggerSave}>save</button>
+      <button className="ui item button" onClick={triggerSave}>
+        <i className="ui big check icon"></i>
+      </button>
     ) : (
       <button className="ui item button" onClick={toNextRecord}>
-        <i className="ui arrow right icon"></i>
+        <i className="ui big arrow right icon"></i>
       </button>
     );
 
@@ -143,9 +150,9 @@ class ScoreFormWidget extends React.Component {
         _name="new-record"
         {...other}
       >
-        <div className="ui three item menu">
+        <div className="ui three item secondary menu">
           <button className="ui item button" onClick={toPreviousRecord}>
-            <i className="ui arrow left icon"></i>
+            <i className="ui big arrow left icon"></i>
           </button>
           <div className="item">
             {header}
