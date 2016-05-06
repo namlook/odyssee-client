@@ -81,8 +81,7 @@ const ParticipantsEditWidget = (props) => {
 };
 
 ParticipantsEditWidget.propTypes = {
-  name: PropTypes.string,
-  on: PropTypes.object,
+  // on: PropTypes.object,
   participantsStore: PropTypes.object.isRequired,
   participantsActions: PropTypes.object.isRequired,
 };

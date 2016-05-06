@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 
+import { ownPropTypes } from '../../core/utils/prop-types';
+
 import CardWidget from '../../core/components/CardWidget.jsx';
 
 const CollectionListWidget = (props) => {
@@ -36,12 +38,11 @@ const CollectionListWidget = (props) => {
 };
 
 CollectionListWidget.propTypes = {
-  name: PropTypes.string,
+  ...ownPropTypes('collectionStore'),
   color: PropTypes.string,
   unstackable: PropTypes.bool,
   properties: PropTypes.array.isRequired,
   collectionStore: PropTypes.object,
-  ownStore: PropTypes.object,
 };
 
 export default CollectionListWidget;

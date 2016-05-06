@@ -3,6 +3,8 @@ import React, { PropTypes } from 'react';
 import CardWidget from '../../core/components/CardWidget.jsx';
 import FormField from '../../core/components/contrib/FormField.jsx';
 
+import { ownPropTypes } from '../../core/utils/prop-types';
+
 const RecordFormWidget = (props) => {
   const {
     formStore,
@@ -74,14 +76,12 @@ const RecordFormWidget = (props) => {
 };
 
 RecordFormWidget.propTypes = {
-  name: PropTypes.string,
+  ...ownPropTypes('formStore'),
   on: PropTypes.object,
   // linkedStores: PropTypes.object.isRequired,
   // storeState: PropTypes.object.isRequired,
   // storeActions: PropTypes.object.isRequired,
-  ownStore: PropTypes.object,
   formStore: PropTypes.object,
-  ownActions: PropTypes.object,
   formActions: PropTypes.object,
   collectionActions: PropTypes.object,
   fields: PropTypes.array.isRequired,

@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 import Widget from '../../core/components/Widget.jsx';
 
 import FormField from '../../core/components/contrib/FormField.jsx';
-import { routePropTypes } from '../../core/utils/prop-types';
+import { routePropTypes, ownPropTypes } from '../../core/utils/prop-types';
 import { browserHistory } from 'react-router';
 
 
@@ -262,13 +262,12 @@ class ScoreFormWidget extends React.Component {
 
 ScoreFormWidget.propTypes = {
   ...routePropTypes,
-  name: PropTypes.string,
+  ...ownPropTypes('fromStore'),
+
   formStore: PropTypes.object,
-  ownStore: PropTypes.object,
   scoresStore: PropTypes.object.isRequired,
   participantsStore: PropTypes.object.isRequired,
   formActions: PropTypes.object,
-  ownActions: PropTypes.object,
   fields: PropTypes.array.isRequired,
   displaySubmitButtons: PropTypes.bool,
 };
