@@ -1,3 +1,3 @@
-export const CLEAR = 'NewScoreWidget.CLEAR';
-export const UPDATE = 'NewScoreWidget.UPDATE';
-export const UPDATE_PROPERTY = 'NewScoreWidget.UPDATE_PROPERTY';
+export const CLEAR = 'RecordStore.CLEAR';
+export const UPDATE = 'RecordStore.UPDATE';
+export const UPDATE_PROPERTY = 'RecordStore.UPDATE_PROPERTY';

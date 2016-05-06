@@ -56,22 +56,31 @@ class ScoreFormWidget extends React.Component {
     const onSave = scoresActions.addRecord;
 
     // variables
-    const record = _record
+    let record = _record
       .set('score', _record.score || 0)
       .set('participant', _record.participant || participants.get(0).name);
+
+    if (!record.at) {
+      record = record.set('at', Date.now());
+    }
+
     const sortedCollection = scores.sort((p, n) => p.at > n.at);
     const currentRecord = scores.find((r) => r._id === params.id) || {};
     const currentIndex = sortedCollection.indexOf(currentRecord);
 
     // Inner actions
     const toPreviousRecord = () => {
+      onSave(record);
       const previousIndex = currentIndex - 1 >= 0 ? currentIndex - 1 : currentIndex;
       const previousRecord = sortedCollection.get(previousIndex);
-      browserHistory.push(`/scores/${previousRecord._id}`);
-      onChange(previousRecord);
+      if (previousRecord) {
+        browserHistory.push(`/scores/${previousRecord._id}`);
+        onChange(previousRecord);
+      }
     };
 
     const toNextRecord = () => {
+      onSave(record);
       if (currentIndex + 1 < scores.count()) {
         const nextIndex = currentIndex + 1;
         const nextRecord = sortedCollection.get(nextIndex);
@@ -134,6 +143,8 @@ class ScoreFormWidget extends React.Component {
       </button>
     );
 
+    const disabledBackButton = currentIndex < 0 && !scores.count() || currentIndex === 0;
+
 
     // styles
     const buttonStyle = { fontSize: '2rem' };
@@ -151,7 +162,10 @@ class ScoreFormWidget extends React.Component {
         {...other}
       >
         <div className="ui three item secondary menu">
-          <button className="ui item button" onClick={toPreviousRecord}>
+          <button
+            className={`ui item ${disabledBackButton ? 'disabled' : ''} button`}
+            onClick={toPreviousRecord}
+          >
             <i className="ui big arrow left icon"></i>
           </button>
           <div className="item">

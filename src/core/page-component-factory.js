@@ -43,10 +43,6 @@ export default (structure, register, actions) => (path) => {
 
     const shouldBeConnected = Object.keys(linkedStores).length;
     if (shouldBeConnected) {
-      /** first of all, check the name of the store to connect the component
-       */
-      /** Then connect the component
-       */
       Component = connectComponent(actions, linkedStores)(Component);
     }
 

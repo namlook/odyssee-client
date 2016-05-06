@@ -23,15 +23,17 @@ export default (config) => {
           return content.push(createRecord(_id, recordWithId));
         }
         // edit
-        const newRecords = content.filter((entry) => entry.get('_id') !== record._id);
-        return newRecords.push(createRecord(record._id, record));
+        const recordToUpdate = content.find((entry) => entry.get('_id') === record._id);
+        const recordToUpdateIndex = content.indexOf(recordToUpdate);
+        return content.update(recordToUpdateIndex, () => record);
       }
     ),
 
     [UPDATE_RECORD]: (state, { _id, attributes }) => state.update(
       'content', (content) => {
-        const newRecords = content.filter((entry) => entry.get('_id') !== _id);
-        return newRecords.push(createRecord(_id, attributes));
+        const recordToUpdate = content.find((entry) => entry.get('_id') === _id);
+        const recordToUpdateIndex = content.indexOf(recordToUpdate);
+        return content.update(recordToUpdateIndex, () => createRecord(_id, attributes));
       }
     ),
 

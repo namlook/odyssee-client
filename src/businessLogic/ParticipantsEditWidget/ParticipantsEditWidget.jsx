@@ -9,7 +9,6 @@ const ParticipantsEditWidget = (props) => {
   // const participantsStoreName = linkedStores.participants || name;
   // const records = storeState[participantsStoreName].get('content');
   const records = participantsStore.get('content');
-  const sortedRecords = records.sort((rec1, rec2) => rec1.position > rec2.position);
   //
   // let onRename;
   // let onDelete;
@@ -42,7 +41,7 @@ const ParticipantsEditWidget = (props) => {
       {...props}
     >
 
-        {sortedRecords.map((record) => (
+        {records.map((record) => (
           <div key={record._id} className="ui segment">
             <div className="ui form">
               <div className="field">
