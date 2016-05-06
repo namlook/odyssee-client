@@ -10,30 +10,39 @@ import { browserHistory } from 'react-router';
 class ScoreFormWidget extends React.Component {
 
   componentDidMount() {
-    const { storeState, link } = this.props;
-    const participants = storeState[link.participantsCollection].get('content');
+    const { participantsStore } = this.props;
+    const participants = participantsStore.get('content');
     if (!participants.count()) {
       browserHistory.push('/participants');
     }
   }
 
   render() {
-    const { storeState, storeActions, name, link, params, ...other } = this.props;
-    const formStoreName = link.form || name;
+    const {
+      formStore,
+      ownStore,
+      scoresStore,
+      participantsStore,
+      formActions,
+      ownActions,
+      scoresActions,
+      params,
+      ...other } = this.props;
 
     // stores
-    const _record = storeState[formStoreName];
-    const scores = storeState[link.scoresCollection].get('content');
-    const participants = storeState[link.participantsCollection].get('content');
+    const _record = (formStore || ownStore);
+    const scores = scoresStore.get('content');
+    const participants = participantsStore.get('content');
 
     if (!participants.count()) {
       return null;
     }
 
     // Actions
-    const onChange = storeActions[formStoreName].update;
-    const onSave = storeActions[link.scoresCollection].addRecord;
-    const onClear = storeActions[formStoreName].clear;
+    const actions = (formActions || ownActions);
+    const onChange = actions.update;
+    const onClear = actions.clear;
+    const onSave = scoresActions.addRecord;
 
     // variables
     const record = _record
@@ -232,11 +241,13 @@ class ScoreFormWidget extends React.Component {
 
 ScoreFormWidget.propTypes = {
   ...routePropTypes,
-  name: PropTypes.string.isRequired,
-  // on: PropTypes.object.isRequired,
-  link: PropTypes.object.isRequired,
-  storeState: PropTypes.object.isRequired,
-  storeActions: PropTypes.object.isRequired,
+  name: PropTypes.string,
+  formStore: PropTypes.object,
+  ownStore: PropTypes.object,
+  scoresStore: PropTypes.object.isRequired,
+  participantsStore: PropTypes.object.isRequired,
+  formActions: PropTypes.object,
+  ownActions: PropTypes.object,
   fields: PropTypes.array.isRequired,
   displaySubmitButtons: PropTypes.bool,
 };

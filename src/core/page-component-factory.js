@@ -43,26 +43,35 @@ export default (structure, register, actions) => (path) => {
     /** if the component's propTypes contains storeActions or storeState,
      * it means that the component has to be connected to redux store
      */
-    const shouldBeConnected = _.intersection(
-      componentPropTypeNames,
-      ['storeActions', 'storeState']
-    ).length;
+    // const shouldBeConnected = _.intersection(
+    //   componentPropTypeNames,
+    //   ['storeActions', 'storeState']
+    // ).length;
 
+
+    // const actionStores = Object.keys(widgetProps.on || {})
+    //   .map((actionName) => widgetProps.on[actionName].on);
+    // const linkedStores = Object.keys(widgetProps.linkedStores || {})
+    //   .map((linkName) => {
+    //     const conf = widgetProps.linkedStores[linkName];
+    //     return typeof conf === 'object' ? conf.from : conf;
+    //   });
+    // console.log('*actionStores*', actionStores);
+    // console.log('*linkedStores*', linkedStores);
+    // const storesToConnect = [widgetConfig.name].concat(actionStores, linkedStores);
+    // const storesToConnect = [].concat(actionStores, linkedStores);
+    const _linkedStores = widgetProps.linkedStores || {};
+    const linkedStores = widgetProps.name
+      ? { ..._linkedStores, own: widgetProps.name }
+      : _linkedStores;
+
+    const shouldBeConnected = Object.keys(linkedStores).length;
     if (shouldBeConnected) {
       /** first of all, check the name of the store to connect the component
        */
-      const actionStores = Object.keys(widgetProps.on || {})
-        .map((actionName) => widgetProps.on[actionName].on);
-      const linkedStores = Object.keys(widgetProps.link || {})
-        .map((linkName) => {
-          const conf = widgetProps.link[linkName];
-          return typeof conf === 'object' ? conf.from : conf;
-        });
-      const storesToConnect = [widgetConfig.name].concat(actionStores, linkedStores);
-
       /** Then connect the component
        */
-      Component = connectComponent(actions, storesToConnect)(Component);
+      Component = connectComponent(actions, linkedStores)(Component);
     }
 
     return React.createElement(

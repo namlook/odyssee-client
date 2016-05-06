@@ -3,8 +3,8 @@ import React, { PropTypes } from 'react';
 import CardWidget from '../../core/components/CardWidget.jsx';
 
 const CollectionListWidget = (props) => {
-  const { storeState, link, name, properties, unstackable } = props;
-  const records = storeState[link.collection || name].get('content');
+  const { collectionStore, ownStore, properties, unstackable } = props;
+  const records = (collectionStore || ownStore).get('content');
 
   const displayRecord = (record) => (
     properties.map((property) => <td key={property}>{record[property]}</td>)
@@ -40,8 +40,8 @@ CollectionListWidget.propTypes = {
   color: PropTypes.string,
   unstackable: PropTypes.bool,
   properties: PropTypes.array.isRequired,
-  storeState: PropTypes.object.isRequired,
-  link: PropTypes.object.isRequired,
+  collectionStore: PropTypes.object,
+  ownStore: PropTypes.object,
 };
 
 export default CollectionListWidget;

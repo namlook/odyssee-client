@@ -94,20 +94,20 @@ export default {
         score: '',
       },
     },
-    {
-      type: 'record',
-      name: 'score-form-store',
-      schema: {
-        _id: 'string',
-        participant: 'string',
-        at: 'number',
-        score: 'string',
-      },
-    },
+    // {
+    //   type: 'record',
+    //   name: 'score-form-store',
+    //   schema: {
+    //     _id: 'string',
+    //     participant: 'string',
+    //     at: 'number',
+    //     score: 'string',
+    //   },
+    // },
     // {
     //   type: 'collection',
     //   name: 'participant-positions-store',
-    //   link: {
+    //   linkedStores: {
     //     collection: { to: 'records', from: 'participants-store' },
     //   },
     // },
@@ -184,9 +184,9 @@ export default {
             { name: 'name', type: 'text', label: 'name' },
           ],
           displaySubmitButtons: true,
-          link: {
+          linkedStores: {
             form: 'participant-form-store',
-            saveTo: 'participants-store',
+            collection: 'participants-store',
           },
           // on: {
           //   change: { dispatch: 'updateProperty', on: 'participant-form-store' },
@@ -198,7 +198,7 @@ export default {
           type: 'participants-edit',
           title: 'all the participants',
           icon: 'users',
-          link: {
+          linkedStores: {
             participants: 'participants-store',
           },
           // on: {
@@ -227,7 +227,7 @@ export default {
         widgets: [
           // {
           //   type: 'score-collection-navbar',
-          //   link: {
+          //   linkedStores: {
           //     collectionStore: { to: 'content', from: 'scores-store' },
           //     recordStore: { from: 'score-form-store' },
           //   },
@@ -244,9 +244,9 @@ export default {
               { name: 'at', label: 'tour', type: 'number' },
             ],
             displaySubmitButtons: true,
-            link: {
-              scoresCollection: 'scores-store',
-              participantsCollection: 'participants-store',
+            linkedStores: {
+              scores: 'scores-store',
+              participants: 'participants-store',
             },
             // on: {
             //   change: { dispatch: 'update', on: 'score-form-store' },
@@ -262,7 +262,7 @@ export default {
             icon: 'users',
             subtitle: 'Que le meilleur gagne',
             properties: ['participant', 'score', 'at'],
-            link: {
+            linkedStores: {
               collection: 'scores-store',
             },
           },
@@ -309,7 +309,7 @@ export default {
         {
           type: 'are-we-open',
           title: 'are we open ?',
-          link: {
+          linkedStores: {
             currentWeather: { to: 'currentWeather', from: 'weather-in-montpellier' },
           },
         },
@@ -322,7 +322,7 @@ export default {
             { name: 'position', type: 'number' },
           ],
           displaySubmitButtons: true,
-          link: {
+          linkedStores: {
             record: 'participant-form-store',
           },
           on: {
@@ -336,7 +336,7 @@ export default {
           name: 'participants-list',
           title: 'here are the participants',
           properties: ['name'],
-          link: {
+          linkedStores: {
             collection: { to: 'content', from: 'participants-store' },
           },
         },
@@ -417,7 +417,7 @@ export default {
     //     {
     //       type: 'AreWeOpenWidget',
     //       title: "Are we open ?",
-    //       link: {
+    //       linkedStores: {
     //         currentWeather: { to: 'currentWeather', from: 'weather-in-montpellier' },
     //       },
     //     },

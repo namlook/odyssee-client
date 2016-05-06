@@ -4,22 +4,34 @@ import CardWidget from '../../core/components/CardWidget.jsx';
 import FormField from '../../core/components/contrib/FormField.jsx';
 
 const RecordFormWidget = (props) => {
-  const { storeState, storeActions, on, name, link, fields, displaySubmitButtons } = props;
-  const record = storeState[link.form || name];
+  const {
+    formStore,
+    formActions,
+    ownActions,
+    collectionActions,
+    ownStore,
+    fields,
+    displaySubmitButtons } = props;
+  const record = formStore || ownStore;
+  const actions = formActions || ownActions;
 
-  let onChange;
-  let onSave;
-  let onClear;
+  // let onChange;
+  // let onSave;
+  // let onClear;
+  // if (on) {
+  //   onChange = storeActions[on.change.on][on.change.dispatch];
+  //   onSave = storeActions[on.save.on][on.save.dispatch];
+  //   onClear = storeActions[on.clear.on][on.clear.dispatch];
+  // } else {
+  //   onChange = storeActions[linkedStores.form].updateProperty;
+  //   onClear = storeActions[linkedStores.form].clear;
+  //   onSave = storeActions[linkedStores.saveTo].addRecord;
+  // }
 
-  if (on) {
-    onChange = storeActions[on.change.on][on.change.dispatch];
-    onSave = storeActions[on.save.on][on.save.dispatch];
-    onClear = storeActions[on.clear.on][on.clear.dispatch];
-  } else {
-    onChange = storeActions[link.form].updateProperty;
-    onClear = storeActions[link.form].clear;
-    onSave = storeActions[link.saveTo].addRecord;
-  }
+  const onChange = actions.updateProperty;
+  const onClear = actions.clear;
+  const onSave = collectionActions.addRecord;
+
   const triggerSave = (e) => {
     e.preventDefault();
     onSave(record);
@@ -64,9 +76,14 @@ const RecordFormWidget = (props) => {
 RecordFormWidget.propTypes = {
   name: PropTypes.string,
   on: PropTypes.object,
-  link: PropTypes.object.isRequired,
-  storeState: PropTypes.object.isRequired,
-  storeActions: PropTypes.object.isRequired,
+  // linkedStores: PropTypes.object.isRequired,
+  // storeState: PropTypes.object.isRequired,
+  // storeActions: PropTypes.object.isRequired,
+  ownStore: PropTypes.object,
+  formStore: PropTypes.object,
+  ownActions: PropTypes.object,
+  formActions: PropTypes.object,
+  collectionActions: PropTypes.object,
   fields: PropTypes.array.isRequired,
   displaySubmitButtons: PropTypes.bool,
 };
