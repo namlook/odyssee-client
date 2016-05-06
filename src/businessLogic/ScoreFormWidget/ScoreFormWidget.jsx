@@ -1,8 +1,9 @@
 import React, { PropTypes } from 'react';
 
 import Widget from '../../core/components/Widget.jsx';
+import DropdownUI from '../../core/components/ui/DropdownUI.jsx';
+// import FormField from '../../core/components/contrib/FormField.jsx';
 
-import FormField from '../../core/components/contrib/FormField.jsx';
 import { routePropTypes, ownPropTypes } from '../../core/utils/prop-types';
 import { browserHistory } from 'react-router';
 
@@ -52,7 +53,6 @@ class ScoreFormWidget extends React.Component {
     // Actions
     const actions = (formActions || ownActions);
     const onChange = actions.update;
-    const onClear = actions.clear;
     const onSave = scoresActions.addRecord;
 
     // variables
@@ -70,7 +70,6 @@ class ScoreFormWidget extends React.Component {
 
     // Inner actions
     const toPreviousRecord = () => {
-      onSave(record);
       const previousIndex = currentIndex - 1 >= 0 ? currentIndex - 1 : currentIndex;
       const previousRecord = sortedCollection.get(previousIndex);
       if (previousRecord) {
@@ -93,7 +92,7 @@ class ScoreFormWidget extends React.Component {
       }
     };
 
-    const updateParticipant = (propertyName, participantName) =>
+    const updateParticipant = (_id, participantName) =>
       onChange(record.set('participant', participantName));
 
     const changeScore = (operation, value) => () => {
@@ -103,6 +102,8 @@ class ScoreFormWidget extends React.Component {
         newScore = score + value;
         newScore = newScore < 0 ? 0 : newScore;
       } else if (operation === '*') {
+        newScore = score !== 0 ? score * value : score;
+      } else if (operation === '/') {
         newScore = score !== 0 ? score * value : score;
         newScore = newScore < 1 ? score : Math.floor(newScore);
       } else if (operation === '=') {
@@ -119,20 +120,46 @@ class ScoreFormWidget extends React.Component {
       }
     };
 
+
     // partials
     const header = currentRecord.participant
       ? <h1>{currentRecord.participant}</h1>
       : (
-      <div className="ui form">
-        <FormField
-          name="participant"
-          placeholder="participant"
-          value={record.participant}
-          onChange={updateParticipant} />
-      </div>
+      <DropdownUI className="item selection" onChange={updateParticipant}>
+        <input type="hidden" name="participant" />
+        <div className="text" style={{ fontSize: '2rem' }}>
+          {record.participant}
+        </div>
+        <i className="ui small dropdown icon"></i>
+        <div className="menu">
+          {
+            participants.map(({ _id, name }) =>
+              <div className="item active" dataValue={name} key={_id}>{name}</div>
+            )
+          }
+        </div>
+      </DropdownUI>
     );
 
     const displayScore = record.score < 0 ? record.score * -1 : record.score || 0;
+    const disabledBackButton = currentIndex < 0 && !scores.count() || currentIndex === 0;
+
+    const backButton = !record._id ? (
+      <button
+        className={`ui item ${disabledBackButton ? 'disabled' : ''} button`}
+        onClick={toPreviousRecord}
+      >
+        <i className="ui big delete icon"></i>
+      </button>
+    ) : (
+      <button
+        className={`ui item ${disabledBackButton ? 'disabled' : ''} button`}
+        onClick={() => { onSave(record); toPreviousRecord(); }}
+      >
+        <i className="ui big arrow left icon"></i>
+      </button>
+    );
+
     const saveButton = !record._id ? (
       <button className="ui item button" onClick={triggerSave}>
         <i className="ui big check icon"></i>
@@ -142,8 +169,6 @@ class ScoreFormWidget extends React.Component {
         <i className="ui big arrow right icon"></i>
       </button>
     );
-
-    const disabledBackButton = currentIndex < 0 && !scores.count() || currentIndex === 0;
 
 
     // styles
@@ -162,20 +187,14 @@ class ScoreFormWidget extends React.Component {
         {...other}
       >
         <div className="ui three item secondary menu">
-          <button
-            className={`ui item ${disabledBackButton ? 'disabled' : ''} button`}
-            onClick={toPreviousRecord}
-          >
-            <i className="ui big arrow left icon"></i>
-          </button>
-          <div className="item">
-            {header}
-          </div>
+          {backButton}
+          {header}
           {saveButton}
         </div>
         <div className="ui form basic segment">
           <div className="field">
             <div className="ui center aligned container">
+
               <h1 style={{ fontSize: '9rem' }}>
                 <div className="ui buttons">
                   <button
@@ -188,7 +207,11 @@ class ScoreFormWidget extends React.Component {
                 </div>
                 {displayScore}
               </h1>
-              <button className="ui basic button" onClick={() => onClear()}>{'reset'}</button>
+
+              <button className="ui basic button" onClick={changeScore('=', 0)}>
+                {'reset'}
+              </button>
+
               <div>
                 <div className="ui buttons">
                   <button
@@ -236,7 +259,7 @@ class ScoreFormWidget extends React.Component {
                   <button
                     className="ui basic button"
                     style={buttonStyle}
-                    onClick={changeScore('*', 0.1)}
+                    onClick={changeScore('/', 10)}
                   >
                     <i className="ui chevron left icon"></i>
                   </button>

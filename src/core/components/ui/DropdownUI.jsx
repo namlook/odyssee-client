@@ -13,7 +13,10 @@ window.$.fn.dropdown = semanticDropDown;
 export class DropdownUI extends React.Component {
 
   componentDidMount() {
-    $(this.refs.dropdown).dropdown();
+    const { onChange } = this.props;
+    $(this.refs.dropdown).dropdown({
+      onChange,
+    });
   }
 
   render() {
@@ -30,6 +33,7 @@ export class DropdownUI extends React.Component {
 DropdownUI.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
+  onChange: PropTypes.func,
   children: PropTypes.node,
 };
 
