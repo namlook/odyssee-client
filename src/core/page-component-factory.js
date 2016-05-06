@@ -18,48 +18,24 @@ export default (structure, register, actions) => (path) => {
     const { type, ...widgetProps } = widgetConfig;
     const widgetName = `${pascalCase(type)}Widget`;
     const widget = register.widgets[widgetName];
+
     if (!widget) {
       throw new Error(`unregistered widget ${widgetName}`);
     }
     let { Component } = widget;
 
-    const componentProps = Object.keys(widgetProps)
-      .map((propName) => ({ name: propName, value: widgetProps[propName] }))
-      .reduce((acc, item) => ({ ...acc, [item.name]: item.value }), {});
+    const componentProps = Object.keys(widgetProps).reduce((acc, propName) => (
+      { ...acc, [propName]: widgetProps[propName] }
+    ), {});
 
     const componentPropTypeNames = Object.keys(Component.propTypes || {});
-    const requiredProps = componentPropTypeNames
-      .map((propName) => ({
-        name: propName,
-        pageProp: pageProps[propName],
-      }))
-      .reduce((acc, item) => {
-        if (item.pageProp != null) {
-          return { ...acc, [item.name]: item.pageProp };
-        }
-        return acc;
-      }, {});
+    const requiredProps = componentPropTypeNames.reduce((acc, propName) => {
+      if (pageProps[propName] != null) {
+        return { ...acc, [propName]: pageProps[propName] };
+      }
+      return acc;
+    }, {});
 
-    /** if the component's propTypes contains storeActions or storeState,
-     * it means that the component has to be connected to redux store
-     */
-    // const shouldBeConnected = _.intersection(
-    //   componentPropTypeNames,
-    //   ['storeActions', 'storeState']
-    // ).length;
-
-
-    // const actionStores = Object.keys(widgetProps.on || {})
-    //   .map((actionName) => widgetProps.on[actionName].on);
-    // const linkedStores = Object.keys(widgetProps.linkedStores || {})
-    //   .map((linkName) => {
-    //     const conf = widgetProps.linkedStores[linkName];
-    //     return typeof conf === 'object' ? conf.from : conf;
-    //   });
-    // console.log('*actionStores*', actionStores);
-    // console.log('*linkedStores*', linkedStores);
-    // const storesToConnect = [widgetConfig.name].concat(actionStores, linkedStores);
-    // const storesToConnect = [].concat(actionStores, linkedStores);
     const _linkedStores = widgetProps.linkedStores || {};
     const linkedStores = widgetProps.name
       ? { ..._linkedStores, own: widgetProps.name }
