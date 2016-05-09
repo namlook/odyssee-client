@@ -264,7 +264,7 @@ class ScoreFormWidget extends React.Component {
                     <i className="ui chevron left icon"></i>
                   </button>
                   <button style={buttonStyle} className="ui basic disabled button">
-                    {'00'}
+                    {'x10'}
                   </button>
                   <button
                     className="ui basic button"

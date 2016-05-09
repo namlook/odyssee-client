@@ -85,6 +85,16 @@ export default {
       },
     },
     {
+      type: 'record',
+      name: 'score-form-store',
+      schema: {
+        _id: '',
+        participant: '',
+        at: '',
+        score: '',
+      },
+    },
+    {
       type: 'collection',
       name: 'scores-store',
       recordSchema: {
@@ -188,11 +198,6 @@ export default {
             form: 'participant-form-store',
             collection: 'participants-store',
           },
-          // on: {
-          //   change: { dispatch: 'updateProperty', on: 'participant-form-store' },
-          //   clear: { dispatch: 'clear', on: 'participant-form-store' },
-          //   save: { dispatch: 'addRecord', on: 'participants-store' },
-          // },
         },
         {
           type: 'participants-edit',
@@ -225,19 +230,11 @@ export default {
       edit: {
         path: ':id',
         widgets: [
-          // {
-          //   type: 'score-collection-navbar',
-          //   linkedStores: {
-          //     collectionStore: { to: 'content', from: 'scores-store' },
-          //     recordStore: { from: 'score-form-store' },
-          //   },
-          //   on: {
-          //     change: { dispatch: 'update', on: 'score-form-store' },
-          //   },
-          // },
           {
             type: 'score-form',
-            name: 'score-form',
+            store: {
+              name: 'score-form',
+            },
             fields: [
               { name: 'participant', type: 'text' },
               { name: 'score', type: 'number' },
@@ -248,11 +245,29 @@ export default {
               scores: 'scores-store',
               participants: 'participants-store',
             },
-            // on: {
-            //   change: { dispatch: 'update', on: 'score-form-store' },
-            //   clear: { dispatch: 'clear', on: 'score-form-store' },
-            //   save: { dispatch: 'addRecord', on: 'scores-store' },
-            // },
+          },
+          {
+            type: 'record-form',
+            store: {
+              name: 'score-form2',
+            //   schema: {
+            //     _id: 'string',
+            //     participant: 'string',
+            //     score: 'number',
+            //     lap: 'number',
+            //   },
+            },
+            title: 'add participants',
+            fields: [
+              { name: 'participant', type: 'text', label: 'participant' },
+              { name: 'score', type: 'number', label: 'score' },
+              { name: 'at', type: 'number', label: 'tour' },
+            ],
+            displaySubmitButtons: true,
+            linkedStores: {
+              // form: 'score-form-store',
+              collection: 'scores-store',
+            },
           },
           {
             type: 'collection-list',
@@ -289,59 +304,59 @@ export default {
         ],
       },
     },
-    _contact: {
-      path: 'contact',
-      widgets: [
-        {
-          type: 'menu',
-          title: 'Contact',
-        },
-        {
-          type: 'text',
-          title: 'how to contact us ?',
-          content: "you'll find the map here",
-        },
-        {
-          type: 'weather-check',
-          name: 'weather-in-montpellier',
-          title: 'current weather',
-        },
-        {
-          type: 'are-we-open',
-          title: 'are we open ?',
-          linkedStores: {
-            currentWeather: { to: 'currentWeather', from: 'weather-in-montpellier' },
-          },
-        },
-        {
-          type: 'record-form',
-          title: 'add participants',
-          name: 'participant-form',
-          fields: [
-            { name: 'name', type: 'text' },
-            { name: 'position', type: 'number' },
-          ],
-          displaySubmitButtons: true,
-          linkedStores: {
-            record: 'participant-form-store',
-          },
-          on: {
-            change: { dispatch: 'updateProperty', on: 'participant-form-store' },
-            clear: { dispatch: 'clear', on: 'participant-form-store' },
-            save: { dispatch: 'addRecord', on: 'participants-store' },
-          },
-        },
-        {
-          type: 'collection-list',
-          name: 'participants-list',
-          title: 'here are the participants',
-          properties: ['name'],
-          linkedStores: {
-            collection: { to: 'content', from: 'participants-store' },
-          },
-        },
-      ],
-    },
+    // _contact: {
+    //   path: 'contact',
+    //   widgets: [
+    //     {
+    //       type: 'menu',
+    //       title: 'Contact',
+    //     },
+    //     {
+    //       type: 'text',
+    //       title: 'how to contact us ?',
+    //       content: "you'll find the map here",
+    //     },
+    //     {
+    //       type: 'weather-check',
+    //       name: 'weather-in-montpellier',
+    //       title: 'current weather',
+    //     },
+    //     {
+    //       type: 'are-we-open',
+    //       title: 'are we open ?',
+    //       linkedStores: {
+    //         currentWeather: { to: 'currentWeather', from: 'weather-in-montpellier' },
+    //       },
+    //     },
+    //     {
+    //       type: 'record-form',
+    //       title: 'add participants',
+    //       name: 'participant-form',
+    //       fields: [
+    //         { name: 'name', type: 'text' },
+    //         { name: 'position', type: 'number' },
+    //       ],
+    //       displaySubmitButtons: true,
+    //       linkedStores: {
+    //         record: 'participant-form-store',
+    //       },
+    //       on: {
+    //         change: { dispatch: 'updateProperty', on: 'participant-form-store' },
+    //         clear: { dispatch: 'clear', on: 'participant-form-store' },
+    //         save: { dispatch: 'addRecord', on: 'participants-store' },
+    //       },
+    //     },
+    //     {
+    //       type: 'collection-list',
+    //       name: 'participants-list',
+    //       title: 'here are the participants',
+    //       properties: ['name'],
+    //       linkedStores: {
+    //         collection: { to: 'content', from: 'participants-store' },
+    //       },
+    //     },
+    //   ],
+    // },
     404: {
       path: '*',
       widgets: [

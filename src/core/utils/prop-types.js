@@ -16,14 +16,13 @@ export const ownPropTypes = (mainLinkedStoreName) => {
     let error;
     if (!props[ownThing] && !props[mainLinkedStoreName]) {
       error = new Error(
-        `Missing prop: linked store \`${mainLinkedStoreName}\` or prop \`name\` should
+        `Missing prop: linked store \`${mainLinkedStoreName}\` or prop \`store.name\` should
         be supplied to ${componentName}. Validation failed.`
       );
     }
     return error;
   };
   return {
-    name: PropTypes.string,
     ownStore: customPropType('ownStore'),
     ownActions: customPropType('ownActions'),
   };

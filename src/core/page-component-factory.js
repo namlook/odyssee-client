@@ -15,7 +15,7 @@ export const getPageConfig = (struct, id) => {
 
 export default (structure, register, actions) => (path) => {
   const generateWidgetComponent = (widgetConfig, pageProps, keyIndex) => {
-    const { type, ...widgetProps } = widgetConfig;
+    const { type, store, ...widgetProps } = widgetConfig;
     const widgetName = `${pascalCase(type)}Widget`;
     const widget = register.widgets[widgetName];
 
@@ -37,8 +37,9 @@ export default (structure, register, actions) => (path) => {
     }, {});
 
     const _linkedStores = widgetProps.linkedStores || {};
-    const linkedStores = widgetProps.name
-      ? { ..._linkedStores, own: widgetProps.name }
+    const ownStoreName = store && store.name;
+    const linkedStores = ownStoreName
+      ? { ..._linkedStores, own: ownStoreName }
       : _linkedStores;
 
     const shouldBeConnected = Object.keys(linkedStores).length;

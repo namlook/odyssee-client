@@ -17,14 +17,15 @@ const createActions = (actions) => (storeName) => (
 
 const extractWidgetActions = (structure, register) => (
   extractWidgets(structure)
-    .map((widget) => {
+    .map(({ store, ...widget }) => {
       const widgetName = `${pascalCase(widget.type)}Widget`;
       const widgetConfig = register.widgets[widgetName];
       if (!widgetConfig) {
         throw new Error(`unregistered widget ${widgetName}`);
       }
       const actions = register.widgets[widgetName].actions;
-      return actions ? { name: widget.name, actionCreator: createActions(actions) } : null;
+      const ownStoreName = store && store.name;
+      return actions ? { name: ownStoreName, actionCreator: createActions(actions) } : null;
     })
     .reduce((acc, item) => (item ? { ...acc, [item.name]: item.actionCreator } : acc), {})
 );

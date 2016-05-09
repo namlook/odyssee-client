@@ -17,15 +17,16 @@ const createReducer = (name, config) => (reducerFn) => {
 
 const extractWidgetReducers = (structure, register) => (
   extractWidgets(structure, register)
-    .map((widget) => {
+    .map(({ store, ...widget }) => {
       const widgetName = `${pascalCase(widget.type)}Widget`;
       const widgetConfig = register.widgets[widgetName];
       if (!widgetConfig) {
         throw new Error(`unregistered widget ${widgetName}`);
       }
       const reducer = register.widgets[widgetName].reducer;
+      const ownStoreName = store && store.name;
       return reducer
-        ? { name: widget.name, reducerCreator: createReducer(widget.name, widget)(reducer) }
+        ? { name: ownStoreName, reducerCreator: createReducer(ownStoreName, widget)(reducer) }
         : null;
     })
     .reduce((acc, item) => (item ? { ...acc, [item.name]: item.reducerCreator } : acc), {})
