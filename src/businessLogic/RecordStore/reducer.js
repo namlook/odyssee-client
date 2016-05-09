@@ -8,7 +8,7 @@ const castValue = (schema, property, value) => {
 };
 
 export default (config) => {
-  const placeholder = Object.keys(config.schema).reduce(
+  const placeholder = Object.keys(config.schema || {}).reduce(
     (acc, name) => ({ ...acc, [name]: '' }), {}
   );
 

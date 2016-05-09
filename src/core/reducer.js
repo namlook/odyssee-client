@@ -24,12 +24,17 @@ const extractWidgetReducers = (structure, register) => (
         throw new Error(`unregistered widget ${widgetName}`);
       }
       const reducer = register.widgets[widgetName].reducer;
-      const ownStoreName = store && store.name;
-      return reducer
-        ? { name: ownStoreName, reducerCreator: createReducer(ownStoreName, widget)(reducer) }
-        : null;
+      const ownStore = store || {};
+      return !reducer
+        ? null
+        : {
+          name: ownStore.name,
+          reducerCreator: createReducer(ownStore.name, store || {})(reducer),
+        };
     })
-    .reduce((acc, item) => (item ? { ...acc, [item.name]: item.reducerCreator } : acc), {})
+    .reduce((acc, item) => (
+      item && item.name ? { ...acc, [item.name]: item.reducerCreator } : acc
+    ), {})
 );
 
 const extractStoreReducers = (structure, register) => (

@@ -84,23 +84,23 @@ export default {
         position: 'number',
       },
     },
-    {
-      type: 'record',
-      name: 'score-form-store',
-      schema: {
-        _id: '',
-        participant: '',
-        at: '',
-        score: '',
-      },
-    },
+    // {
+    //   type: 'record',
+    //   name: 'score-form-store',
+    //   schema: {
+    //     _id: '',
+    //     participant: '',
+    //     at: '',
+    //     score: '',
+    //   },
+    // },
     {
       type: 'collection',
       name: 'scores-store',
       recordSchema: {
         _id: '',
         participant: '',
-        at: '',
+        lap: '',
         score: '',
       },
     },
@@ -230,38 +230,38 @@ export default {
       edit: {
         path: ':id',
         widgets: [
-          {
-            type: 'score-form',
-            store: {
-              name: 'score-form',
-            },
-            fields: [
-              { name: 'participant', type: 'text' },
-              { name: 'score', type: 'number' },
-              { name: 'at', label: 'tour', type: 'number' },
-            ],
-            displaySubmitButtons: true,
-            linkedStores: {
-              scores: 'scores-store',
-              participants: 'participants-store',
-            },
-          },
+          // {
+          //   type: 'score-form',
+          //   store: {
+          //     name: 'score-form',
+          //   },
+          //   fields: [
+          //     { name: 'participant', type: 'text' },
+          //     { name: 'score', type: 'number' },
+          //     { name: 'at', label: 'tour', type: 'number' },
+          //   ],
+          //   displaySubmitButtons: true,
+          //   linkedStores: {
+          //     scores: 'scores-store',
+          //     participants: 'participants-store',
+          //   },
+          // },
           {
             type: 'record-form',
             store: {
               name: 'score-form2',
-            //   schema: {
-            //     _id: 'string',
-            //     participant: 'string',
-            //     score: 'number',
-            //     lap: 'number',
-            //   },
+              schema: {
+                _id: 'string',
+                participant: 'string',
+                score: 'number',
+                lap: 'number',
+              },
             },
-            title: 'add participants',
+            title: 'add scores',
             fields: [
-              { name: 'participant', type: 'text', label: 'participant' },
+              { name: 'participant', type: 'search', label: 'participant' },
               { name: 'score', type: 'number', label: 'score' },
-              { name: 'at', type: 'number', label: 'tour' },
+              { name: 'lap', type: 'number', label: 'tour' },
             ],
             displaySubmitButtons: true,
             linkedStores: {
@@ -276,7 +276,7 @@ export default {
             color: 'teal',
             icon: 'users',
             subtitle: 'Que le meilleur gagne',
-            properties: ['participant', 'score', 'at'],
+            properties: ['participant', 'score', 'lap'],
             linkedStores: {
               collection: 'scores-store',
             },

@@ -27,7 +27,9 @@ const extractWidgetActions = (structure, register) => (
       const ownStoreName = store && store.name;
       return actions ? { name: ownStoreName, actionCreator: createActions(actions) } : null;
     })
-    .reduce((acc, item) => (item ? { ...acc, [item.name]: item.actionCreator } : acc), {})
+    .reduce((acc, item) => (
+      item && item.name ? { ...acc, [item.name]: item.actionCreator } : acc
+    ), {})
 );
 
 

@@ -1,12 +1,12 @@
 
 
-import recordStoreReducer from '../RecordStore/reducer';
+export default from '../RecordStore/reducer';
 
-export default recordStoreReducer({
-  schema: {
-    _id: 'string',
-    participant: 'string',
-    at: 'number',
-    score: 'string',
-  },
-});
+// export default recordStoreReducer({
+//   schema: {
+//     _id: 'string',
+//     participant: 'string',
+//     at: 'number',
+//     score: 'string',
+//   },
+// });
