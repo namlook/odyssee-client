@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { browserHistory } from 'react-router';
 
 import CardWidget from '../../core/components/CardWidget.jsx';
 import FormField from '../../core/components/contrib/FormField.jsx';
@@ -13,6 +14,8 @@ const RecordFormWidget = (props) => {
     collectionActions,
     ownStore,
     fields,
+    onSaveRedirectTo,
+    onCancelRedirectTo,
     displaySubmitButtons } = props;
   const record = formStore || ownStore;
   const actions = formActions || ownActions;
@@ -34,18 +37,49 @@ const RecordFormWidget = (props) => {
   const onClear = actions.clear;
   const onSave = collectionActions.addRecord;
 
+  const triggerClear = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onClear();
+  };
+
   const triggerSave = (e) => {
     e.preventDefault();
     onSave(record);
     onClear();
+    if (onSaveRedirectTo) {
+      let redirectUrl = onSaveRedirectTo;
+      if (record._id) {
+        redirectUrl = onSaveRedirectTo.replace(':id', record._id);
+      }
+      browserHistory.push(redirectUrl);
+    }
+  };
+
+  const triggerCancel = (e) => {
+    triggerClear(e);
+    const cancelRedirect = onCancelRedirectTo || onSaveRedirectTo;
+    console.log('cancel', record._id, record, cancelRedirect);
+    if (cancelRedirect) {
+      let redirectUrl = cancelRedirect;
+      if (record._id) {
+        redirectUrl = cancelRedirect.replace(':id', record._id);
+      }
+      browserHistory.push(redirectUrl);
+    }
   };
 
   let submitButtons;
   if (displaySubmitButtons) {
     submitButtons = (
       <div>
-        <input value="save" type="submit" className="ui primary button" onClick={triggerSave} />
-        <button className="ui basic red button" onClick={() => onClear()}>
+        <button type="submit" className="ui right floated primary button">
+          save
+        </button>
+        <button name="cancel" className="ui basic red button" onClick={triggerCancel}>
+          cancel
+        </button>
+        <button name="clear" className="ui basic button" onClick={triggerClear}>
           clear
         </button>
       </div>
@@ -77,10 +111,7 @@ const RecordFormWidget = (props) => {
 
 RecordFormWidget.propTypes = {
   ...ownPropTypes('formStore'),
-  on: PropTypes.object,
-  // linkedStores: PropTypes.object.isRequired,
-  // storeState: PropTypes.object.isRequired,
-  // storeActions: PropTypes.object.isRequired,
+  onSaveRedirectTo: PropTypes.string,
   formStore: PropTypes.object,
   formActions: PropTypes.object,
   collectionActions: PropTypes.object,

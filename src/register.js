@@ -4,6 +4,7 @@ import * as CollectionStore from './businessLogic/CollectionStore';
 import * as RecordStore from './businessLogic/RecordStore';
 
 import * as RecordFormWidget from './businessLogic/RecordFormWidget';
+import * as RecordDisplayWidget from './businessLogic/RecordDisplayWidget';
 import * as FormSubmitWidget from './businessLogic/FormSubmitWidget';
 import * as CollectionListWidget from './businessLogic/CollectionListWidget';
 
@@ -33,6 +34,7 @@ export default {
   },
   widgets: {
     RecordFormWidget,
+    RecordDisplayWidget,
 
     ScoreFormWidget,
     // ScoreCollectionNavbarWidget,

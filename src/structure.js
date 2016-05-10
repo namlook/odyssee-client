@@ -220,43 +220,22 @@ export default {
         path: 'scores',
         widgets: [
           {
+            type: 'menu',
+            title: 'Scores',
+            items: [
+              { label: 'create', route: '/scores/i/new', icon: 'plus' },
+            ],
+          },
+          {
             type: 'outlet',
           },
         ],
       },
-      index: {
-        redirect: '/scores/new',
-      },
-      edit: {
-        path: ':id',
+      new: {
+        path: 'i/new',
         widgets: [
-          // {
-          //   type: 'score-form',
-          //   store: {
-          //     name: 'score-form',
-          //   },
-          //   fields: [
-          //     { name: 'participant', type: 'text' },
-          //     { name: 'score', type: 'number' },
-          //     { name: 'at', label: 'tour', type: 'number' },
-          //   ],
-          //   displaySubmitButtons: true,
-          //   linkedStores: {
-          //     scores: 'scores-store',
-          //     participants: 'participants-store',
-          //   },
-          // },
           {
             type: 'record-form',
-            store: {
-              name: 'score-form2',
-              schema: {
-                _id: 'string',
-                participant: 'string',
-                score: 'number',
-                lap: 'number',
-              },
-            },
             title: 'add scores',
             fields: [
               { name: 'participant', type: 'search', label: 'participant' },
@@ -264,44 +243,130 @@ export default {
               { name: 'lap', type: 'number', label: 'tour' },
             ],
             displaySubmitButtons: true,
+            onSaveRedirectTo: '/scores',
+            onCancelRedirectTo: '/scores',
+            store: {
+              name: 'score-new-form',
+              schema: {
+                _id: 'string',
+                participant: 'string',
+                score: 'number',
+                lap: 'number',
+              },
+            },
             linkedStores: {
               // form: 'score-form-store',
               collection: 'scores-store',
             },
           },
-          {
-            type: 'collection-list',
-            title: 'Les scores',
-            unstackable: true,
-            color: 'teal',
-            icon: 'users',
-            subtitle: 'Que le meilleur gagne',
-            properties: ['participant', 'score', 'lap'],
-            linkedStores: {
-              collection: 'scores-store',
+        ],
+      },
+      record: {
+        outlet: {
+          path: ':id',
+          widgets: [
+            {
+              type: 'outlet',
             },
-          },
-        ],
+          ],
+        },
+        index: {
+          widgets: [
+            {
+              type: 'record-display',
+              store: {
+                name: 'score-display',
+                schema: {
+                  _id: 'string',
+                  participant: 'string',
+                  score: 'number',
+                  lap: 'number',
+                },
+              },
+              fields: [
+                { name: 'participant', type: 'search', label: 'participant' },
+                { name: 'score', type: 'number', label: 'score' },
+                { name: 'lap', type: 'number', label: 'tour' },
+              ],
+            },
+          ],
+        },
+        edit: {
+          path: 'edit',
+          widgets: [
+            {
+              type: 'record-form',
+              store: {
+                name: 'score-edit',
+                schema: {
+                  _id: 'string',
+                  participant: 'string',
+                  score: 'number',
+                  lap: 'number',
+                },
+              },
+              fields: [
+                { name: 'participant', type: 'search', label: 'participant' },
+                { name: 'score', type: 'number', label: 'score' },
+                { name: 'lap', type: 'number', label: 'tour' },
+              ],
+              onSaveRedirectTo: '/scores/:id',
+              onCancelRedirectTo: '/scores/:id',
+              displaySubmitButtons: true,
+              linkedStores: {
+                // form: 'score-form-store',
+                collection: 'scores-store',
+              },
+            },
+          ],
+        },
       },
-      hallOfFames: {
-        path: 'hall-of-fames',
-        widgets: [
-          {
-            type: 'text',
-            title: 'prochainement',
-            content: 'le hall of fame !!!',
-          },
-        ],
-      },
-      statistics: {
-        path: 'statistics',
-        widgets: [
-          {
-            type: 'text',
-            title: 'prochainement',
-            content: 'de zolis graphe ici <3',
-          },
-        ],
+      collection: {
+        outlet: {
+          widgets: [
+            {
+              type: 'outlet',
+            },
+          ],
+        },
+        index: {
+          widgets: [
+            {
+              type: 'collection-list',
+              title: 'Les scores',
+              unstackable: true,
+              color: 'teal',
+              icon: 'users',
+              subtitle: 'Que le meilleur gagne',
+              properties: ['_id', 'participant', 'score', 'lap'],
+              onClickRedirectTo: '/scores/:id',
+              linkedStores: {
+                collection: 'scores-store',
+                display: 'score-display',
+              },
+            },
+          ],
+        },
+        hallOfFames: {
+          path: 'hall-of-fames',
+          widgets: [
+            {
+              type: 'text',
+              title: 'prochainement',
+              content: 'le hall of fame !!!',
+            },
+          ],
+        },
+        statistics: {
+          path: 'statistics',
+          widgets: [
+            {
+              type: 'text',
+              title: 'prochainement',
+              content: 'de zolis graphe ici <3',
+            },
+          ],
+        },
       },
     },
     // _contact: {
@@ -358,7 +423,7 @@ export default {
     //   ],
     // },
     404: {
-      path: '*',
+      path: '404',
       widgets: [
         {
           type: 'not-found',

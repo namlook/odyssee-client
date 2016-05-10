@@ -1,16 +1,30 @@
 import React, { PropTypes } from 'react';
+import { browserHistory } from 'react-router';
 
 import { ownPropTypes } from '../../core/utils/prop-types';
 
 import CardWidget from '../../core/components/CardWidget.jsx';
 
 const CollectionListWidget = (props) => {
-  const { collectionStore, ownStore, properties, unstackable } = props;
+  const {
+    collectionStore,
+    ownStore,
+    displayActions,
+    properties,
+    unstackable,
+    onClickRedirectTo } = props;
   const records = (collectionStore || ownStore).get('content');
 
   const displayRecord = (record) => (
     properties.map((property) => <td key={property}>{record[property]}</td>)
   );
+
+  const recordClicked = (record) => {
+    displayActions.update(record);
+    if (onClickRedirectTo) {
+      browserHistory.push(onClickRedirectTo.replace(':id', record._id));
+    }
+  };
 
   const table = records.count() ? (
     <table
@@ -22,7 +36,12 @@ const CollectionListWidget = (props) => {
       </thead>
       <tbody>
         {records.map((record) => (
-          <tr key={record._id}> {displayRecord(record)} </tr>
+          <tr
+            key={record._id}
+            onClick={() => recordClicked(record)}
+          >
+            {displayRecord(record)}
+          </tr>
         ))}
       </tbody>
     </table>
@@ -43,6 +62,7 @@ CollectionListWidget.propTypes = {
   unstackable: PropTypes.bool,
   properties: PropTypes.array.isRequired,
   collectionStore: PropTypes.object,
+  displayActions: PropTypes.object,
 };
 
 export default CollectionListWidget;
