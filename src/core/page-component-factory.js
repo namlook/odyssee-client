@@ -47,22 +47,22 @@ export default (structure, register, actions) => (path) => {
       Component = connectComponent(actions, linkedStores)(Component);
     }
 
-    return React.createElement(
-      Component,
-      { ...requiredProps, ...componentProps, key: `${type}${keyIndex}` },
-      pageProps.children
-    );
+    const props = { ...requiredProps, ...componentProps, key: `${type}${keyIndex}` };
+    return React.createElement(Component, props, pageProps.children);
   };
 
 
-  const { config, name } = getPageConfig(structure, path);
-  const PageComponent = (props) => (
-    !(config.widgets && config.widgets.length) ? null : (
-      <WidgetGrid {...props}>
-        {config.widgets.map((widget, keyIdx) => generateWidgetComponent(widget, props, keyIdx))}
-      </WidgetGrid>
-    )
-  );
+  const { config, name, id } = getPageConfig(structure, path);
+  const PageComponent = (props) => {
+    console.log('page', name, props, config);
+    return (
+      !(config.widgets && config.widgets.length) ? null : (
+        <WidgetGrid {...props} className={`${id.split('.').join('-')}-page`}>
+          {config.widgets.map((widget, keyIdx) => generateWidgetComponent(widget, props, keyIdx))}
+        </WidgetGrid>
+      )
+    );
+  };
 
   PageComponent.displayName = `${pascalCase(name)}Page`;
   return PageComponent;
