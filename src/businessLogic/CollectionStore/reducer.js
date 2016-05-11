@@ -1,6 +1,6 @@
 
 import { ADD_RECORD, UPDATE_RECORD, DELETE_RECORD } from './constants';
-import { Map as iMap, List as iList, Record as iRecord } from 'immutable';
+import { Map as iMap, List as iList, Record as iRecord, Iterable } from 'immutable';
 const generateUniqID = () => `${Math.random() * Math.pow(10, 20)}-${Date.now()}`;
 
 export default (config) => {
@@ -9,7 +9,10 @@ export default (config) => {
   });
 
   const CollectionRecord = iRecord(config.recordSchema);
-  const createRecord = (_id, attributes) => new CollectionRecord({ _id, ...attributes.toJS() });
+  const createRecord = (_id, attributes) => {
+    const recordAttributes = Iterable.isIterable(attributes) ? attributes.toJS() : attributes;
+    return new CollectionRecord({ _id, ...recordAttributes });
+  };
 
 
   const actions = {

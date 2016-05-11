@@ -3,21 +3,19 @@ import React, { PropTypes } from 'react';
 import CardWidget from '../../core/components/CardWidget.jsx';
 
 const WeatherCheckWidget = (props) => {
-  const { storeState, storeActions, name } = props;
-  const ownState = storeState[name];
-  const ownActions = storeActions[name];
-  
+  const { ownStore, ownActions } = props;
+
   return (
     <CardWidget
       _name="weather-check"
       {...props}
     >
       <div className="ui segment">
-        <h3>{ownState.currentWeather}</h3>
-        <button onClick={() => ownActions.currentWeather('sunny')}>
+        <h3>{ownStore.get('currentWeather')}</h3>
+        <button onClick={() => ownActions.weatherChange('sunny')}>
           sunny
         </button>
-        <button onClick={() => ownActions.currentWeather('rainy')}>
+        <button onClick={() => ownActions.weatherChange('rainy')}>
           rainy
         </button>
       </div>
@@ -26,9 +24,8 @@ const WeatherCheckWidget = (props) => {
 };
 
 WeatherCheckWidget.propTypes = {
-  name: PropTypes.string.isRequired,
-  storeState: PropTypes.object.isRequired,
-  storeActions: PropTypes.object.isRequired,
+  ownStore: PropTypes.object.isRequired,
+  ownActions: PropTypes.object.isRequired,
 };
 
 export default WeatherCheckWidget;

@@ -4,21 +4,8 @@ import { browserHistory } from 'react-router';
 import CardWidget from '../../core/components/CardWidget.jsx';
 import FormField from '../../core/components/contrib/FormField.jsx';
 
-import { ownPropTypes, routePropTypes } from '../../core/utils/prop-types';
-
-import _ from 'lodash';
-
-const fillParams = (routeParamsMapping, params) => (
-  Object.keys(routeParamsMapping || {}).reduce((acc, propertyName) => {
-    const value = routeParamsMapping[propertyName];
-    return { ...acc, [propertyName]: value[0] === ':' ? params[value.slice(1)] : value };
-  }, {})
-);
-
-const findRecordFrom = (collectionStore, routeParamsMapping, params) => {
-  const queryFilter = fillParams(routeParamsMapping, params);
-  return !_.isEmpty(queryFilter) && collectionStore.get('content').find(_.matches(queryFilter));
-};
+import { routePropTypes } from '../../core/utils/prop-types';
+import { findRecordFromStore } from '../../core/utils';
 
 class RecordFormWidget extends React.Component {
 
@@ -27,33 +14,30 @@ class RecordFormWidget extends React.Component {
   }
 
   initStore() {
-    const { params, collectionStore, routeParamsMapping, formActions, ownActions } = this.props;
-    const requestedRecord = findRecordFrom(collectionStore, routeParamsMapping, params);
-    const actions = (formActions || ownActions);
+    const { params, collectionStore, routeParamsMapping, ownActions } = this.props;
+    const requestedRecord = findRecordFromStore(collectionStore, routeParamsMapping, params);
     if (requestedRecord) {
-      actions.update(requestedRecord);
-    } else {
-      actions.clear();
+      ownActions.update(requestedRecord);
+    } else if (routeParamsMapping) {
+      ownActions.clear();
     }
   }
 
   render() {
     const {
-      formStore,
-      formActions,
       collectionActions,
       ownStore,
+      ownActions,
       fields,
       onSaveRedirectTo,
       onCancelRedirectTo,
       displaySubmitButtons,
       ...other } = this.props;
 
-    const record = formStore || ownStore;
-    const ownActions = formActions || this.props.ownActions;
+    const recordState = ownStore;
 
     const onChange = ownActions.updateProperty;
-    const clearRecord = () => ownActions.update({ _id: record._id });
+    const clearRecord = () => ownActions.update({ _id: recordState._id });
 
     const triggerClear = (e) => {
       e.preventDefault();
@@ -63,12 +47,12 @@ class RecordFormWidget extends React.Component {
 
     const triggerSave = (e) => {
       e.preventDefault();
-      collectionActions.addRecord(record);
+      collectionActions.addRecord(recordState);
       ownActions.clear();
       if (onSaveRedirectTo) {
         let redirectUrl = onSaveRedirectTo;
-        if (record._id) {
-          redirectUrl = onSaveRedirectTo.replace(':id', record._id);
+        if (recordState._id) {
+          redirectUrl = onSaveRedirectTo.replace(':id', recordState._id);
         }
         browserHistory.push(redirectUrl);
       }
@@ -81,8 +65,8 @@ class RecordFormWidget extends React.Component {
       const cancelRedirect = onCancelRedirectTo || onSaveRedirectTo;
       if (cancelRedirect) {
         let redirectUrl = cancelRedirect;
-        if (record._id) {
-          redirectUrl = cancelRedirect.replace(':id', record._id);
+        if (recordState._id) {
+          redirectUrl = cancelRedirect.replace(':id', recordState._id);
         }
         browserHistory.push(redirectUrl);
       }
@@ -118,7 +102,7 @@ class RecordFormWidget extends React.Component {
                 name={field.name}
                 label={field.label}
                 type={field.type}
-                value={record[field.name]}
+                value={recordState[field.name]}
                 onChange={onChange} />
             ))}
           </div>
@@ -131,7 +115,6 @@ class RecordFormWidget extends React.Component {
 
 RecordFormWidget.propTypes = {
   ...routePropTypes,
-  ...ownPropTypes('formStore'),
   onSaveRedirectTo: PropTypes.string,
   formStore: PropTypes.object,
   formActions: PropTypes.object,

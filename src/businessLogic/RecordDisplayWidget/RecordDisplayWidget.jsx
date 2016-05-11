@@ -2,21 +2,8 @@ import React, { PropTypes } from 'react';
 
 import CardWidget from '../../core/components/CardWidget.jsx';
 
-import { ownPropTypes, routePropTypes } from '../../core/utils/prop-types';
-
-import _ from 'lodash';
-
-const fillParams = (routeParamsMapping, params) => (
-  Object.keys(routeParamsMapping || {}).reduce((acc, propertyName) => {
-    const value = routeParamsMapping[propertyName];
-    return { ...acc, [propertyName]: value[0] === ':' ? params[value.slice(1)] : value };
-  }, {})
-);
-
-const findRecordFrom = (collectionStore, routeParamsMapping, params) => {
-  const queryFilter = fillParams(routeParamsMapping, params);
-  return !_.isEmpty(queryFilter) && collectionStore.get('content').find(_.matches(queryFilter));
-};
+import { routePropTypes } from '../../core/utils/prop-types';
+import { findRecordFromStore } from '../../core/utils';
 
 
 class RecordDisplayWidget extends React.Component {
@@ -26,25 +13,23 @@ class RecordDisplayWidget extends React.Component {
   }
 
   initStore() {
-    const { params, collectionStore, routeParamsMapping, recordActions, ownActions } = this.props;
-    const requestedRecord = findRecordFrom(collectionStore, routeParamsMapping, params);
-    const actions = (recordActions || ownActions);
+    const { params, collectionStore, routeParamsMapping, ownActions } = this.props;
+    const requestedRecord = findRecordFromStore(collectionStore, routeParamsMapping, params);
     if (requestedRecord) {
-      actions.update(requestedRecord);
+      ownActions.update(requestedRecord);
     } else {
-      actions.clear();
+      ownActions.clear();
     }
   }
 
   render() {
     const {
-      recordStore,
       ownStore,
       fields,
       ...other,
     } = this.props;
 
-    const record = recordStore || ownStore;
+    const recordState = ownStore;
 
     return (
       <CardWidget
@@ -54,7 +39,7 @@ class RecordDisplayWidget extends React.Component {
         {fields.map((field) => (
           <div key={field.name} className="ui segment">
             <h3>{field.label}</h3>
-            {record[field.name]}
+            {recordState[field.name]}
           </div>
         ))}
       </CardWidget>
@@ -64,7 +49,6 @@ class RecordDisplayWidget extends React.Component {
 
 RecordDisplayWidget.propTypes = {
   ...routePropTypes,
-  ...ownPropTypes('recordStore'),
   recordStore: PropTypes.object,
   fields: PropTypes.array.isRequired,
 };

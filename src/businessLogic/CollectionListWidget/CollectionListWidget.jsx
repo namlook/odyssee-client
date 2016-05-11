@@ -1,19 +1,15 @@
 import React, { PropTypes } from 'react';
 import { browserHistory } from 'react-router';
 
-import { ownPropTypes } from '../../core/utils/prop-types';
-
 import CardWidget from '../../core/components/CardWidget.jsx';
 
 const CollectionListWidget = (props) => {
   const {
-    collectionStore,
     ownStore,
-    // displayActions,
     properties,
     unstackable,
     onClickRedirectTo } = props;
-  const records = (collectionStore || ownStore).get('content');
+  const records = ownStore.get('content');
 
   const displayRecord = (record) => (
     properties.map((property) => <td key={property}>{record[property]}</td>)
@@ -57,12 +53,11 @@ const CollectionListWidget = (props) => {
 };
 
 CollectionListWidget.propTypes = {
-  ...ownPropTypes('collectionStore'),
+  ownStore: PropTypes.object,
   color: PropTypes.string,
   unstackable: PropTypes.bool,
   properties: PropTypes.array.isRequired,
-  collectionStore: PropTypes.object,
-  displayActions: PropTypes.object,
+  onClickRedirectTo: PropTypes.string,
 };
 
 export default CollectionListWidget;
