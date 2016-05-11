@@ -3,13 +3,26 @@ import { browserHistory } from 'react-router';
 
 import CardWidget from '../../core/components/CardWidget.jsx';
 
+import { routePropTypes } from '../../core/utils/prop-types';
+import _ from 'lodash';
+
 const CollectionListWidget = (props) => {
   const {
     ownStore,
+    searchProperty,
+    searchStore,
     properties,
     unstackable,
-    onClickRedirectTo } = props;
-  const records = ownStore.get('content');
+    onClickRedirectTo,
+    location,
+    ...other } = props;
+
+  const searchValue = _.get(location, 'query.search') || searchStore && searchStore.get('value');
+  const storeContent = ownStore.get('content');
+
+  const records = searchProperty && searchValue
+    ? storeContent.filter((o) => o[searchProperty] === searchValue)
+    : storeContent;
 
   const displayRecord = (record) => (
     properties.map((property) => <td key={property}>{record[property]}</td>)
@@ -46,18 +59,21 @@ const CollectionListWidget = (props) => {
   );
 
   return (
-    <CardWidget _name="collection-list" {...props}>
+    <CardWidget _name="collection-list" {...other}>
       {table}
     </CardWidget>
   );
 };
 
 CollectionListWidget.propTypes = {
-  ownStore: PropTypes.object,
+  ...routePropTypes,
+  ownStore: PropTypes.object.isRequired,
+  searchStore: PropTypes.object,
   color: PropTypes.string,
   unstackable: PropTypes.bool,
   properties: PropTypes.array.isRequired,
   onClickRedirectTo: PropTypes.string,
+  searchProperty: PropTypes.string,
 };
 
 export default CollectionListWidget;

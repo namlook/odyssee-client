@@ -112,6 +112,13 @@ export default {
         lap: 'number',
       },
     },
+    {
+      type: 'record',
+      name: 'score-search-store',
+      schema: {
+        value: 'string',
+      },
+    },
     // {
     //   type: 'record',
     //   name: 'score-form-store',
@@ -380,6 +387,7 @@ export default {
               icon: 'users',
               subtitle: 'Que le meilleur gagne',
               properties: ['_id', 'participant', 'score', 'lap'],
+              searchProperty: 'participant',
               onClickRedirectTo: '/scores/:id',
               linkedStores: {
                 own: 'scores-store',
@@ -391,16 +399,28 @@ export default {
           path: 'winner(/:id)',
           widgets: [
             {
+              type: 'record-form',
+              fields: [
+                { name: 'value', type: 'text', label: 'search' },
+              ],
+              linkedStores: {
+                own: 'score-search-store',
+              },
+            },
+            {
               type: 'collection-list',
+              routeParamsMapping: { participant: '?name' },
               title: 'Les scores',
               unstackable: true,
               color: 'teal',
               icon: 'users',
               subtitle: 'Que le meilleur gagne',
               properties: ['_id', 'participant', 'score', 'lap'],
+              searchProperty: 'participant',
               onClickRedirectTo: '/scores/winner/:id',
               linkedStores: {
                 own: 'scores-store',
+                search: 'score-search-store',
               },
               // on: {
               //   recordClicked: { action: 'update', store: 'score-store' },

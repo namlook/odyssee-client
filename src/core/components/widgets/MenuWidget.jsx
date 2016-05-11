@@ -60,6 +60,14 @@ export class MenuWidget extends React.Component {
     const itemLinks = (items || []).map(menuLink);
     const secondaryItemLinks = (secondaryItems || []).map(menuLink);
 
+    // TODO for the following, the menu needs its own store
+    // const querySearch = _.get(location, 'query.search');
+    // const triggerSearch = (e) => {
+    //   e.preventDefault();
+    //   location.query.search = this.refs.search.value;
+    //   browserHistory.replace(location);
+    // };
+
     return (
       <Widget
         _name="menu"
@@ -78,6 +86,7 @@ export class MenuWidget extends React.Component {
               {itemLinks}
 
               <div className="right menu">
+                {/* TODO for the followin, the widget need its own store
                 <div className="ui right aligned search item">
                   <div className="ui transparent icon input">
                     <input className="prompt" type="text" placeholder="search..." />
@@ -85,6 +94,7 @@ export class MenuWidget extends React.Component {
                   </div>
                   <div className="results"></div>
                 </div>
+                */}
 
                 {secondaryItemLinks.length ? (
                   <div className="ui dropdown link item" ref="dropdown">
