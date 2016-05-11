@@ -115,7 +115,9 @@ const _extractRoutes = (structure, root = '', id = 'application') => (
       if (pageName[0] === '_') return []; // skip pages which begins with '_'
 
       const pageId = `${id}.${pageName}`;
-      const pagePath = structure[pageName].path;
+      const pagePath = structure[pageName].path || (
+        pageName !== 'outlet' && structure[pageName].widgets && pageName
+      );
       if (pageName === 'index') {
         return { fullPath: root || '/', path: '', id: pageId, name: pageName };
       } else if (pageName === 'outlet') {
