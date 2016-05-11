@@ -9,7 +9,7 @@ const CollectionListWidget = (props) => {
   const {
     collectionStore,
     ownStore,
-    displayActions,
+    // displayActions,
     properties,
     unstackable,
     onClickRedirectTo } = props;
@@ -20,7 +20,7 @@ const CollectionListWidget = (props) => {
   );
 
   const recordClicked = (record) => {
-    displayActions.update(record);
+    // displayActions.update(record);
     if (onClickRedirectTo) {
       browserHistory.push(onClickRedirectTo.replace(':id', record._id));
     }
