@@ -61,6 +61,9 @@ const _buildRoutes = (routeInfos, pageComponents) => {
   if (_.isArray(routeInfos)) {
     const sortedRoutes = _.reverse(_.sortBy(routeInfos, (o) => {
       if (o.fullPath) {
+        if (o.fullPath === '/*') {
+          return -1;
+        }
         return o.fullPath;
       }
       return o.outlet[0].fullPath;
