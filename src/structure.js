@@ -72,7 +72,6 @@ export default {
       recordSchema: {
         _id: '',
         name: '',
-        position: '',
       },
     },
     {
@@ -81,7 +80,6 @@ export default {
       schema: {
         _id: 'string',
         name: 'string',
-        position: 'number',
       },
     },
     // {
@@ -102,6 +100,16 @@ export default {
         participant: '',
         lap: '',
         score: '',
+      },
+    },
+    {
+      type: 'record',
+      name: 'score-store',
+      schema: {
+        _id: 'string',
+        participant: 'string',
+        score: 'number',
+        lap: 'number',
       },
     },
     // {
@@ -195,7 +203,7 @@ export default {
           ],
           displaySubmitButtons: true,
           linkedStores: {
-            form: 'participant-form-store',
+            own: 'participant-form-store',
             collection: 'participants-store',
           },
         },
@@ -219,13 +227,6 @@ export default {
       outlet: {
         path: 'scores',
         widgets: [
-          {
-            type: 'menu',
-            title: 'Scores',
-            items: [
-              { label: 'create', route: '/scores/i/new', icon: 'plus' },
-            ],
-          },
           {
             type: 'outlet',
           },
@@ -264,7 +265,26 @@ export default {
       record: {
         outlet: {
           path: ':id',
+          // initStores: {
+          //   'score-store': {
+          //     from: 'scores-store',
+          //     query: { filter: { _id: ':id' } },
+          //   },
+          // },
           widgets: [
+            {
+              type: 'menu',
+              title: 'Scores',
+              icon: 'cube',
+              items: [
+                { label: 'show', route: '/scores/:id', icon: 'document' },
+                { label: 'edit', route: '/scores/:id/edit', icon: 'pencil' },
+              ],
+            },
+            // {
+            //   type: 'not-found-redirection'
+            //   // TODO handle 404 here ?
+            // },
             {
               type: 'outlet',
             },
@@ -274,17 +294,29 @@ export default {
           widgets: [
             {
               type: 'record-display',
-              store: {
-                name: 'score-display',
-                schema: {
-                  _id: 'string',
-                  participant: 'string',
-                  score: 'number',
-                  lap: 'number',
-                },
+              routeParamsMapping: { _id: ':id' },
+              // store: {
+              //   name: 'score-display',
+              //   schema: {
+              //     _id: 'string',
+              //     participant: 'string',
+              //     score: 'number',
+              //     lap: 'number',
+              //   },
+              // },
+              linkedStores: {
+                // record: {
+                //   name: 'score-store',
+                //   bootstrap: {
+                //     from: 'scores-store',
+                //     query: { filter: { _id: ':id' } },
+                //   },
+                // },
+                own: 'score-store',
+                collection: 'scores-store',
               },
               fields: [
-                { name: 'participant', type: 'search', label: 'participant' },
+                { name: 'participant', type: 'text', label: 'participant' },
                 { name: 'score', type: 'number', label: 'score' },
                 { name: 'lap', type: 'number', label: 'tour' },
               ],
@@ -296,15 +328,16 @@ export default {
           widgets: [
             {
               type: 'record-form',
-              store: {
-                name: 'score-edit',
-                schema: {
-                  _id: 'string',
-                  participant: 'string',
-                  score: 'number',
-                  lap: 'number',
-                },
-              },
+              routeParamsMapping: { _id: ':id' },
+              // store: {
+              //   name: 'score-edit',
+              //   schema: {
+              //     _id: 'string',
+              //     participant: 'string',
+              //     score: 'number',
+              //     lap: 'number',
+              //   },
+              // },
               fields: [
                 { name: 'participant', type: 'search', label: 'participant' },
                 { name: 'score', type: 'number', label: 'score' },
@@ -314,7 +347,7 @@ export default {
               onCancelRedirectTo: '/scores/:id',
               displaySubmitButtons: true,
               linkedStores: {
-                // form: 'score-form-store',
+                own: 'score-store',
                 collection: 'scores-store',
               },
             },
@@ -324,6 +357,14 @@ export default {
       collection: {
         outlet: {
           widgets: [
+            {
+              type: 'menu',
+              title: 'Scores',
+              icon: 'cubes',
+              items: [
+                { label: 'create', route: '/scores/winner', icon: 'plus' },
+              ],
+            },
             {
               type: 'outlet',
             },
@@ -341,8 +382,84 @@ export default {
               properties: ['_id', 'participant', 'score', 'lap'],
               onClickRedirectTo: '/scores/:id',
               linkedStores: {
+                own: 'scores-store',
+              },
+            },
+          ],
+        },
+        winner: {
+          path: 'winner(/:id)',
+          widgets: [
+            {
+              type: 'collection-list',
+              title: 'Les scores',
+              unstackable: true,
+              color: 'teal',
+              icon: 'users',
+              subtitle: 'Que le meilleur gagne',
+              properties: ['_id', 'participant', 'score', 'lap'],
+              onClickRedirectTo: '/scores/winner/:id',
+              linkedStores: {
+                own: 'scores-store',
+              },
+              // on: {
+              //   recordClicked: { action: 'update', store: 'score-store' },
+              // },
+            },
+            {
+              layout: { mobile: 8 },
+              type: 'record-display',
+              routeParamsMapping: { _id: ':id' },
+              // store: {
+              //   name: 'score-display',
+              //   schema: {
+              //     _id: 'string',
+              //     participant: 'string',
+              //     score: 'number',
+              //     lap: 'number',
+              //   },
+              // },
+              linkedStores: {
+                // record: {
+                //   name: 'score-store',
+                //   bootstrap: {
+                //     from: 'scores-store',
+                //     query: { filter: { _id: ':id' } },
+                //   },
+                // },
+                own: 'score-store',
                 collection: 'scores-store',
-                display: 'score-display',
+              },
+              fields: [
+                { name: 'participant', type: 'text', label: 'participant' },
+                { name: 'score', type: 'number', label: 'score' },
+                { name: 'lap', type: 'number', label: 'tour' },
+              ],
+            },
+            {
+              layout: { mobile: 8 },
+              type: 'record-form',
+              routeParamsMapping: { _id: ':id' },
+              // store: {
+              //   name: 'score-edit',
+              //   schema: {
+              //     _id: 'string',
+              //     participant: 'string',
+              //     score: 'number',
+              //     lap: 'number',
+              //   },
+              // },
+              fields: [
+                { name: 'participant', type: 'search', label: 'participant' },
+                { name: 'score', type: 'number', label: 'score' },
+                { name: 'lap', type: 'number', label: 'tour' },
+              ],
+              onSaveRedirectTo: '/scores/winner',
+              onCancelRedirectTo: '/scores/winner',
+              displaySubmitButtons: true,
+              linkedStores: {
+                own: 'score-store',
+                collection: 'scores-store',
               },
             },
           ],
@@ -369,61 +486,62 @@ export default {
         },
       },
     },
-    // _contact: {
-    //   path: 'contact',
-    //   widgets: [
-    //     {
-    //       type: 'menu',
-    //       title: 'Contact',
-    //     },
-    //     {
-    //       type: 'text',
-    //       title: 'how to contact us ?',
-    //       content: "you'll find the map here",
-    //     },
-    //     {
-    //       type: 'weather-check',
-    //       name: 'weather-in-montpellier',
-    //       title: 'current weather',
-    //     },
-    //     {
-    //       type: 'are-we-open',
-    //       title: 'are we open ?',
-    //       linkedStores: {
-    //         currentWeather: { to: 'currentWeather', from: 'weather-in-montpellier' },
-    //       },
-    //     },
-    //     {
-    //       type: 'record-form',
-    //       title: 'add participants',
-    //       name: 'participant-form',
-    //       fields: [
-    //         { name: 'name', type: 'text' },
-    //         { name: 'position', type: 'number' },
-    //       ],
-    //       displaySubmitButtons: true,
-    //       linkedStores: {
-    //         record: 'participant-form-store',
-    //       },
-    //       on: {
-    //         change: { dispatch: 'updateProperty', on: 'participant-form-store' },
-    //         clear: { dispatch: 'clear', on: 'participant-form-store' },
-    //         save: { dispatch: 'addRecord', on: 'participants-store' },
-    //       },
-    //     },
-    //     {
-    //       type: 'collection-list',
-    //       name: 'participants-list',
-    //       title: 'here are the participants',
-    //       properties: ['name'],
-    //       linkedStores: {
-    //         collection: { to: 'content', from: 'participants-store' },
-    //       },
-    //     },
-    //   ],
-    // },
+    contact: {
+      path: 'contact',
+      widgets: [
+        {
+          type: 'menu',
+          title: 'Contact',
+        },
+        {
+          type: 'text',
+          title: 'how to contact us ?',
+          content: "you'll find the map here",
+        },
+        {
+          type: 'weather-check',
+          store: {
+            name: 'weather-in-montpellier',
+          },
+          title: 'current weather',
+        },
+        {
+          type: 'are-we-open',
+          title: 'are we open ?',
+          linkedStores: {
+            weather: 'weather-in-montpellier',
+          },
+        },
+        {
+          type: 'record-form',
+          title: 'add participants',
+          fields: [
+            { name: 'name', type: 'text' },
+          ],
+          displaySubmitButtons: true,
+          linkedStores: {
+            own: 'participant-form-store',
+            collection: 'participants-store',
+          },
+          // on: {
+          //   change: { dispatch: 'updateProperty', on: 'participant-form-store' },
+          //   clear: { dispatch: 'clear', on: 'participant-form-store' },
+          //   save: { dispatch: 'addRecord', on: 'participants-store' },
+          // },
+        },
+        {
+          type: 'collection-list',
+          name: 'participants-list',
+          title: 'here are the participants',
+          properties: ['name'],
+          linkedStores: {
+            own: 'participants-store',
+          },
+        },
+      ],
+    },
     404: {
-      path: '404',
+      path: '*',
       widgets: [
         {
           type: 'not-found',
