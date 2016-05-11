@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
+import { routePropTypes } from '../../utils/prop-types';
+
 import Widget from '../Widget.jsx';
 
 import jQuery from 'jquery';
@@ -31,26 +33,32 @@ export class MenuWidget extends React.Component {
     $(this.refs.dropdown).dropdown();
   }
 
-  generateMenuLink(item) {
-    return (
-      <Link
-        to={item.route}
-        key={item.route}
-        onlyActiveOnIndex={!item.index}
-        activeClassName="active"
-        className="item"
-      >
-        <i className={`${item.icon} icon`}></i>
-        {item.label}
-      </Link>
-    );
+  generateMenuLink(params) {
+    return (item) => {
+      const route = Object.keys(params).reduce(
+        (acc, paramName) => acc.replace(`:${paramName}`, params[paramName]),
+      item.route);
+      return (
+        <Link
+          to={route}
+          key={item.route}
+          onlyActiveOnIndex={!item.index}
+          activeClassName="active"
+          className="item"
+        >
+          <i className={`${item.icon} icon`}></i>
+          {item.label}
+        </Link>
+      );
+    };
   }
 
   render() {
-    const { layout, className, color, items, title, icon, secondaryItems } = this.props;
+    const { layout, className, color, items, params, title, icon, secondaryItems } = this.props;
 
-    const itemLinks = (items || []).map((item) => this.generateMenuLink(item));
-    const secondaryItemLinks = (secondaryItems || []).map((item) => this.generateMenuLink(item));
+    const menuLink = this.generateMenuLink(params);
+    const itemLinks = (items || []).map(menuLink);
+    const secondaryItemLinks = (secondaryItems || []).map(menuLink);
 
     return (
       <Widget
@@ -127,6 +135,7 @@ export class MenuWidget extends React.Component {
 }
 
 MenuWidget.propTypes = {
+  ...routePropTypes,
   layout: PropTypes.object,
   className: PropTypes.string,
   title: PropTypes.string,

@@ -5,12 +5,20 @@ import connectComponent from './connect-component';
 import WidgetGrid from './components/WidgetGrid.jsx';
 
 
-import { extractPages, pascalCase } from './utils/core';
+import { extractPages, pascalCase, extractStores, extractWidgets } from './utils/core';
 import _ from 'lodash';
 
 export const getPageConfig = (struct, id) => {
   const pages = extractPages(struct);
   return _.find(pages, { id });
+};
+
+const getAllStoreNames = (structure) => {
+  const results = [].concat(
+    extractStores(structure).map((o) => o.name),
+    extractWidgets(structure).map(({ store }) => store && store.name),
+  );
+  return _.compact(results);
 };
 
 export default (structure, register, actions) => (path) => {
@@ -44,6 +52,16 @@ export default (structure, register, actions) => (path) => {
 
     const shouldBeConnected = Object.keys(linkedStores).length;
     if (shouldBeConnected) {
+      const storeNamesFound = getAllStoreNames(structure);
+      Object.keys(linkedStores).forEach((storeName) => {
+        if (storeNamesFound.indexOf(linkedStores[storeName]) === -1) {
+          console.warn( // eslint-disable-line no-console
+            `ERROR! the store \`${linkedStores[storeName]}\` is linked to the ` +
+            `component \`${widgetName}\` as \`${storeName}\` but is not found in structure`,
+          );
+        }
+      });
+
       Component = connectComponent(actions, linkedStores)(Component);
     }
 
