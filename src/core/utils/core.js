@@ -32,7 +32,13 @@ export const extractWidgetClassNames = (struct) => (
   extractWidgets(struct).map((widgetConfig) => `${pascalCase(widgetConfig.type)}Widget`)
 );
 
-export const extractStores = (struct) => struct.stores;
+const _extractStores = (struct) => (
+  _(extractPages(struct))
+    .flatMap((pageConfig) => pageConfig.config.stores || [])
+    .value()
+);
+
+export const extractStores = (struct) => (struct.stores || []).concat(_extractStores(struct));
 
 
 // import structure from '../../config/structure';
