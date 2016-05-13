@@ -301,7 +301,7 @@ export default {
           widgets: [
             {
               type: 'record-display',
-              routeParamsMapping: { _id: ':id' },
+              // routeParamsMapping: { _id: ':id' },
               // store: {
               //   name: 'score-display',
               //   schema: {
@@ -311,6 +311,7 @@ export default {
               //     lap: 'number',
               //   },
               // },
+              linkedRouteParams: { _id: ':id' },
               linkedStores: {
                 // record: {
                 //   name: 'score-store',
@@ -335,7 +336,7 @@ export default {
           widgets: [
             {
               type: 'record-form',
-              routeParamsMapping: { _id: ':id' },
+              // routeParamsMapping: { _id: ':id' },
               // store: {
               //   name: 'score-edit',
               //   schema: {
@@ -353,6 +354,7 @@ export default {
               onSaveRedirectTo: '/scores/:id',
               onCancelRedirectTo: '/scores/:id',
               displaySubmitButtons: true,
+              linkedRouteParams: { _id: ':id' },
               linkedStores: {
                 own: 'score-store',
                 collection: 'scores-store',
@@ -403,13 +405,15 @@ export default {
               fields: [
                 { name: 'value', type: 'text', label: 'search' },
               ],
+              exposeStateToRouteQuery: {
+                value: 'participant',
+              },
               linkedStores: {
                 own: 'score-search-store',
               },
             },
             {
               type: 'collection-list',
-              routeParamsMapping: { participant: '?name' },
               title: 'Les scores',
               unstackable: true,
               color: 'teal',
@@ -418,9 +422,12 @@ export default {
               properties: ['_id', 'participant', 'score', 'lap'],
               searchProperty: 'participant',
               onClickRedirectTo: '/scores/winner/:id',
+              linkedRouteQuery: {
+                search: 'participant',
+              },
               linkedStores: {
                 own: 'scores-store',
-                search: 'score-search-store',
+                // search: 'score-search-store',
               },
               // on: {
               //   recordClicked: { action: 'update', store: 'score-store' },
@@ -429,7 +436,7 @@ export default {
             {
               layout: { mobile: 8 },
               type: 'record-display',
-              routeParamsMapping: { _id: ':id' },
+              // routeParamsMapping: { _id: ':id' },
               // store: {
               //   name: 'score-display',
               //   schema: {
@@ -439,6 +446,7 @@ export default {
               //     lap: 'number',
               //   },
               // },
+              linkedRouteParams: { _id: ':id' },
               linkedStores: {
                 // record: {
                 //   name: 'score-store',
@@ -459,7 +467,7 @@ export default {
             {
               layout: { mobile: 8 },
               type: 'record-form',
-              routeParamsMapping: { _id: ':id' },
+              // routeParamsMapping: { _id: ':id' },
               // store: {
               //   name: 'score-edit',
               //   schema: {
@@ -477,6 +485,7 @@ export default {
               onSaveRedirectTo: '/scores/winner',
               onCancelRedirectTo: '/scores/winner',
               displaySubmitButtons: true,
+              linkedRouteParams: { _id: ':id' },
               linkedStores: {
                 own: 'score-store',
                 collection: 'scores-store',

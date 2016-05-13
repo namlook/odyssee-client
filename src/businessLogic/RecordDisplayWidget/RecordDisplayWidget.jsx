@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 
 import CardWidget from '../../core/components/CardWidget.jsx';
 
-import { routePropTypes } from '../../core/utils/prop-types';
 import { findRecordFromStore } from '../../core/utils';
 
 
@@ -13,8 +12,8 @@ class RecordDisplayWidget extends React.Component {
   }
 
   initStore() {
-    const { params, collectionStore, routeParamsMapping, ownActions } = this.props;
-    const requestedRecord = findRecordFromStore(collectionStore, routeParamsMapping, params);
+    const { params, collectionStore, linkedRouteParams, ownActions } = this.props;
+    const requestedRecord = findRecordFromStore(collectionStore, linkedRouteParams, params);
     if (requestedRecord) {
       ownActions.update(requestedRecord);
     } else {
@@ -48,8 +47,11 @@ class RecordDisplayWidget extends React.Component {
 }
 
 RecordDisplayWidget.propTypes = {
-  ...routePropTypes,
-  recordStore: PropTypes.object,
+  params: PropTypes.object.isRequired,
+  linkedRouteParams: PropTypes.object,
+  ownStore: PropTypes.object.isRequired,
+  ownActions: PropTypes.object.isRequired,
+  collectionStore: PropTypes.object,
   fields: PropTypes.array.isRequired,
 };
 

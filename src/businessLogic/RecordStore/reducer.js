@@ -4,7 +4,7 @@ import { Record as iRecord } from 'immutable';
 
 const castValue = (schema, property, value) => {
   if (schema[property] === 'number') return parseFloat(value);
-  return value;
+  return value == null ? '' : value;
 };
 
 export default (config) => {

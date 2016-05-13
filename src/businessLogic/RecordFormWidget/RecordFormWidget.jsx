@@ -4,8 +4,17 @@ import { browserHistory } from 'react-router';
 import CardWidget from '../../core/components/CardWidget.jsx';
 import FormField from '../../core/components/contrib/FormField.jsx';
 
-import { routePropTypes } from '../../core/utils/prop-types';
 import { findRecordFromStore } from '../../core/utils';
+
+const storeToQuery = (exposeStateToRouteQuery, store) => (
+  Object.keys(exposeStateToRouteQuery).reduce((acc, propertyName) => {
+    const value = store.get(propertyName);
+    if (value) {
+      return { ...acc, [exposeStateToRouteQuery[propertyName]]: value };
+    }
+    return acc;
+  }, {})
+);
 
 class RecordFormWidget extends React.Component {
 
@@ -14,12 +23,27 @@ class RecordFormWidget extends React.Component {
   }
 
   initStore() {
-    const { params, collectionStore, routeParamsMapping, ownActions } = this.props;
-    const requestedRecord = findRecordFromStore(collectionStore, routeParamsMapping, params);
-    if (requestedRecord) {
-      ownActions.update(requestedRecord);
-    } else if (routeParamsMapping) {
-      ownActions.clear();
+    const {
+      params,
+      collectionStore,
+      linkedRouteParams,
+      location,
+      exposeStateToRouteQuery,
+      ownActions,
+    } = this.props;
+
+    if (collectionStore && linkedRouteParams) { // fill form from url params
+      const requestedRecord = findRecordFromStore(collectionStore, linkedRouteParams, params);
+      if (requestedRecord) {
+        ownActions.update(requestedRecord);
+      } else if (linkedRouteParams) {
+        ownActions.clear();
+      }
+    } else if (exposeStateToRouteQuery) { // fill form from url query
+      Object.keys(exposeStateToRouteQuery).forEach((storePropertyName) => {
+        const queryFilterName = exposeStateToRouteQuery[storePropertyName];
+        ownActions.updateProperty(storePropertyName, location.query[queryFilterName]);
+      });
     }
   }
 
@@ -29,14 +53,15 @@ class RecordFormWidget extends React.Component {
       ownStore,
       ownActions,
       fields,
+      location,
       onSaveRedirectTo,
       onCancelRedirectTo,
       displaySubmitButtons,
+      exposeStateToRouteQuery,
       ...other } = this.props;
 
     const recordState = ownStore;
 
-    const onChange = ownActions.updateProperty;
     const clearRecord = () => ownActions.update({ _id: recordState._id });
 
     const triggerClear = (e) => {
@@ -47,7 +72,13 @@ class RecordFormWidget extends React.Component {
 
     const triggerSave = (e) => {
       e.preventDefault();
-      collectionActions.addRecord(recordState);
+      if (collectionActions) {
+        collectionActions.addRecord(recordState);
+      }
+      if (exposeStateToRouteQuery) {
+        location.query = storeToQuery(exposeStateToRouteQuery, recordState);
+        browserHistory.replace(location);
+      }
       ownActions.clear();
       if (onSaveRedirectTo) {
         let redirectUrl = onSaveRedirectTo;
@@ -70,6 +101,10 @@ class RecordFormWidget extends React.Component {
         }
         browserHistory.push(redirectUrl);
       }
+    };
+
+    const triggerChange = (...args) => {
+      ownActions.updateProperty(...args);
     };
 
     let submitButtons;
@@ -103,7 +138,7 @@ class RecordFormWidget extends React.Component {
                 label={field.label}
                 type={field.type}
                 value={recordState[field.name]}
-                onChange={onChange} />
+                onChange={triggerChange} />
             ))}
           </div>
           {submitButtons}
@@ -114,10 +149,16 @@ class RecordFormWidget extends React.Component {
 }
 
 RecordFormWidget.propTypes = {
-  ...routePropTypes,
+  location: PropTypes.object.isRequired,
+  params: PropTypes.object.isRequired,
+  exposeStateToRouteQuery: PropTypes.object,
+  linkedRouteParams: PropTypes.object,
+  onSaveClearForm: PropTypes.bool,
   onSaveRedirectTo: PropTypes.string,
-  formStore: PropTypes.object,
-  formActions: PropTypes.object,
+  onCancelRedirectTo: PropTypes.string,
+  ownStore: PropTypes.object,
+  ownActions: PropTypes.object,
+  collectionStore: PropTypes.object,
   collectionActions: PropTypes.object,
   fields: PropTypes.array.isRequired,
   displaySubmitButtons: PropTypes.bool,

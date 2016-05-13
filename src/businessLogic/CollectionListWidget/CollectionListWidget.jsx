@@ -3,21 +3,21 @@ import { browserHistory } from 'react-router';
 
 import CardWidget from '../../core/components/CardWidget.jsx';
 
-import { routePropTypes } from '../../core/utils/prop-types';
-import _ from 'lodash';
-
 const CollectionListWidget = (props) => {
   const {
     ownStore,
-    searchProperty,
+    linkedRouteQuery,
     searchStore,
+    searchProperty,
     properties,
     unstackable,
     onClickRedirectTo,
     location,
     ...other } = props;
 
-  const searchValue = _.get(location, 'query.search') || searchStore && searchStore.get('value');
+  const searchValue = linkedRouteQuery && location.query[linkedRouteQuery.search]
+    || searchStore && searchStore.get('value');
+
   const storeContent = ownStore.get('content');
 
   const records = searchProperty && searchValue
@@ -66,7 +66,8 @@ const CollectionListWidget = (props) => {
 };
 
 CollectionListWidget.propTypes = {
-  ...routePropTypes,
+  location: PropTypes.object.isRequired,
+  linkedRouteQuery: PropTypes.object,
   ownStore: PropTypes.object.isRequired,
   searchStore: PropTypes.object,
   color: PropTypes.string,
@@ -75,5 +76,24 @@ CollectionListWidget.propTypes = {
   onClickRedirectTo: PropTypes.string,
   searchProperty: PropTypes.string,
 };
+
+
+// const getSearchFilter = (state, props) => (
+//   props.location.query.search ||
+//   props.searchStore && props.searchStore.get('value')
+// );
+//
+// const getSearchProperty = (state, props) => props.searchProperty;
+//
+// const getContent = (state) => state.get('content');
+//
+// CollectionListWidget.selectors = {
+//   content: createSelector(
+//     [getSearchFilter, getContent, getSearchProperty],
+//     (searchFilter, content, searchProperty) => (
+//       searchFilter ? content.filter((o) => o[searchProperty] === searchFilter) : content
+//     )
+//   ),
+// };
 
 export default CollectionListWidget;
