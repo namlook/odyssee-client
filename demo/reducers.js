@@ -1,6 +1,6 @@
 
 import { combineReducers } from 'redux';
-import { extractReducers } from '../lib/core';
+import { extractReducers } from '../lib';
 
 import structure from './structure';
 import register from './register';

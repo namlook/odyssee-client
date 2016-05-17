@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import { browserHistory } from 'react-router';
 
-import Widget from '../../core/components/Widget';
-import FormField from '../../core/components/contrib/FormField';
-import { routePropTypes } from '../../core/utils/prop-types';
+import Widget from '../../components/Widget';
+import FormField from '../../components/contrib/FormField';
+import { routePropTypes } from '../../utils/prop-types';
 
 const ScoreCollectionNavbarWidget = (props) => {
   const { storeState, storeActions, link, params, on, ...other } = props;

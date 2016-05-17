@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import _ from 'lodash';
 
-import { routePropTypes } from '../../core/utils/prop-types';
+import { routePropTypes } from '../utils/prop-types';
 
 import { number2semanticClassName } from '../utils/semantic-ui';
 

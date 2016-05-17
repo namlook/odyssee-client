@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
 import Widget from './Widget';
-import { routePropTypes } from '../../core/utils/prop-types';
+import { routePropTypes } from '../utils/prop-types';
 
 const Outlet = ({ children, ...other }) => (
   <Widget _name="outlet" {...other}>

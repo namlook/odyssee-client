@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 import Widget from './Widget';
 import HeaderUI from './ui/HeaderUI';
 
-import { routePropTypes } from '../../core/utils/prop-types';
+import { routePropTypes } from '../utils/prop-types';
 
 const CardWidget = (props) => {
   const { title, icon, subtitle, color, ...other } = props;

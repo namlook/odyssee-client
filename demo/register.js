@@ -16,16 +16,16 @@ import * as ParticipantsEditWidget from '../lib/businessLogic/ParticipantsEditWi
 import * as WeatherCheckWidget from '../lib/businessLogic/WeatherCheckWidget';
 import * as AreWeOpenWidget from '../lib/businessLogic/AreWeOpenWidget';
 
-import Outlet from '../lib/core/components/Outlet';
-import TextWidget from '../lib/core/components/widgets/TextWidget';
-import ApplicationMenuWidget from '../lib/core/components/widgets/ApplicationMenuWidget';
+import Outlet from '../lib/components/Outlet';
+import TextWidget from '../lib/components/widgets/TextWidget';
+import ApplicationMenuWidget from '../lib/components/widgets/ApplicationMenuWidget';
 import MobileApplicationMenuWidget from
-  '../lib/core/components/widgets/MobileApplicationMenuWidget';
-import ApplicationNavbarWidget from '../lib/core/components/widgets/ApplicationNavbarWidget';
-import MenuWidget from '../lib/core/components/widgets/MenuWidget';
-import HeaderWidget from '../lib/core/components/widgets/HeaderWidget';
+  '../lib/components/widgets/MobileApplicationMenuWidget';
+import ApplicationNavbarWidget from '../lib/components/widgets/ApplicationNavbarWidget';
+import MenuWidget from '../lib/components/widgets/MenuWidget';
+import HeaderWidget from '../lib/components/widgets/HeaderWidget';
 
-import NotFoundWidget from '../lib/core/components/contrib/NotFoundWidget';
+import NotFoundWidget from '../lib/components/contrib/NotFoundWidget';
 
 export default {
   stores: {

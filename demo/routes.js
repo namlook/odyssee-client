@@ -2,7 +2,7 @@
 
 import structure from './structure';
 import register from './register';
-import { buildRoutes, extractActions } from '../lib/core';
+import { buildRoutes, extractActions } from '../lib';
 
 const actions = extractActions(structure, register);
 

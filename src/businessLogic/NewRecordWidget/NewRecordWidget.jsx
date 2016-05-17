@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-import CardWidget from '../../core/components/CardWidget';
+import CardWidget from '../../components/CardWidget';
 
 const NewRecordWidget = (props) => {
   const { storeState, storeActions, name, on, link } = props;

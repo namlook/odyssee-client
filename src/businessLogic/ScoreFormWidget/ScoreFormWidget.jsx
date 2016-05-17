@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
 
-import Widget from '../../core/components/Widget';
-import DropdownUI from '../../core/components/ui/DropdownUI';
-// import FormField from '../../core/components/contrib/FormField.jsx';
+import Widget from '../../components/Widget';
+import DropdownUI from '../../components/ui/DropdownUI';
+// import FormField from '../../components/contrib/FormField.jsx';
 
-import { routePropTypes, ownPropTypes } from '../../core/utils/prop-types';
+import { routePropTypes, ownPropTypes } from '../../utils/prop-types';
 import { browserHistory } from 'react-router';
 
 
