@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
-import Widget from '../Widget.jsx';
-import DropdownUI from '../ui/DropdownUI.jsx';
+import Widget from '../Widget';
+import DropdownUI from '../ui/DropdownUI';
 import _ from 'lodash';
 
 const ApplicationMenuWidget = (props) => {

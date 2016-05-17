@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 
 import { routePropTypes } from '../../utils/prop-types';
 
-import Widget from '../Widget.jsx';
+import Widget from '../Widget';
 
 import jQuery from 'jquery';
 import semanticTransition from 'semantic-ui-transition';

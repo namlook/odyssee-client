@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
-import Widget from '../Widget.jsx';
+import Widget from '../Widget';
 import { number2semanticClassName } from '../../utils/semantic-ui';
 
 const MobileApplicationMenuWidget = (props) => {

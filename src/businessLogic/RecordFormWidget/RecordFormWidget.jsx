@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
 import { browserHistory } from 'react-router';
 
-import CardWidget from '../../core/components/CardWidget.jsx';
-import FormField from '../../core/components/contrib/FormField.jsx';
+import CardWidget from '../../core/components/CardWidget';
+import FormField from '../../core/components/contrib/FormField';
 
 import { findRecordFromStore } from '../../core/utils';
 

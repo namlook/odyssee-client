@@ -1,2 +1,2 @@
 
-export Component from './FormSubmitWidget.jsx';
+export Component from './FormSubmitWidget';

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
-import Widget from '../../core/components/Widget.jsx';
-import DropdownUI from '../../core/components/ui/DropdownUI.jsx';
+import Widget from '../../core/components/Widget';
+import DropdownUI from '../../core/components/ui/DropdownUI';
 // import FormField from '../../core/components/contrib/FormField.jsx';
 
 import { routePropTypes, ownPropTypes } from '../../core/utils/prop-types';

@@ -7,7 +7,7 @@
 export * as actions from './actions';
 export * as constants from './constants';
 export reducer from './reducer';
-export Component from './NewRecordWidget.jsx';
+export Component from './NewRecordWidget';
 
 // export default {
 //   actions,

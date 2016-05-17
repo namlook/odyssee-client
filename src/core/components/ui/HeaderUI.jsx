@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-import IconUI from './IconUI.jsx';
+import IconUI from './IconUI';
 
 
 const HeaderUI = (props) => {

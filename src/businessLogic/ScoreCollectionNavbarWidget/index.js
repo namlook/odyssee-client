@@ -1,2 +1,2 @@
 
-export Component from './ScoreCollectionNavbarWidget.jsx';
+export Component from './ScoreCollectionNavbarWidget';

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
-import CardWidget from '../../core/components/CardWidget.jsx';
-import ConfirmButtonUI from '../../core/components/ui/ConfirmButtonUI.jsx';
+import CardWidget from '../../core/components/CardWidget';
+import ConfirmButtonUI from '../../core/components/ui/ConfirmButtonUI';
 
 const ParticipantsEditWidget = (props) => {
   // const { storeState, storeActions, linkedStores, name, on } = props;

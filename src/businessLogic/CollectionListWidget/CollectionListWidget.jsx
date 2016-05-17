@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { browserHistory } from 'react-router';
 
-import CardWidget from '../../core/components/CardWidget.jsx';
+import CardWidget from '../../core/components/CardWidget';
 
 const CollectionListWidget = (props) => {
   const {

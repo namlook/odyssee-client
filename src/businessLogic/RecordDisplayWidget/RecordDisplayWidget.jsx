@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-import CardWidget from '../../core/components/CardWidget.jsx';
+import CardWidget from '../../core/components/CardWidget';
 
 import { findRecordFromStore } from '../../core/utils';
 

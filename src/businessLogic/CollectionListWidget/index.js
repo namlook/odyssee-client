@@ -1,2 +1,2 @@
 
-export Component from './CollectionListWidget.jsx';
+export Component from './CollectionListWidget';

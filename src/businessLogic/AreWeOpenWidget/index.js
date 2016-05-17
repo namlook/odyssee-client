@@ -1,2 +1,2 @@
 
-export Component from './AreWeOpenWidget.jsx';
+export Component from './AreWeOpenWidget';

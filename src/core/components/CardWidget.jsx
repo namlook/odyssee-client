@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
-import Widget from './Widget.jsx';
-import HeaderUI from './ui/HeaderUI.jsx';
+import Widget from './Widget';
+import HeaderUI from './ui/HeaderUI';
 
 import { routePropTypes } from '../../core/utils/prop-types';
 

@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-import CardWidget from '../CardWidget.jsx';
+import CardWidget from '../CardWidget';
 
 /* eslint-disable react/no-danger */
 

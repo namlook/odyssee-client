@@ -2,7 +2,7 @@ import React from 'react';
 
 import connectComponent from './connect-component';
 
-import WidgetGrid from './components/WidgetGrid.jsx';
+import WidgetGrid from './components/WidgetGrid';
 
 
 import { extractPages, pascalCase, extractStores, extractWidgets } from './utils/core';
