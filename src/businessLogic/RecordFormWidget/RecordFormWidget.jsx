@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { browserHistory } from 'react-router';
 
-import CardWidget from '../../components/CardWidget';
+import CardWidget from '../../components/widgets/CardWidget';
 import FormField from '../../components/contrib/FormField';
 
 import { findRecordFromStore } from '../../utils';

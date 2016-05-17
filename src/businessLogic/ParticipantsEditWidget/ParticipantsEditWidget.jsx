@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-import CardWidget from '../../components/CardWidget';
+import CardWidget from '../../components/widgets/CardWidget';
 import ConfirmButtonUI from '../../components/ui/ConfirmButtonUI';
 
 const ParticipantsEditWidget = (props) => {

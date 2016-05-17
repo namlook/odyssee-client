@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-import CardWidget from '../../components/CardWidget';
+import CardWidget from '../../components/widgets/CardWidget';
 
 
 const FormSubmitWidget = (props) => {
