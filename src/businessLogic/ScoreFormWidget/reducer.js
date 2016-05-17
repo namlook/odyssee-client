@@ -1,5 +1,5 @@
 
-import recordStoreReducer from '../RecordStore/reducer';
+import recordStoreReducer from '../../stores/RecordStore/reducer';
 
 export default recordStoreReducer({
   schema: {

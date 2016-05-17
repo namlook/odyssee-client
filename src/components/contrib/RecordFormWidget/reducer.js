@@ -1,6 +1,5 @@
 
-
-export default from '../RecordStore/reducer';
+export default from '../../../stores/RecordStore/reducer';
 
 // export default recordStoreReducer({
 //   schema: {

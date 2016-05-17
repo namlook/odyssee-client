@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
 import { browserHistory } from 'react-router';
 
-import CardWidget from '../../components/widgets/CardWidget';
-import FormField from '../../components/contrib/FormField';
+import CardWidget from '../../widgets/CardWidget';
+import FormField from '../FormField';
 
-import { findRecordFromStore } from '../../utils';
+import { findRecordFromStore } from '../../../utils';
 
 const storeToQuery = (exposeStateToRouteQuery, store) => (
   Object.keys(exposeStateToRouteQuery).reduce((acc, propertyName) => {

@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
 
-import CardWidget from '../../components/widgets/CardWidget';
+import CardWidget from '../../widgets/CardWidget';
 
-import { findRecordFromStore } from '../../utils';
+import { findRecordFromStore } from '../../../utils';
 
 
 class RecordDisplayWidget extends React.Component {
