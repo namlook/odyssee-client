@@ -15,7 +15,7 @@ browserSync({
   },
 
   files: [
-    'src/*.html',
+    'demo/*.html',
   ],
 
   middleware: [historyApiFallback()],

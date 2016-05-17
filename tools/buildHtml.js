@@ -18,7 +18,7 @@ const useTrackJs = true;
 // To get a token, go to https://trackjs.com
 const trackJsToken = '';
 
-fs.readFile('src/index.html', 'utf8', (err, markup) => {
+fs.readFile('demo/index.html', 'utf8', (err, markup) => {
   if (err) {
     return console.log(err);
   }
@@ -36,8 +36,8 @@ fs.readFile('src/index.html', 'utf8', (err, markup) => {
       $('head').prepend(trackJsCode); // add TrackJS tracking code to the top of <head>
     } else {
       console.log(
-        `To track JavaScript errors, sign up for a free trial`
-        `at TrackJS.com and enter your token in /tools/build.html on line 10.`.yellow
+        `To track JavaScript errors, sign up for a free trial
+        at TrackJS.com and enter your token in /tools/build.html on line 10.`.yellow
       );
     }
   }

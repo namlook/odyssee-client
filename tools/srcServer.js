@@ -17,7 +17,7 @@ const bundler = webpack(config);
 browserSync({
   open: false,
   server: {
-    baseDir: 'src',
+    baseDir: 'demo',
 
     middleware: [
       webpackDevMiddleware(bundler, {
