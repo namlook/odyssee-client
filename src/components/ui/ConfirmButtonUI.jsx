@@ -25,24 +25,41 @@ export class ConfirmButtonUI extends React.Component {
   }
 
   render() {
-    const className = this.state.confirmState
-      ? `${this.props.className} ${this.props.confirmClassName}`
-      : `${this.props.className} ${this.props.displayClassName}`;
-    const { props } = this;
+    const {
+      color = '',
+      confirmLabel = '',
+      displayLabel = '',
+      confirmIcon = '',
+      displayIcon = '',
+      className = '',
+      displayClassName = '',
+      confirmClassName = '',
+    } = this.props;
+
+    const buttonClassName = this.state.confirmState
+      ? `${className} ${confirmClassName}`
+      : `${className} ${displayClassName}`;
+
+    const label = this.state.confirmState ? confirmLabel : displayLabel;
+    const icon = this.state.confirmState ? confirmIcon : displayIcon;
     return (
-      <button className={className} onClick={(e) => this.clicked(e)}>
-        {this.state.confirmState ? props.confirmLabel : props.displayLabel}
-      </button>
+      <a className={buttonClassName} onClick={(e) => this.clicked(e)}>
+        {icon ? <i className={`ui ${icon} ${color} icon`}></i> : null}
+        {label}
+      </a>
     );
   }
 }
 
 ConfirmButtonUI.propTypes = {
   className: PropTypes.string,
+  color: PropTypes.string,
   confirmClassName: PropTypes.string,
   displayClassName: PropTypes.string,
-  displayLabel: PropTypes.string.isRequired,
-  confirmLabel: PropTypes.string.isRequired,
+  displayLabel: PropTypes.string,
+  confirmLabel: PropTypes.string,
+  displayIcon: PropTypes.string,
+  confirmIcon: PropTypes.string,
   onConfirm: PropTypes.func.isRequired,
 };
 

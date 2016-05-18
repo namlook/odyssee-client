@@ -71,7 +71,7 @@ export default (config) => {
     const record = content.find((o) => o._id === _id);
 
     const currentRecordIndex = content.indexOf(record);
-    if (currentRecordIndex < 1) return content;
+    if (currentRecordIndex < 0) return content;
 
     return content.slice(0, currentRecordIndex).concat(
       content.slice(currentRecordIndex + 1, currentRecordIndex + 2),

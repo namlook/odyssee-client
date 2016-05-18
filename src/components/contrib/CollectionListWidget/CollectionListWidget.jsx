@@ -7,6 +7,7 @@ const CollectionListWidget = (props) => {
   const {
     ownStore,
     linkedRouteQuery,
+    hideIfEmpty,
     searchStore,
     searchProperty,
     properties,
@@ -58,6 +59,10 @@ const CollectionListWidget = (props) => {
     <div className="ui center aligned segment"> {"no records found"} </div>
   );
 
+  if (hideIfEmpty && !ownStore.get('content').size) {
+    return null;
+  }
+
   return (
     <CardWidget _name="collection-list" {...other}>
       {table}
@@ -70,6 +75,7 @@ CollectionListWidget.propTypes = {
   linkedRouteQuery: PropTypes.object,
   ownStore: PropTypes.object.isRequired,
   searchStore: PropTypes.object,
+  hideIfEmpty: PropTypes.bool,
   color: PropTypes.string,
   unstackable: PropTypes.bool,
   properties: PropTypes.array.isRequired,
