@@ -85,7 +85,6 @@ const _buildRoutes = (routeInfos, pageComponents) => {
   }
   const pageComponent = pageComponents[routeInfos.id];
 
-  console.log('>>', routeInfos);
   if (routeInfos.name === 'index' && routeInfos.redirect) {
     return (
       <IndexRedirect key={routeInfos.id} to={routeInfos.redirect} />
