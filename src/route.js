@@ -85,7 +85,12 @@ const _buildRoutes = (routeInfos, pageComponents) => {
   }
   const pageComponent = pageComponents[routeInfos.id];
 
-  if (routeInfos.name === 'index') {
+  console.log('>>', routeInfos);
+  if (routeInfos.name === 'index' && routeInfos.redirect) {
+    return (
+      <IndexRedirect key={routeInfos.id} to={routeInfos.redirect} />
+    );
+  } else if (routeInfos.name === 'index') {
     return (
       <IndexRoute
         key={routeInfos.id}
@@ -122,7 +127,8 @@ const _extractRoutes = (structure, root = '', id = 'application') => (
         pageName !== 'outlet' && structure[pageName].widgets && pageName
       ) || '';
       if (pageName === 'index') {
-        return { fullPath: root || '/', path: '', id: pageId, name: pageName };
+        const { redirect } = structure[pageName];
+        return { fullPath: root || '/', path: '', id: pageId, name: pageName, redirect };
       } else if (pageName === 'outlet') {
         const outletId = `${id}.outlet`;
         return { fullPath: '', path: pagePath, id: outletId, name: pageName };
