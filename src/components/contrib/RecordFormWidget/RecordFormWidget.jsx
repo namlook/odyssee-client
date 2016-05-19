@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { browserHistory } from 'react-router';
+// import { history } from 'react-router';
 
 import CardWidget from '../../widgets/CardWidget';
 import FormField from '../FormField';
@@ -58,6 +58,7 @@ class RecordFormWidget extends React.Component {
       onCancelRedirectTo,
       displaySubmitButtons,
       exposeStateToRouteQuery,
+      history,
       ...other } = this.props;
 
     const recordState = ownStore;
@@ -77,7 +78,7 @@ class RecordFormWidget extends React.Component {
       }
       if (exposeStateToRouteQuery) {
         location.query = storeToQuery(exposeStateToRouteQuery, recordState);
-        browserHistory.replace(location);
+        history.replace(location);
       }
       ownActions.clear();
       if (onSaveRedirectTo) {
@@ -85,7 +86,7 @@ class RecordFormWidget extends React.Component {
         if (recordState._id) {
           redirectUrl = onSaveRedirectTo.replace(':id', recordState._id);
         }
-        browserHistory.push(redirectUrl);
+        history.push(redirectUrl);
       }
     };
 
@@ -99,7 +100,7 @@ class RecordFormWidget extends React.Component {
         if (recordState._id) {
           redirectUrl = cancelRedirect.replace(':id', recordState._id);
         }
-        browserHistory.push(redirectUrl);
+        history.push(redirectUrl);
       }
     };
 
@@ -151,6 +152,7 @@ class RecordFormWidget extends React.Component {
 
 RecordFormWidget.propTypes = {
   location: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
   exposeStateToRouteQuery: PropTypes.object,
   linkedRouteParams: PropTypes.object,

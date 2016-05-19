@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { browserHistory } from 'react-router';
+// import { browserHistory } from 'react-router';
 
 import CardWidget from '../../widgets/CardWidget';
 
@@ -14,6 +14,7 @@ const CollectionListWidget = (props) => {
     unstackable,
     onClickRedirectTo,
     location,
+    history,
     ...other } = props;
 
   const searchValue = linkedRouteQuery && location.query[linkedRouteQuery.search]
@@ -32,7 +33,7 @@ const CollectionListWidget = (props) => {
   const recordClicked = (record) => {
     // displayActions.update(record);
     if (onClickRedirectTo) {
-      browserHistory.push(onClickRedirectTo.replace(':id', record._id));
+      history.push(onClickRedirectTo.replace(':id', record._id));
     }
   };
 
@@ -72,6 +73,7 @@ const CollectionListWidget = (props) => {
 
 CollectionListWidget.propTypes = {
   location: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
   linkedRouteQuery: PropTypes.object,
   ownStore: PropTypes.object.isRequired,
   searchStore: PropTypes.object,
