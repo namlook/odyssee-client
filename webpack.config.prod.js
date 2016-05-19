@@ -7,6 +7,8 @@ const GLOBALS = {
   __DEV__: false,
 };
 
+const PUBLIC_PATH = '/'; // TODO check this before building
+
 export default {
   debug: true,
   // more info:https://webpack.github.io/docs/build-performance.html#sourcemaps
@@ -18,7 +20,7 @@ export default {
   output: {
      // Note: Physical files are only output by the production build task `npm run build`.
     path: `${__dirname}/dist`,
-    publicPath: '/', // TODO check this before building
+    publicPath: PUBLIC_PATH,
     filename: 'bundle.js',
   },
   plugins: [
