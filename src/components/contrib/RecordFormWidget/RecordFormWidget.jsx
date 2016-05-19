@@ -137,6 +137,7 @@ class RecordFormWidget extends React.Component {
                 name={field.name}
                 label={field.label}
                 type={field.type}
+                disabled={field.disabled}
                 value={recordState[field.name]}
                 onChange={triggerChange} />
             ))}

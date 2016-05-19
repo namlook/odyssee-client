@@ -1,7 +1,18 @@
 import React, { PropTypes } from 'react';
 
 const FormField = (props) => {
-  const { label, placeholder, name, value, onChange, onlyInput, className, pattern, type } = props;
+  const {
+    label,
+    placeholder,
+    name,
+    value,
+    onChange,
+    disabled,
+    onlyInput,
+    className,
+    pattern,
+    type,
+  } = props;
   const fieldClassName = `${className || ''} field`;
   const input = (
     <input
@@ -9,6 +20,7 @@ const FormField = (props) => {
       type={type || 'text'}
       pattern={pattern}
       value={value}
+      disabled={disabled}
       placeholder={placeholder}
       onChange={(e) => onChange(props.name, e.target.value)} />
   );
@@ -32,6 +44,7 @@ FormField.propTypes = {
   onlyInput: PropTypes.bool, // if true, don't wrap the input into a field
   pattern: PropTypes.string,
   className: PropTypes.string,
+  disabled: PropTypes.bool,
   type: PropTypes.string,
   value: PropTypes.node.isRequired,
   onChange: PropTypes.func.isRequired,
