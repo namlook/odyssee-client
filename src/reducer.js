@@ -10,7 +10,7 @@ const createReducer = (name, config) => (reducerFn) => {
       return state;
     }
     const actionFn = actions[action.type];
-    const newState = actionFn ? actionFn(state, action) : state;
+    const newState = actionFn ? actionFn(state, action.payload) : state;
     return postProcess ? postProcess(newState) : newState;
   };
 };
