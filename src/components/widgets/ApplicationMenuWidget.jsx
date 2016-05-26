@@ -5,10 +5,10 @@ import DropdownUI from '../ui/DropdownUI';
 import _ from 'lodash';
 
 const ApplicationMenuWidget = (props) => {
-  const currentLocationPath = props.location.pathname;
+  const { className = '', items = [], color = '', location, ...other } = props;
+  const currentLocationPath = location.pathname;
 
-  const color = props.color || '';
-  const widgetClassName = `${props.className || ''} ${color}`;
+  const widgetClassName = `${className} ${color}`;
   const menuClassName = `large fluid inverted ${color}`;
   // const mobileMenuClassName = `ui stackable ${menuClassName} menu`;
   const computerMenuClassName = `ui vertical ${menuClassName} menu`;
@@ -49,10 +49,10 @@ const ApplicationMenuWidget = (props) => {
     return generateMenuLink(item);
   };
 
-  const computerItems = props.items.map(generateComputerMenuLink);
-  const mobileItems = props.items.map(generateMobileMenuLink);
+  const computerItems = items.map(generateComputerMenuLink);
+  const mobileItems = items.map(generateMobileMenuLink);
 
-  const currentItem = _(props.items)
+  const currentItem = _(items)
     .flatMap((item) => {
       if (item.items) {
         return item.items.map((subitem) => ({
@@ -74,8 +74,8 @@ const ApplicationMenuWidget = (props) => {
   return (
     <Widget
       _name="application-menu"
-      layout={props.layout}
       className={widgetClassName}
+      {...other}
     >
       <div className="ui one column grid">
 
@@ -101,7 +101,6 @@ const ApplicationMenuWidget = (props) => {
 };
 
 ApplicationMenuWidget.propTypes = {
-  layout: PropTypes.object,
   className: PropTypes.string,
   location: PropTypes.object.isRequired,
   title: PropTypes.string,
