@@ -22,9 +22,20 @@ const _extractPages = (struct, id = 'application') => (
 
 export const extractPages = (struct) => _extractPages(struct.pages);
 
+const _extractWidgets = (config) => (
+  _(config.widgets || [])
+    .flatMap((widget) => {
+      if (widget.type === 'grid') {
+        return _extractWidgets(widget);
+      }
+      return [widget];
+    })
+    .value()
+);
+
 export const extractWidgets = (struct) => (
   _(extractPages(struct))
-    .flatMap((pageConfig) => pageConfig.config.widgets || [])
+    .flatMap((pageConfig) => _extractWidgets(pageConfig.config))
     .value()
 );
 

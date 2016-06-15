@@ -7,7 +7,6 @@ import WidgetGrid from '../WidgetGrid';
 
 const GridWidget = (props) => {
   const { widgets, ...other } = props;
-  console.log('props>>', props);
   return (
     <Widget _name="widget-grid" {...other}>
       <WidgetGrid {...other} className={`widget-grid`}>

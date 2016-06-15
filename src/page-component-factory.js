@@ -123,7 +123,6 @@ export default (structure, register, actions) => {
   return (path) => {
     const { config, name, id } = getPageConfig(structure, path);
     const PageComponent = (_props) => {
-      console.log('pageProps>', _props);
       const props = { ..._props, generateWidgetComponent };
       return !(config.widgets && config.widgets.length) ? null : (
         <WidgetGrid {...props} className={`${id.split('.').join('-')}-page`}>
