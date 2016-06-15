@@ -4,7 +4,7 @@ import React, { PropTypes } from 'react';
 import CardWidget from '../../widgets/CardWidget';
 import FormField from '../FormField';
 
-import { findRecordFromStore } from '../../../utils';
+// import { findRecordFromStore } from '../../../utils';
 
 const storeToQuery = (exposeStateToRouteQuery, store) => (
   Object.keys(exposeStateToRouteQuery).reduce((acc, propertyName) => {
@@ -19,33 +19,40 @@ const storeToQuery = (exposeStateToRouteQuery, store) => (
 class RecordFormWidget extends React.Component {
 
   componentWillMount() {
-    this.initStore();
+    // this.initStore();
+    const { ownActions, params, linkedRouteParams } = this.props;
+    console.log('linkedRouteParams>', params, linkedRouteParams);
+    ownActions.fetchData(params.id);
   }
 
-  initStore() {
-    const {
-      params,
-      collectionStore,
-      linkedRouteParams,
-      location,
-      exposeStateToRouteQuery,
-      ownActions,
-    } = this.props;
+  // initStore() {
+  //   const {
+  //     params,
+  //     collectionStore,
+  //     linkedRouteParams,
+  //     location,
+  //     exposeStateToRouteQuery,
+  //     ownActions,
+  //   } = this.props;
+  //
+  //   if (collectionStore && linkedRouteParams) { // fill form from url params
+  //     const requestedRecord = findRecordFromStore(collectionStore, linkedRouteParams, params);
+  //     if (requestedRecord) {
+  //       ownActions.update(requestedRecord);
+  //     } else if (linkedRouteParams) {
+  //       ownActions.clear();
+  //     }
+  //   } else if (exposeStateToRouteQuery) { // fill form from url query
+  //     Object.keys(exposeStateToRouteQuery).forEach((storePropertyName) => {
+  //       const queryFilterName = exposeStateToRouteQuery[storePropertyName];
+  //       ownActions.updateProperty(storePropertyName, location.query[queryFilterName]);
+  //     });
+  //   }
+  // }
 
-    if (collectionStore && linkedRouteParams) { // fill form from url params
-      const requestedRecord = findRecordFromStore(collectionStore, linkedRouteParams, params);
-      if (requestedRecord) {
-        ownActions.update(requestedRecord);
-      } else if (linkedRouteParams) {
-        ownActions.clear();
-      }
-    } else if (exposeStateToRouteQuery) { // fill form from url query
-      Object.keys(exposeStateToRouteQuery).forEach((storePropertyName) => {
-        const queryFilterName = exposeStateToRouteQuery[storePropertyName];
-        ownActions.updateProperty(storePropertyName, location.query[queryFilterName]);
-      });
-    }
-  }
+  // save() {
+  //
+  // }
 
   render() {
     const {

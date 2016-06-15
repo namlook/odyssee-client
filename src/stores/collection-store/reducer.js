@@ -5,6 +5,10 @@ import {
   UPDATE_RECORD,
   DELETE_RECORD,
   DELETE_ALL,
+
+  FETCH_REQUEST,
+  FETCH_FAIL,
+  FETCH_SUCCESS,
 } from './constants';
 
 import { generateUniqID } from '../../utils';
@@ -14,6 +18,8 @@ import { Map as iMap, List as iList, Record as iRecord, Iterable } from 'immutab
 export default (config) => {
   const initialState = iMap({
     content: iList(),
+    error: null,
+    loading: false,
   });
 
   const CollectionRecord = iRecord(config.recordSchema);
@@ -22,7 +28,7 @@ export default (config) => {
     return new CollectionRecord({ _id, ...recordAttributes });
   };
 
-  const actions = {
+  const innerActions = {
     [ADD_RECORD]: (state, { record }) => state.update(
       'content', (content) => {
         const immutableRecord = !Iterable.isIterable(record) ?
@@ -66,6 +72,16 @@ export default (config) => {
     ),
     [DELETE_ALL]: () => initialState,
   };
+
+  const remoteActions = {
+    [FETCH_REQUEST]: (state) => (state.set('loading', true)),
+    [FETCH_SUCCESS]: (state) => (state.set('loading', false)),
+    [FETCH_FAIL]: (state, { payload }) => (
+      state.set('loading', false).update('error', () => payload)
+    ),
+  };
+
+  const actions = { ...innerActions, ...remoteActions };
 
   return { initialState, actions };
 };

@@ -21,8 +21,8 @@ const getAllStoreNames = (structure) => {
   return _.compact(results);
 };
 
-export default (structure, register, actions) => (path) => {
-  const generateWidgetComponent = (widgetConfig, pageProps, keyIndex) => {
+export const widgetComponentFactory = (structure, register, actions) =>
+  (widgetConfig, pageProps, keyIndex) => {
     const { type, store, ...widgetProps } = widgetConfig;
     const widgetName = `${pascalCase(type)}Widget`;
     const widget = register.widgets[widgetName];
@@ -69,18 +69,72 @@ export default (structure, register, actions) => (path) => {
     return React.createElement(Component, props, pageProps.children);
   };
 
+export default (structure, register, actions) => {
+  // const generateWidgetComponent = (widgetConfig, pageProps, keyIndex) => {
+  //   const { type, store, ...widgetProps } = widgetConfig;
+  //   const widgetName = `${pascalCase(type)}Widget`;
+  //   const widget = register.widgets[widgetName];
+  //
+  //   if (!widget) {
+  //     throw new Error(`unregistered widget ${widgetName}`);
+  //   }
+  //   let { Component } = widget;
+  //
+  //   const componentProps = Object.keys(widgetProps).reduce((acc, propName) => (
+  //     { ...acc, [propName]: widgetProps[propName] }
+  //   ), {});
+  //
+  //   const componentPropTypeNames = Object.keys(Component.propTypes || {});
+  //   const requiredProps = componentPropTypeNames.reduce((acc, propName) => {
+  //     if (pageProps[propName] != null) {
+  //       return { ...acc, [propName]: pageProps[propName] };
+  //     }
+  //     return acc;
+  //   }, {});
+  //
+  //   const _linkedStores = widgetProps.linkedStores || {};
+  //   const ownStoreName = store && store.name;
+  //   const linkedStores = ownStoreName
+  //     ? { ..._linkedStores, own: ownStoreName }
+  //     : _linkedStores;
+  //
+  //   const shouldBeConnected = Object.keys(linkedStores).length;
+  //   if (shouldBeConnected) {
+  //     const storeNamesFound = getAllStoreNames(structure);
+  //     Object.keys(linkedStores).forEach((storeName) => {
+  //       if (storeNamesFound.indexOf(linkedStores[storeName]) === -1) {
+  //         console.warn( // eslint-disable-line no-console
+  //           `ERROR! the store \`${linkedStores[storeName]}\` is linked to the ` +
+  //           `component \`${widgetName}\` as \`${storeName}\` but is not found in structure`,
+  //         );
+  //       }
+  //     });
+  //
+  //     Component = connectComponent(actions, linkedStores)(Component);
+  //   }
+  //
+  //   const props = { ...requiredProps, ...componentProps, key: `${type}${keyIndex}` };
+  //   return React.createElement(Component, props, pageProps.children);
+  // };
 
-  const { config, name, id } = getPageConfig(structure, path);
-  const PageComponent = (props) => (
-    !(config.widgets && config.widgets.length) ? null : (
-      <WidgetGrid {...props} className={`${id.split('.').join('-')}-page`}>
-        {config.widgets.map((widget, keyIdx) => generateWidgetComponent(widget, props, keyIdx))}
-      </WidgetGrid>
-    )
-  );
 
-  PageComponent.displayName = `${pascalCase(name)}Page`;
-  return PageComponent;
+  const generateWidgetComponent = widgetComponentFactory(structure, register, actions);
+
+  return (path) => {
+    const { config, name, id } = getPageConfig(structure, path);
+    const PageComponent = (_props) => {
+      console.log('pageProps>', _props);
+      const props = { ..._props, generateWidgetComponent };
+      return !(config.widgets && config.widgets.length) ? null : (
+        <WidgetGrid {...props} className={`${id.split('.').join('-')}-page`}>
+          {config.widgets.map((widget, keyIdx) => generateWidgetComponent(widget, props, keyIdx))}
+        </WidgetGrid>
+      );
+    };
+
+    PageComponent.displayName = `${pascalCase(name)}Page`;
+    return PageComponent;
+  };
 };
 
 //
