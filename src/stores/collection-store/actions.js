@@ -45,12 +45,10 @@ export const fetchData = (storeName, storeConfig) => {
 
   // TODO: linked query-filter here ? nop ! the url will be use for the state
 
-  return (filter) => (dispatch) => {
+  return (/* filter */) => (dispatch) => {
     dispatch(fetchRequestAction());
 
-    const url = Object.keys(filter).reduce((acc, name) => (
-      acc.replace(`<${name}>`, filter[name])
-    ), storeConfig.remote.endpoint);
+    const url = storeConfig.remote.endpoint;
 
     return fetch(url)
       .then(checkStatus)

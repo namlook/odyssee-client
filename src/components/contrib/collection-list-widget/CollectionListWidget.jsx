@@ -7,18 +7,20 @@ class CollectionListWidget extends React.Component {
 
   componentWillMount() {
     // this.initStore();
-    const { ownActions, params, location } = this.props;
-    console.log('loc>', params, location);
-    const paramFilter = Object.keys(params || {}).reduce((acc, name) => ({
-      ...acc,
-      [`:${name}`]: params[name],
-    }), {});
-    const queryFilter = Object.keys(location.query || {}).reduce((acc, name) => ({
-      ...acc,
-      [`&${name}`]: location.query[name],
-    }), {});
-
-    ownActions.fetchData({ ...paramFilter, ...queryFilter });
+    // const { ownActions, params, location } = this.props;
+    // console.log('loc>', params, location);
+    // const paramFilter = Object.keys(params || {}).reduce((acc, name) => ({
+    //   ...acc,
+    //   [`:{${name}}`]: params[name],
+    // }), {});
+    // const queryFilter = Object.keys(location.query || {}).reduce((acc, name) => ({
+    //   ...acc,
+    //   [`&{${name}}`]: location.query[name],
+    // }), {});
+    //
+    // ownActions.fetchData({ ...paramFilter, ...queryFilter });
+    const { ownActions } = this.props;
+    ownActions.fetchData({});
   }
 
   render() {
